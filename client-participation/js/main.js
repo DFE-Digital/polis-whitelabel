@@ -5,19 +5,15 @@ var preloadHelper = require("./util/preloadHelper");
 
 
 var $ = require("jquery");
-var _ = require("underscore");
-Object.defineProperty(window, "_", {
-  enumerable: true,
-  writable: false,
-  configurable: false,
-});
+var _ = require("lodash");
+
+require('../vis2/vis2') // This is to initialise the 'window' object
 var Backbone = require("backbone");
-var CurrentUserModel = require("./stores/currentUser");
+require("./net/backbonePolis"); // Monkeypatch Backbone
 var display = require("./util/display");
 var eb = require("./eventBus");
 var Handlebars = require("handlebars");
 var MainPolisRouter = require("./routers/main-polis-router");
-var Metrics = require("./metrics");
 var PolisStorage = require("./util/polisStorage");
 var PostMessageUtils = require("./util/postMessageUtils");
 var preloadHelper = require("./util/preloadHelper");
@@ -25,42 +21,42 @@ var RootView = require("./views/root");
 var Utils = require("./util/utils");
 
 // These are required here to ensure they are included in the build.
-require("bootstrap_affix");
-require("bootstrap_alert");
-require("bootstrap_button");
-require("bootstrap_collapse");
-require("bootstrap_dropdown");
-require("bootstrap_popover");
-require("bootstrap_tab");
-require("bootstrap_tooltip");
-require("bootstrap_transition");
+require('bootstrap-sass/assets/javascripts/bootstrap/affix')
+require('bootstrap-sass/assets/javascripts/bootstrap/alert')
+require('bootstrap-sass/assets/javascripts/bootstrap/button')
+require('bootstrap-sass/assets/javascripts/bootstrap/collapse')
+require('bootstrap-sass/assets/javascripts/bootstrap/dropdown')
+require('bootstrap-sass/assets/javascripts/bootstrap/popover')
+require('bootstrap-sass/assets/javascripts/bootstrap/tab')
+require('bootstrap-sass/assets/javascripts/bootstrap/tooltip')
+require('bootstrap-sass/assets/javascripts/bootstrap/transition')
 require("./util/popoverEach");
 
 // register partials
-var FooterPartial = require("./tmpl/footer");
-var HeaderPartial = require("./tmpl/header");
-var HeaderWhatisPolisPartial = require("./tmpl/headerWhatIsPolis");
-var LinkAddPolisPartial = require("./tmpl/link-AddPolis-partial");
-var LinkPrivacyPartial = require("./tmpl/link-privacy-partial");
-var LinkTosPartial = require("./tmpl/link-TOS-partial");
-var PolisLogoPartial = require("./tmpl/polisLogo");
+var FooterPartial = require("./templates/footer.handlebars");
+var HeaderPartial = require("./templates/header.handlebars");
+var HeaderWhatisPolisPartial = require("./templates/headerWhatIsPolis.handlebars");
+var LinkAddPolisPartial = require("./templates/link-AddPolis-partial.handlebars");
+var LinkPrivacyPartial = require("./templates/link-privacy-partial.handlebars");
+var LinkTosPartial = require("./templates/link-TOS-partial.handlebars");
+var PolisLogoPartial = require("./templates/polisLogo.handlebars");
 
 //  require icon partials
-var IconFaAngleLeft = require("./tmpl/icon_fa_angle_left");
-var IconFaAngleRight = require("./tmpl/icon_fa_angle_right");
-var IconFaAsterisk = require("./tmpl/icon_fa_asterisk");
-var IconFaBan = require("./tmpl/icon_fa_ban");
-var IconFaCircleCheckPartial = require("./tmpl/icon_fa_check_circle");
-var iconFaFacebookSquare16 = require("./tmpl/icon_fa_facebook_square_16");
-var iconFaFacebookSquare25 = require("./tmpl/icon_fa_facebook_square_25");
-var IconFaLightBulb = require("./tmpl/icon_fa_lightbulb_o");
-var IconFaTimes = require("./tmpl/icon_fa_times");
-var IconFaTwitter16 = require("./tmpl/icon_fa_twitter_16");
-var IconFaTwitter25 = require("./tmpl/icon_fa_twitter_25");
+var IconFaAngleLeft = require("./templates/icon_fa_angle_left.handlebars");
+var IconFaAngleRight = require("./templates/icon_fa_angle_right.handlebars");
+var IconFaAsterisk = require("./templates/icon_fa_asterisk.handlebars");
+var IconFaBan = require("./templates/icon_fa_ban.handlebars");
+var IconFaCircleCheckPartial = require("./templates/icon_fa_check_circle.handlebars");
+var iconFaFacebookSquare16 = require("./templates/icon_fa_facebook_square_16.handlebars");
+var iconFaFacebookSquare25 = require("./templates/icon_fa_facebook_square_25.handlebars");
+var IconFaLightBulb = require("./templates/icon_fa_lightbulb_o.handlebars");
+var IconFaTimes = require("./templates/icon_fa_times.handlebars");
+var IconFaTwitter16 = require("./templates/icon_fa_twitter_16.handlebars");
+var IconFaTwitter25 = require("./templates/icon_fa_twitter_25.handlebars");
 
 // require logo partials
-var Logo = require("./tmpl/logo");
-var LogoInvert = require("./tmpl/logo_invert");
+var Logo = require("./templates/logo.handlebars");
+var LogoInvert = require("./templates/logo_invert.handlebars");
 
 var match = window.location.pathname.match(/ep1_[0-9A-Za-z]+$/);
 var encodedParams = match ? match[0] : void 0;
@@ -389,46 +385,6 @@ window.twitterStatus = function(status) {
   eb.trigger(eb.twitterStatus, status);
 };
 
-function isParticipationView() {
-  return !!window.location.pathname.match(/^\/[0-9][A-Za-z0-9]+/);
-}
-
-
-
-// if (isEmbedded()) {
-// $(document.body).css("background-color", "#fff");
-// } else {
-// $(document.body).css("background-color", "#f7f7f7");
-// }
-
-
-
-var uidPromise;
-// if (PolisStorage.uidFromCookie()) {
-//   uidPromise = $.Deferred().resolve(PolisStorage.uidFromCookie());
-// } else {
-uidPromise = CurrentUserModel.update().then(function(user) {
-
-  if (window.useIntercom) {
-    window.intercomOptions = {
-      app_id: 'nb5hla8s',
-      widget: {
-        activator: '#IntercomDefaultWidget'
-      }
-    };
-    if (user.uid) {
-      intercomOptions.user_id = user.uid + "";
-    }
-    if (user.email) {
-      intercomOptions.email = user.email;
-    }
-    if (user.created) {
-      intercomOptions.created_at = user.created / 1000 >> 0;
-    }
-  }
-});
-// }
-
 
 preloadHelper.firstConvPromise.then(function() {
   PostMessageUtils.postInitEvent("ok");
@@ -437,9 +393,7 @@ preloadHelper.firstConvPromise.then(function() {
 });
 
 
-$.when(
-  preloadHelper.acceptLanguagePromise,
-  uidPromise).always(function() {
+$.when(preloadHelper.acceptLanguagePromise).always(function() {
 
   initialize(function(next) {
     // Load any data that your app requires to boot
@@ -447,20 +401,6 @@ $.when(
     // `next` is provided in case the operations
     // needed are aysynchronous
     var router = new MainPolisRouter();
-
-    Metrics.boot();
-    if (!isEmbedded() && !isParticipationView()) {
-      // load intercom widget
-      // (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-
-      // IntercomModalHack.init();
-    }
-
-    if (!window.Intercom) {
-      if (window.useIntercom && !isEmbedded() && !isParticipationView()) {
-        window.initIntercom();
-      }
-    }
 
     // set up the "exitConv" event
     var currentRoute;
@@ -470,26 +410,9 @@ $.when(
         eb.trigger(eb.exitConv);
       }
       currentRoute = route;
-
-      uidPromise.then(function() {
-
-        var u = userObject;
-        if (window.useIntercom && !isEmbedded() && !isParticipationView() && (u.email || u.hasTwitter || u.hasFacebook)) {
-          var intercomWait = 0;
-          if (!window.Intercom) {
-            intercomWait = 4000;
-          }
-          setTimeout(function() {
-            window.Intercom('boot', window.intercomOptions);
-            window.Intercom('update');
-            window.Intercom('reattach_activator');
-          }, intercomWait);
-        }
-      });
     });
 
     display.init();
-
     next();
   });
 

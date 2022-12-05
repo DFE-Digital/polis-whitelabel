@@ -6,7 +6,7 @@
     "ecmaFeatures": {
     },
   },
-  rules: {
+  "rules": {
     "camelcase": 0,
     "comma-dangle": [1, "always-multiline"],
     "comma-spacing": 0,

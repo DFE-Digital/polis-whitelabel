@@ -31,25 +31,25 @@ function getUserInfoForUid(
 function getUserInfoForUid2(uid: any) {
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "getUserInfoForUid2",
-    function (resolve: (arg0: any) => void, reject: (arg0: null) => any) {
-      pg.query_readOnly(
-        "SELECT * from users where uid = $1",
-        [uid],
-        function (err: any, results: { rows: string | any[] }) {
-          if (err) {
-            return reject(err);
-          }
-          if (!results.rows || !results.rows.length) {
-            return reject(null);
-          }
-          let o = results.rows[0];
-          resolve(o);
+  return new MPromise("getUserInfoForUid2", function (
+    resolve: (arg0: any) => void,
+    reject: (arg0: null) => any
+  ) {
+    pg.query_readOnly(
+      "SELECT * from users where uid = $1",
+      [uid],
+      function (err: any, results: { rows: string | any[] }) {
+        if (err) {
+          return reject(err);
         }
-      );
-    }
-  );
+        if (!results.rows || !results.rows.length) {
+          return reject(null);
+        }
+        let o = results.rows[0];
+        resolve(o);
+      }
+    );
+  });
 }
 
 function addLtiUserIfNeeded(
@@ -114,9 +114,11 @@ function renderLtiLinkageSuccessPage(
   req: any,
   res: {
     set: (arg0: { "Content-Type": string }) => void;
-    status: (
-      arg0: number
-    ) => { (): any; new (): any; send: { (arg0: string): void; new (): any } };
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      send: { (arg0: string): void; new (): any };
+    };
   },
   o: { email: string }
 ) {
@@ -133,11 +135,6 @@ function renderLtiLinkageSuccessPage(
     "<p>You are signed in as polis user " +
     o.email +
     "</p>" +
-    // "<p><a href='https://pol.is/user/logout'>Change pol.is users</a></p>" +
-    // "<p><a href='https://preprod.pol.is/inbox/context="+ o.context_id +"'>inbox</a></p>" +
-    // "<p><a href='https://preprod.pol.is/2demo' target='_blank'>2demo</a></p>" +
-    // "<p><a href='https://preprod.pol.is/conversation/create/context="+ o.context_id +"'>create</a></p>" +
-
     // form for sign out
     '<p><form role="form" class="FormVertical" action="' +
     Config.getServerNameWithProtocol(req) +
@@ -145,10 +142,6 @@ function renderLtiLinkageSuccessPage(
     '<input type="hidden" name="showPage" value="canvas_assignment_deregister">' +
     '<button type="submit" class="Btn Btn-primary">Change pol.is users</button>' +
     "</form></p>" +
-    // "<p style='background-color: yellow;'>" +
-    //     JSON.stringify(req.body)+
-    //     (o.user_image ? "<img src='"+o.user_image+"'></img>" : "") +
-    // "</p>"+
     "</body></html>";
   res.status(200).send(html);
 }
@@ -260,23 +253,23 @@ function createDummyUser() {
   // (parameter) resolve: (arg0: any) => void
   //   'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "createDummyUser",
-    function (resolve: (arg0: any) => void, reject: (arg0: Error) => void) {
-      pg.query(
-        "INSERT INTO users (created) VALUES (default) RETURNING uid;",
-        [],
-        function (err: any, results: { rows: string | any[] }) {
-          if (err || !results || !results.rows || !results.rows.length) {
-            console.error(err);
-            reject(new Error("polis_err_create_empty_user"));
-            return;
-          }
-          resolve(results.rows[0].uid);
+  return new MPromise("createDummyUser", function (
+    resolve: (arg0: any) => void,
+    reject: (arg0: Error) => void
+  ) {
+    pg.query(
+      "INSERT INTO users (created) VALUES (default) RETURNING uid;",
+      [],
+      function (err: any, results: { rows: string | any[] }) {
+        if (err || !results || !results.rows || !results.rows.length) {
+          console.error(err);
+          reject(new Error("polis_err_create_empty_user"));
+          return;
         }
-      );
-    }
-  );
+        resolve(results.rows[0].uid);
+      }
+    );
+  });
 }
 
 let pidCache: LRUCache<string, number> = new LruCache({
@@ -317,32 +310,32 @@ function getPidPromise(zid: string, uid: string, usePrimary?: boolean) {
   // import MPromise
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "getPidPromise",
-    function (resolve: (arg0: number) => void, reject: (arg0: any) => any) {
-      if (!_.isUndefined(cachedPid)) {
-        resolve(cachedPid);
-        return;
-      }
-      const f = usePrimary ? pg.query : pg.query_readOnly;
-      f(
-        "SELECT pid FROM participants WHERE zid = ($1) AND uid = ($2);",
-        [zid, uid],
-        function (err: any, results: { rows: string | any[] }) {
-          if (err) {
-            return reject(err);
-          }
-          if (!results || !results.rows || !results.rows.length) {
-            resolve(-1);
-            return;
-          }
-          let pid = results.rows[0].pid;
-          pidCache.set(cacheKey, pid);
-          resolve(pid);
-        }
-      );
+  return new MPromise("getPidPromise", function (
+    resolve: (arg0: number) => void,
+    reject: (arg0: any) => any
+  ) {
+    if (!_.isUndefined(cachedPid)) {
+      resolve(cachedPid);
+      return;
     }
-  );
+    const f = usePrimary ? pg.query : pg.query_readOnly;
+    f(
+      "SELECT pid FROM participants WHERE zid = ($1) AND uid = ($2);",
+      [zid, uid],
+      function (err: any, results: { rows: string | any[] }) {
+        if (err) {
+          return reject(err);
+        }
+        if (!results || !results.rows || !results.rows.length) {
+          resolve(-1);
+          return;
+        }
+        let pid = results.rows[0].pid;
+        pidCache.set(cacheKey, pid);
+        resolve(pid);
+      }
+    );
+  });
 }
 
 // must follow auth and need('zid'...) middleware

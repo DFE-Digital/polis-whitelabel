@@ -1,0 +1,173 @@
+get "/api/v3/auth/slack/redirect_uri",
+get "/api/v3/bid",
+get "/api/v3/bidToPid",
+get "/api/v3/changePlanWithCoupon",
+get "/api/v3/comments",
+get "/api/v3/comments/translations",
+get "/api/v3/contexts",
+get "/api/v3/conversations",
+get "/api/v3/conversations/preload",
+get "/api/v3/conversations/recent_activity",
+get "/api/v3/conversations/recently_started",
+get "/api/v3/conversationStats",
+get "/api/v3/createPlanChangeCoupon_aiudhfaiodufy78sadtfiasdf",
+get "/api/v3/dataExport",
+get "/api/v3/dataExport/results",
+get "/api/v3/domainWhitelist",
+get "/api/v3/dummyButton",
+get "/api/v3/einvites",
+get "/api/v3/facebook/delete",
+get "/api/v3/group_demographics",
+get "/api/v3/launchPrep",
+get "/api/v3/locations",
+get "/api/v3/logMaxmindResponse",
+get "/api/v3/lti_oauthv1_credentials",
+get "/api/v3/LTI/conversation_assignment.xml",
+get "/api/v3/LTI/setup_assignment.xml",
+get "/api/v3/math/correlationMatrix",
+get "/api/v3/math/pca",
+get "/api/v3/math/pca2",
+get "/api/v3/metadata",
+get "/api/v3/metadata/answers",
+get "/api/v3/metadata/choices",
+get "/api/v3/metadata/questions",
+get "/api/v3/nextComment",
+get "/api/v3/notifications/subscribe",
+get "/api/v3/notifications/unsubscribe",
+get "/api/v3/participants",
+get "/api/v3/participation",
+get "/api/v3/participationInit",
+get "/api/v3/ptptois",
+get "/api/v3/reports",
+get "/api/v3/snapshot",
+get "/api/v3/testConnection",
+get "/api/v3/testDatabase",
+get "/api/v3/twitter_oauth_callback",
+get "/api/v3/twitter_users",
+get "/api/v3/twitterBtn",
+get "/api/v3/users",
+get "/api/v3/verify",
+get "/api/v3/votes",
+get "/api/v3/votes/famous",
+get "/api/v3/votes/me",
+get "/api/v3/xids",
+get "/api/v3/zinvites/:zid",
+
+post "/api/v3/auth/deregister",
+post "/api/v3/auth/facebook",
+post "/api/v3/auth/login",
+post "/api/v3/auth/new",
+post "/api/v3/auth/password",
+post "/api/v3/auth/pwresettoken",
+post "/api/v3/charge",
+post "/api/v3/comments",
+post "/api/v3/comments/slack",
+post "/api/v3/contexts",
+post "/api/v3/contributors",
+post "/api/v3/conversation/close",
+post "/api/v3/conversation/reopen",
+post "/api/v3/conversations",
+post "/api/v3/convSubscriptions",
+post "/api/v3/domainWhitelist",
+post "/api/v3/einvites",
+post "/api/v3/joinWithInvite",
+post "/api/v3/LTI/conversation_assignment",
+post "/api/v3/LTI/setup_assignment",
+post "/api/v3/mathUpdate",
+post "/api/v3/metadata/answers",
+post "/api/v3/metadata/questions",
+post "/api/v3/metrics",
+post "/api/v3/notifyTeam",
+post "/api/v3/participants",
+post "/api/v3/ptptCommentMod",
+post "/api/v3/query_participants_by_metadata",
+post "/api/v3/reportCommentSelections",
+post "/api/v3/reports",
+post "/api/v3/reserve_conversation_id",
+post "/api/v3/sendCreatedLinkToEmail",
+post "/api/v3/sendEmailExportReady",
+post "/api/v3/slack/interactive_messages",
+post "/api/v3/slack/user/invites",
+post "/api/v3/stars",
+post "/api/v3/trashes",
+post "/api/v3/tutorial",
+post "/api/v3/upvotes",
+post "/api/v3/users/invite",
+post "/api/v3/votes",
+post "/api/v3/waitinglist",
+post "/api/v3/xidWhitelist",
+post "/api/v3/zinvites/:zid",
+
+put "/api/v3/comments",
+put "/api/v3/conversations",
+put "/api/v3/participants_extended",
+put "/api/v3/ptptois",
+put "/api/v3/reports",
+put "/api/v3/users",
+
+delete "/api/v3/metadata/answers/:pmaid",
+delete "/api/v3/metadata/questions/:pmqid",
+
+get "/canvas_app_instructions.png",
+get "/iim/:conversation_id",
+get "/iip/:conversation_id",
+get "/robots.txt",
+get "/twitter_image",
+
+get /.*\//, // ends in slash? redirect to non-slash version
+get /^\/__webpack_hmr$/,
+get /^\/.*embed.*js\/.*/, proxy);
+get /^\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // conversation view
+get /^\/about$/, makeRedirectorTo("/home"));
+get /^\/account(\/.*)?/, fetchIndexForAdminPage);
+get /^\/bot(\/.*)?/, fetchIndexForAdminPage);
+get /^\/bot\/install(\/.*)?/, fetchIndexForAdminPage);
+get /^\/bot\/support(\/.*)?/, fetchIndexForAdminPage);
+get /^\/cached\/.*/, proxy);
+get /^\/canvas_setup_backup_instructions$/,
+get /^\/company$/, fetchIndexForAdminPage);
+get /^\/contrib(\/.*)?/, fetchIndexForAdminPage);
+get /^\/conversation\/create(\/.*)?/, fetchIndexWithoutPreloadData);
+get /^\/conversations(\/.*)?/, fetchIndexForAdminPage);
+get /^\/createuser(\/.*)?/, fetchIndexForAdminPage);
+get /^\/demo\/[0-9][0-9A-Za-z]+/, fetchIndexForConversation);
+get /^\/demo$/, fetchIndexForAdminPage);
+get /^\/dist\/admin_bundle.js$/,
+get /^\/embed$/,
+get /^\/embedPreprod$/,
+get /^\/embedReport$/,
+get /^\/embedReportPreprod$/,
+get /^\/explore\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // power view
+get /^\/font\/.*/, proxy);
+get /^\/gov(\/.*)?/, fetchIndexForAdminPage);
+get /^\/hk/, fetchIndexWithoutPreloadData);
+get /^\/hk\/new/, fetchIndexWithoutPreloadData);
+get /^\/home(\/.*)?/, fetchIndexForAdminPage);
+get /^\/inbox(\/.*)?$/, fetchIndexWithoutPreloadData);
+get /^\/inboxApiTest/, fetchIndexWithoutPreloadData);
+get /^\/integrate(\/.*)?/, fetchIndexForAdminPage);
+get /^\/m\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForAdminPage);
+get /^\/ot\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // conversation view, one-time url
+get /^\/other-conversations(\/.*)?/, fetchIndexForAdminPage);
+get /^\/polis_site_id.*/,
+get /^\/privacy$/, fetchIndexForAdminPage);
+get /^\/pwreset.*/, fetchIndexForAdminPage);
+get /^\/pwresetinit.*/, fetchIndexForAdminPage);
+get /^\/report\/r?[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForReportPage);
+get /^\/s\//, fetchIndexWithoutPreloadData);
+get /^\/s\/CTE\/?$/,
+get /^\/s$/, fetchIndexWithoutPreloadData);
+get /^\/settings(\/.*)?$/, makeFetchIndexWithoutPreloadData());
+get /^\/settings\/enterprise}.*$/, makeFetchIndexWithoutPreloadData());
+get /^\/share\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // share view
+get /^\/signin(\/.*)?/, fetchIndexForAdminPage);
+get /^\/signout(\/.*)?/, fetchIndexForAdminPage);
+get /^\/slack_login_code.*/,
+get /^\/summary\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // summary view
+get /^\/thirdPartyCookieTestPt1\.html$/, fetchThirdPartyCookieTestPt1);
+get /^\/thirdPartyCookieTestPt2\.html$/, fetchThirdPartyCookieTestPt2);
+get /^\/tos$/, fetchIndexForAdminPage);
+get /^\/twitterAuthReturn(\/.*)?$/,
+get /^\/user\/create(\/.*)?$/, fetchIndexWithoutPreloadData);
+get /^\/user\/login(\/.*)?$/, fetchIndexWithoutPreloadData);
+get /^\/user\/logout(\/.*)?$/, fetchIndexWithoutPreloadData);

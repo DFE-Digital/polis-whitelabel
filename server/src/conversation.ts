@@ -89,22 +89,22 @@ function getConversationInfo(zid: any) {
   // import MPromise
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "getConversationInfo",
-    function (resolve: (arg0: any) => void, reject: (arg0: any) => void) {
-      pg.query(
-        "SELECT * FROM conversations WHERE zid = ($1);",
-        [zid],
-        function (err: any, result: { rows: any[] }) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.rows[0]);
-          }
+  return new MPromise("getConversationInfo", function (
+    resolve: (arg0: any) => void,
+    reject: (arg0: any) => void
+  ) {
+    pg.query(
+      "SELECT * FROM conversations WHERE zid = ($1);",
+      [zid],
+      function (err: any, result: { rows: any[] }) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result.rows[0]);
         }
-      );
-    }
-  );
+      }
+    );
+  });
 }
 
 function getConversationInfoByConversationId(conversation_id: any) {
@@ -112,22 +112,22 @@ function getConversationInfoByConversationId(conversation_id: any) {
   // import MPromise
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "getConversationInfoByConversationId",
-    function (resolve: (arg0: any) => void, reject: (arg0: any) => void) {
-      pg.query(
-        "SELECT * FROM conversations WHERE zid = (select zid from zinvites where zinvite = ($1));",
-        [conversation_id],
-        function (err: any, result: { rows: any[] }) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.rows[0]);
-          }
+  return new MPromise("getConversationInfoByConversationId", function (
+    resolve: (arg0: any) => void,
+    reject: (arg0: any) => void
+  ) {
+    pg.query(
+      "SELECT * FROM conversations WHERE zid = (select zid from zinvites where zinvite = ($1));",
+      [conversation_id],
+      function (err: any, result: { rows: any[] }) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result.rows[0]);
         }
-      );
-    }
-  );
+      }
+    );
+  });
 }
 
 const conversationIdToZidCache = new LruCache({
@@ -140,34 +140,34 @@ function getZidFromConversationId(conversation_id: string) {
   // import MPromise
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise(
-    "getZidFromConversationId",
-    function (resolve: (arg0: any) => void, reject: (arg0: string) => any) {
-      let cachedZid = conversationIdToZidCache.get(conversation_id);
-      if (cachedZid) {
-        resolve(cachedZid);
-        return;
-      }
-      pg.query_readOnly(
-        "select zid from zinvites where zinvite = ($1);",
-        [conversation_id],
-        function (err: any, results: { rows: string | any[] }) {
-          if (err) {
-            return reject(err);
-          } else if (!results || !results.rows || !results.rows.length) {
-            console.error(
-              "polis_err_fetching_zid_for_conversation_id " + conversation_id
-            );
-            return reject("polis_err_fetching_zid_for_conversation_id");
-          } else {
-            let zid = results.rows[0].zid;
-            conversationIdToZidCache.set(conversation_id, zid);
-            return resolve(zid);
-          }
-        }
-      );
+  return new MPromise("getZidFromConversationId", function (
+    resolve: (arg0: any) => void,
+    reject: (arg0: string) => any
+  ) {
+    let cachedZid = conversationIdToZidCache.get(conversation_id);
+    if (cachedZid) {
+      resolve(cachedZid);
+      return;
     }
-  );
+    pg.query_readOnly(
+      "select zid from zinvites where zinvite = ($1);",
+      [conversation_id],
+      function (err: any, results: { rows: string | any[] }) {
+        if (err) {
+          return reject(err);
+        } else if (!results || !results.rows || !results.rows.length) {
+          console.error(
+            "polis_err_fetching_zid_for_conversation_id " + conversation_id
+          );
+          return reject("polis_err_fetching_zid_for_conversation_id");
+        } else {
+          let zid = results.rows[0].zid;
+          conversationIdToZidCache.set(conversation_id, zid);
+          return resolve(zid);
+        }
+      }
+    );
+  });
 }
 
 export {

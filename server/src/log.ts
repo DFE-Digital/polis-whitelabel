@@ -9,14 +9,6 @@ const errorNotifications = (function () {
     if (errors.length === 0) {
       return;
     }
-    // pushoverInstance.send({
-    //     title: "err",
-    //     message: _.uniq(errors).join("\n"),
-    // }, function(err, result) {
-    //     winston.log("info","pushover " + err?"failed":"ok");
-    //     winston.log("info",err);
-    //     winston.log("info",result);
-    // });
     errors = [];
   }
   setInterval(sendAll, 60 * 1000);

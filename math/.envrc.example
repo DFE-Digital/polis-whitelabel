@@ -1,0 +1,6 @@
+use nix
+
+export DATABASE_URL=postgres://polis:mypassword@127.0.0.1:5432/polis
+export WEBSERVER_USERNAME=ws-user
+export WEBSERVER_PASS=ws-pass
+export CHOKIDAR_USEPOLLING="true"

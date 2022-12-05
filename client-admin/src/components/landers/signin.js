@@ -1,4 +1,3 @@
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /** @jsx jsx */
 
 import React from 'react'
@@ -23,13 +22,8 @@ class SignIn extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
     console.log(error, errorInfo)
   }
-
-  // getDest() {
-  //   return this.props.location.pathname.slice("/signin".length);
-  // }
 
   handleLoginClicked(e) {
     e.preventDefault()
@@ -38,10 +32,6 @@ class SignIn extends React.Component {
       password: this.password.value
     }
 
-    // var dest = this.getDest();
-    // if (!dest.length) {
-    //   dest = "/";
-    // }
     this.props.dispatch(doSignin(attrs))
   }
 
@@ -120,6 +110,12 @@ class SignIn extends React.Component {
             <Link to={'/pwresetinit'}>Reset Password</Link>
           </Text>
         </form>
+        <Box sx={{ my: 4 }}>
+          <Text sx={{ my: 4 }}>
+            {'No account? '}
+            <Link to={'/createuser'}>Sign up</Link>
+          </Text>
+        </Box>
         <Box sx={{ my: 4 }}>
           <Button
             id="facebookSigninButton"

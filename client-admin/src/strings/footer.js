@@ -17,16 +17,6 @@ export default {
         ]
       },
       {
-        heading: 'Support',
-        links: [
-          {
-            title: 'FAQ',
-            url:
-              'https://intercom.help/polis/frequently-asked-questions/polis-faq'
-          }
-        ]
-      },
-      {
         heading: 'Legal',
         links: [
           {

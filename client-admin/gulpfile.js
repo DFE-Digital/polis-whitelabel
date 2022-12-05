@@ -1,5 +1,3 @@
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 var _ = require("lodash");
 var exec = require("child_process").exec;
 var gulp = require("gulp");
@@ -28,23 +26,7 @@ function destRoot() {
   console.log(root);
   return root;
 }
-function destRootAbout() {
-  return destRootBase;
-}
-var devMode = true;
 var minified = false;
-var preprodMode = false;
-var prodMode = false;
-var host;
-
-function prepPathForTemplate(path) {
-  // add slash at front if missing
-  if (path.match(/^[^\/]/)) {
-    path = "/" + path;
-  }
-  path = path.replace(/\/*$/, ""); // remove trailing slash */
-  return path;
-}
 
 function getGitHash() {
   return new Promise(function (resolve, reject) {
@@ -69,8 +51,6 @@ gulp.task("bundle", [], function (callback) {
 });
 
 gulp.task("index", [], function () {
-  // var githash = getGitHash();
-  var bundlePath = [destRootRest, "admin_bundle.js"].join("/");
   var html = fs.readFileSync("index.html", { encoding: "utf8" });
   html = html.replace(
     "/dist/admin_bundle.js",
@@ -79,7 +59,6 @@ gulp.task("index", [], function () {
   html = html.replace("NULL_VERSION", versionString);
 
   html = html.replace("<%= fbAppId %>", polisConfig.FB_APP_ID);
-  html = html.replace("<%= useIntercom %>", !isTrue(polisConfig.DISABLE_INTERCOM));
   html = html.replace("<%= usePlans %>", !isTrue(polisConfig.DISABLE_PLANS));
 
   var domainWhitelist = '["' + polisConfig.domainWhitelist.join('","') + '"]';
@@ -87,42 +66,36 @@ gulp.task("index", [], function () {
 
   // index goes to the root of the dist folder.
   var indexDest = [destRootBase, "index_admin.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(indexDest, html);
 });
 
 gulp.task("embed", [], function () {
   var index = fs.readFileSync("embed.html", { encoding: "utf8" });
   var dest = [destRootBase, "embed.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(dest, index);
 });
 
 gulp.task("embedPreprod", [], function () {
   var index = fs.readFileSync("embedPreprod.html", { encoding: "utf8" });
   var dest = [destRootBase, "embedPreprod.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(dest, index);
 });
 
 gulp.task("embedReport", [], function () {
   var index = fs.readFileSync("embedReport.html", { encoding: "utf8" });
   var dest = [destRootBase, "embedReport.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(dest, index);
 });
 
 gulp.task("embedReportPreprod", [], function () {
   var index = fs.readFileSync("embedReportPreprod.html", { encoding: "utf8" });
   var dest = [destRootBase, "embedReportPreprod.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(dest, index);
 });
 
 gulp.task("404", [], function () {
   var index = fs.readFileSync("404.html", { encoding: "utf8" });
   var dest = [destRootBase, "404.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(dest, index);
 });
 
@@ -227,7 +200,6 @@ gulp.task("deploy_TO_PRODUCTION", ["prodConfig", "dist"], function () {
   }
   if ("scp" === polisConfig.UPLOADER) {
     uploader = scpUploader({
-      // subdir: "cached",
       watch: function (client) {
         client.on("write", function (o) {
           console.log("write %s", o.destination);
@@ -251,7 +223,6 @@ function doUpload() {
   }
   if ("scp" === polisConfig.UPLOADER) {
     uploader = scpUploader({
-      // subdir: "cached",
       watch: function (client) {
         client.on("write", function (o) {
           console.log("write %s", o.destination);
@@ -335,11 +306,6 @@ function scpUploader(params) {
     } else {
       console.log("basic path", o.dest);
     }
-    // console.log('------------------------ foofoo', batchConfig);
-    // return foreach(function(stream, file){
-    //   console.log('------------------------ stringSrc', file);
-    //   return mergeStream(stream, stringSrc(file.name + ".headersJson", JSON.stringify(batchConfig.headers)));
-    // }).pipe(scp(scpConfig));
     return scp(o);
   };
   f.needsHeadersJson = true;
@@ -447,7 +413,6 @@ function deploy(uploader) {
         "x-amz-acl": "public-read",
         "Content-Type": "text/html; charset=UTF-8",
         "Cache-Control": "no-cache",
-        // 'Cache-Control': 'no-transform,public,max-age=0,s-maxage=300', // NOTE: s-maxage is small for now, we could bump this up later once confident in cloudflare's cache purge workflow
       },
       logStatement: makeUploadPathHtml,
       subdir: null,
@@ -461,7 +426,6 @@ function deployFonts(params) {
   var creds = JSON.parse(fs.readFileSync(".polis_s3_creds_client.json"));
   creds = _.extend(creds, params);
 
-  //var fontCacheSeconds = 31536000;
   var fontCacheSeconds = 99;
 
   function makeUploadPathFactory(tagForLogging) {

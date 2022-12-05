@@ -1,65 +1,41 @@
-# Polis
-pol.is an AI powered sentiment gathering platform. More organic than surveys, less effort than focus groups.
+# polis-server
 
-If you don't want to deploy your own instance of Polis, you can sign up for our SaaS version (complete with advanced report functionality) [here](https://pol.is/home).
-Polis [can be easily embedded](http://docs.pol.is/usage/Embedding.html) on your page as an iframe.
+The server part of polis, written in TypeScript, compiles to JavaScript.
 
-## Installation
+## Dependencies
 
-The below instructions are no longer officially supported; if you'd like to use them as a reference, we suggest you check out the official [Dockerfile](Dockerfile) to understand the latest build process and specific package versions.
+* node `11.15.0`
+* npm `7.0.15`
 
----
+## Setup
 
-### Dependencies
+1. Create .envrc file off template:
 
-* PostgreSql `(>= 9.5.4.1)`
-* Node `6.11.1`
-We recommend installing [nvm](https://github.com/creationix/nvm) so that you can easily switch between your favorite flavors of node.
-* NPM `3.3.8`
+```sh
+cp .envrc.example .envrc
+```
 
-### Setup
+2. Install apropriate node version:
 
-1. Create a new database. You can name it whatever you please.
-    ```sh
-    create database polis;
-    ```
-    Depending on your environment and postgresql version, you may instead need to run something like `createdb polis` or `sudo -u postgres createdb polis` to get this to work.
-1. Connect to the new database then run the migrations in its shell.
-    ```
-    \connect polis
-    \i postgres/migrations/000000_initial.sql
-    \i postgres/migrations/000001_update_pwreset_table.sql
-    ```
-    You can also separately run `psql -d polis -f postgres/migrations/000000_initial.sql` and `psql -d polis -f postgres/migrations/000001_update_pwreset_table.sql` from the shell.
-1. Create development envs file
-    ```sh
-    $ cp .env_dev_local_db_template .env_dev
-    ```
-1. Update database connection settings in `.env_dev`. Replace the username, password, and database_name in the DATABASE_URL
-    ```
-    export DATABASE_URL=postgres://your_pg_username:your_pg_password@localhost:5432/your_pg_database_name
-    ```
-    Note that in some instances you may find that your postgres port isn't 5432 and you will need to figure out what this is.
-1. Note that for running in "dev mode" on a local machine, in order to avoid http -> https rerouting and other
-    issues, you'll want to run with `export DEV_MODE=true`.
-1. Install or set Node version.
-    ```sh
-    # Install
-    $ nvm install 10.9.0
+```sh
+n 11.15.0
+```
 
-    # Set correct node version.
-    $ nvm use 10.9.0
-    ```
-1. Install depedencies
-    ```sh
-    $ npm install
-    ```
-1. Run the start-up script. This will start the server.
-    ```sh
-    $ ./x
-    ```
-1. In another shell, start the [client-admin](../client-admin). Follow installation directions on the component README.
-    ```
-    $ ./x
-    ```
-1. Navigate to `localhost:5000`. Voila, Polis.
+3. Install depedencies and build assets:
+
+```sh
+npm install
+npm run build
+```
+
+4a. Start development auto-reload server:
+
+```sh
+npm run dev
+```
+
+4b. Start production server:
+
+```sh
+npm start
+```

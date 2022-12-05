@@ -1,5 +1,5 @@
 import boolean from "boolean";
-const devMode = boolean(get('DEV_MODE'));
+const devMode = boolean(get("DEV_MODE"));
 
 const domainOverride = process.env.DOMAIN_OVERRIDE || null;
 
@@ -10,7 +10,7 @@ function getServerNameWithProtocol(req: any) {
     server = req.protocol + "://" + domainOverride;
   }
   if (devMode) {
-    // usually localhost:5000
+    // usually localhost:8000
     server = req.protocol + "://" + req.headers.host;
   }
 

@@ -1,5 +1,3 @@
-import { any } from "underscore";
-
 export type Headers = {
   [key: string]: any;
   host?: string;
@@ -64,8 +62,6 @@ export type CommentOptions = {
 
 type ModerationState = -1 | 0 | 1;
 
-type ModerationObject = { isMod: ModerationState | undefined };
-
 export type CommentType = {
   zid: any;
   not_voted_by_pid: any;
@@ -101,7 +97,6 @@ export type ParticipantCommentModerationResult = {
 export type UserType = {
   email?: any;
   hname?: any;
-  stripeCustomerId?: any;
   uid?: any;
   pid?: any;
   id?: any;

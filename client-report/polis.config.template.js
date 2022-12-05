@@ -1,7 +1,5 @@
 module.exports = {
-
-  //SERVICE_URL: 'http://localhost:5000',
-  SERVICE_URL: 'https://preprod.pol.is',
+  SERVICE_URL: 'http://localhost:8000',
 
   UPLOADER: 'local', // alt: s3, scp
 

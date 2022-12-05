@@ -1,12 +1,8 @@
-;; Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 (ns polismath.runner
   "This namespace is responsible for running systems"
   (:refer-clojure :exclude [run!])
   (:require [polismath.system :as system]
-    ;[polismath.stormspec :as stormspec :refer [storm-system]]
             [polismath.utils :as utils]
-    ;; TODO Replace this with the canonical clojure.tools.cli once storm is removed
             [clojure.tools.cli :as cli]
             [clojure.tools.namespace.repl :as namespace.repl]
             [taoensso.timbre :as log]
@@ -25,10 +21,6 @@
 
 
 (defonce system nil)
-;(def system nil)
-
-;; Should build this to be an atom, and build something that intiates this state from a config file.
-;; So when you reset, it reboots all systems.
 
 (defn init!
   ([system-map-generator config-overrides]
@@ -65,19 +57,13 @@
 
 
 (def subcommands
-  {;"storm" stormspec/storm-system ;; remove...
-   ;"onyx" system/onyx-system ;; soon...
-   "update-all" system/base-system
+  {"update-all" system/base-system
    "update" system/base-system
    "poller" system/poller-system
    "tasks" system/task-system
    "full" system/full-system
    "simulator" system/simulator-system
    "export" system/export-system})
-
-;; TODO Build nice cli settings forking on subcommand, and tie in sanely with options comp
-
-;; QUESTION How do we fork things nicely on command that get run and exit, vs long lived?
 
 (def cli-options
   "Has the same options as simulation if simulations are run"
@@ -95,7 +81,6 @@
         "Other options:"
         options-summary]
    (string/join \newline)))
-
 
 
 (defn update-conv
@@ -117,9 +102,6 @@
     (doall)))
 
 
-
-;; This needs to be cleaned up and integrated somehow; Different mode though, not sure exactly how to..
-;
 (defn parse-time
   [s]
   (cond
@@ -140,8 +122,6 @@
   [s]
   (->> (clojure.string/split s #":")
        (map parse-time)))
-
-;(map Long/parseLong)
 
 
 (def export-cli-options
@@ -177,7 +157,7 @@
     (cond
       ;; In this case, build all exports for this particular user
       user-id
-      ;; maybe here check if filename ends in zip and add if not; safest, and easiest... XXX
+      ;; maybe here check if filename ends in zip
       (with-open [file (io/output-stream filename)
                   zip  (ZipOutputStream. file)
                   writer (io/writer zip)]
@@ -248,18 +228,9 @@
 
 
 (comment
-  ;(run! system/poller-system)
   (run! system/base-system)
 
   (conv-man/load-or-init)
 
-  ;(require '[polismath.conv-man :as conv-man])
-  ;(let [conv-man (:conversation-manager system)]
-    ;(conv-man/queue-message-batch! conv-man ))
-
   (stop!)
   :endcomment)
-
-
-
-

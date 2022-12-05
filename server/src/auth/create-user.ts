@@ -4,7 +4,6 @@ import pg from "../db/pg-query";
 import { fail } from "../log";
 import Config from "../config";
 import Cookies from "../utils/cookies";
-import { COOKIES } from "../utils/cookies";
 import User from "../user";
 import Session from "../session";
 import Utils from "../utils/common";
@@ -19,8 +18,6 @@ function createUser(req: any, res: any) {
   let email = req.p.email;
   let oinvite = req.p.oinvite;
   let zinvite = req.p.zinvite;
-  let referrer = req.cookies[COOKIES.REFERRER];
-  let organization = req.p.organization;
   let gatekeeperTosPrivacy = req.p.gatekeeperTosPrivacy;
   let lti_user_id = req.p.lti_user_id;
   let lti_user_image = req.p.lti_user_image;

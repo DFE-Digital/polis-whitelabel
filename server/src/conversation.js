@@ -1,5 +1,5 @@
-const pg = require('./db/pg-query');
-const MPromise = require('./utils/metered').MPromise;
+const pg = require("./db/pg-query");
+const MPromise = require("./utils/metered").MPromise;
 const LruCache = require("lru-cache");
 
 function createXidRecord(
@@ -91,22 +91,22 @@ function getConversationInfo(zid) {
 }
 
 function getConversationInfoByConversationId(conversation_id) {
-  return new MPromise(
-    "getConversationInfoByConversationId",
-    function (resolve, reject) {
-      pg.query(
-        "SELECT * FROM conversations WHERE zid = (select zid from zinvites where zinvite = ($1));",
-        [conversation_id],
-        function (err, result) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.rows[0]);
-          }
+  return new MPromise("getConversationInfoByConversationId", function (
+    resolve,
+    reject
+  ) {
+    pg.query(
+      "SELECT * FROM conversations WHERE zid = (select zid from zinvites where zinvite = ($1));",
+      [conversation_id],
+      function (err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result.rows[0]);
         }
-      );
-    }
-  );
+      }
+    );
+  });
 }
 
 const conversationIdToZidCache = new LruCache({

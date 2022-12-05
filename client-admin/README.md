@@ -1,25 +1,21 @@
-[![Build Status](https://travis-ci.org/pol-is/polisClientAdmin.svg?branch=master)](https://travis-ci.org/pol-is/polisClientAdmin) [![Code Climate](https://codeclimate.com/github/pol-is/polisClientAdmin/badges/gpa.svg)](https://codeclimate.com/github/pol-is/polisClientAdmin) [![Test Coverage](https://codeclimate.com/github/pol-is/polisClientAdmin/badges/coverage.svg)](https://codeclimate.com/github/vital-edu/sala-de-espera/coverage)
+# polis-client-admin
 
-Polis Admin Console
-===================
+Polis Admin Console.
 
-The below instructions are no longer officially supported; if you'd like to use them as a reference, we suggest you check out the official [Dockerfile](Dockerfile) to understand the latest build process and specific package versions.
+## Dependencies
 
----
+* node `11.15.0`
+* npm `7.0.15`
 
-Configuration
--------------
-
-Install the NVM following the instructions: [NVM Installation Guide](https://github.com/creationix/nvm#install-script).
-
-Them run the commands below to install the correct Node.JS version and the application dependencies.
+## Setup
 
 ```sh
-nvm install 8.17.0
+n 11.15.0
+npm install -g npm@7.0
 npm install
 ```
 
-### Common Problems
+## Common Problems
 
 If you having troubles with npm dependencies try run the commands below:
 
@@ -28,50 +24,43 @@ npm cache clear
 npm install
 ```
 
-Running Application
--------------------
+## Building and Deploying for Production
 
-```sh
-nvm use 6.2.0
-npm start
-```
-
-Running Tests
--------------
-
-We aspire to use the Jest Testing Framework. We welcome contributors to help us write tests!
-
-```sh
-# Doesn't work right now. Will need to reinstall jest.
-npm test
-```
-
-Building and Deploying for Production
--------------------------------------
-
-To build static assets for a production deployment, run
+To build static assets for a production deployment, run:
 
 ```sh
 gulp dist
 ```
 
-As a convenience, the `npm deploy:prod` is provided for deploying to AWS S3 or via SCP to a static file server.
-For S3 deployment, place your AWS credentials in a JSON file at `.polis_s3_creds_client.json` that looks like this:
+As a convenience, the `npm deploy:prod` is provided for deploying to AWS S3 or
+via SCP to a static file server. For S3 deployment, place your AWS credentials
+in a JSON file at `.polis_s3_creds_client.json` that looks like this:
 
 ```json
 {"key": "XXXXXXX", "secret": "YYYYYYY"}
 ```
 
----
+## QA Steps
 
-### Icons from the Noun Project
+### Static, outide
+
+- User can see home page at `/home`
+- User is redirected to `/home` if not logged in
+- User can sign in at `/signin`
+- User can reset password at `/pwreset`
+- User can `/createuser` and make a new account, login
+- User can see `/privacy` policy
+- User can see `/tos`
+
+### After login
+
+- User can get `/integrate` embed code for whole site
+- User can see social linkage at `/account`
+- User can see all of their conversations
+
+## Icons from the Noun Project
 
 * Checklist by David Courey from the Noun Project
 * AI by mungang kim from the Noun Project
 * Science by Akriti Bhusal from the Noun Project
 * Success File by Ben Davis from the Noun Project
-
-### Collections to look into
-
-* https://thenounproject.com/vectorsmarket/collection/project-management-line-icon/?i=1326778
-

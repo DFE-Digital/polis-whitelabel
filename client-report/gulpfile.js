@@ -1,5 +1,3 @@
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 var _ = require('lodash');
 var exec = require('child_process').exec;
 var glob = require('glob');
@@ -28,23 +26,6 @@ function destRoot() {
   console.log(root);
   return root;
 }
-function destRootAbout() {
-  return destRootBase;
-}
-var devMode = true;
-var preprodMode = false;
-var prodMode = false;
-var host;
-
-
-function prepPathForTemplate(path) {
-  // add slash at front if missing
-  if (path.match(/^[^\/]/)) {
-    path = "/" + path;
-  }
-  path = path.replace(/\/*$/,""); // remove trailing slash
-  return path;
-}
 
 
 function getGitHash() {
@@ -72,15 +53,12 @@ gulp.task('bundle', [
 
 gulp.task('index', [
 ], function() {
-  // var githash = getGitHash();
-  var bundlePath =  [destRootRest, "report_bundle.js"].join("/");
   var index = fs.readFileSync('index.html', {encoding: "utf8"});
   index = index.replace("/dist/report_bundle.js",  '/' + [destRootRest, "js", "report_bundle.js"].join('/'));
   index = index.replace("NULL_VERSION",  versionString);
 
   // index goes to the root of the dist folder.
   var indexDest = [destRootBase, "index_report.html"].join("/");
-  // fs.mkdirSync(destRootBase);
   fs.writeFileSync(indexDest, index);
 });
 
@@ -136,7 +114,6 @@ gulp.task("scripts", function() {
     .pipe(rename(function (path) {
       // remove .gz extension
       var ext = path.extname;
-      console.log("foo", path);
       path.extname = ext.substr(0, ext.length- ".gz".length);
     }));
   return s.pipe(gulp.dest(destRoot() + "/js"));
@@ -158,8 +135,6 @@ gulp.task('dist', [
     runSequence(
       'cleanDist',
       'common',
-      // ['build-scripts', 'build-styles'], // these two would be parallel
-      // 'build-html',
       callback);
 });
 
@@ -211,11 +186,6 @@ function scpUploader(params) {
     } else {
       console.log('basic path', o.dest);
     }
-    // console.log('------------------------ foofoo', batchConfig);
-    // return foreach(function(stream, file){
-    //   console.log('------------------------ stringSrc', file);
-    //   return mergeStream(stream, stringSrc(file.name + ".headersJson", JSON.stringify(batchConfig.headers)));
-    // }).pipe(scp(scpConfig));
     return scp(o);
   };
   f.needsHeadersJson = true;
@@ -224,7 +194,6 @@ function scpUploader(params) {
 
 
 function deploy(uploader) {
-
     var cacheSecondsForContentWithCacheBuster = 31536000;
 
     function makeUploadPathHtml(file) {
@@ -331,7 +300,6 @@ function doUpload() {
   }
   if ('scp' === polisConfig.UPLOADER) {
    uploader = scpUploader({
-      // subdir: "cached",
       watch: function(client) {
         client.on('write', function(o) {
           console.log('write %s', o.destination);
@@ -383,8 +351,6 @@ gulp.task('fontsProd', [
 function deployFonts(params) {
     var creds = JSON.parse(fs.readFileSync('.polis_s3_creds_client.json'));
     creds = _.extend(creds, params);
-
-    //var fontCacheSeconds = 31536000;
     var fontCacheSeconds = 99;
 
     function makeUploadPathFactory(tagForLogging) {
@@ -418,10 +384,7 @@ function deployFonts(params) {
             makeUploadPath: makeUploadPathFactory("cached_gzipped_"+fontCacheSeconds),
           }));
       });
-
 }
-
 
 var tasks = process.argv.slice(2);
 gulp.start.apply(gulp, tasks);
-

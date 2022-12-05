@@ -1,8 +1,5 @@
 // @ts-nocheck
-// TODO ^^ enable typechecking after refactoring to use
-// TODO modern import syntax for helpers
 
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 "use strict";
 
 import Promise from "bluebird";
@@ -65,7 +62,6 @@ helpersInitialized.then(
       handle_GET_bid,
       handle_GET_bidToPid,
       handle_GET_canvas_app_instructions_png,
-      handle_GET_changePlanWithCoupon,
       handle_GET_comments,
       handle_GET_comments_translations,
       handle_GET_conditionalIndexFetcher,
@@ -76,8 +72,6 @@ helpersInitialized.then(
       handle_GET_conversationsRecentActivity,
       handle_GET_conversationsRecentlyStarted,
       handle_GET_conversationStats,
-      handle_GET_createPlanChangeCoupon,
-      handle_GET_enterprise_deal_url,
       handle_GET_math_correlationMatrix,
       handle_GET_dataExport,
       handle_GET_dataExport_results,
@@ -112,8 +106,6 @@ helpersInitialized.then(
       handle_GET_setup_assignment_xml,
       handle_GET_slack_login,
       handle_GET_snapshot,
-      handle_GET_stripe_account_connect,
-      handle_GET_stripe_account_connected_oauth_callback,
       hangle_GET_testConnection,
       hangle_GET_testDatabase,
       handle_GET_tryCookie,
@@ -136,7 +128,6 @@ helpersInitialized.then(
       handle_POST_auth_password,
       handle_POST_auth_pwresettoken,
       handle_POST_auth_slack_redirect_uri,
-      handle_POST_charge,
       handle_POST_comments,
       handle_POST_comments_slack,
       handle_POST_contexts,
@@ -166,9 +157,6 @@ helpersInitialized.then(
       handle_POST_slack_interactive_messages,
       handle_POST_slack_user_invites,
       handle_POST_stars,
-      handle_POST_stripe_cancel,
-      handle_POST_stripe_save_token,
-      handle_POST_stripe_upgrade,
       handle_POST_trashes,
       handle_POST_tutorial,
       handle_POST_upvotes,
@@ -216,28 +204,14 @@ helpersInitialized.then(
     app.disable("x-powered-by");
     // app.disable('etag'); // seems to be eating CPU, and we're not using etags yet. https://www.dropbox.com/s/hgfd5dm0e29728w/Screenshot%202015-06-01%2023.42.47.png?dl=0
 
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    //
-    //             BEGIN MIDDLEWARE
-    //
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
+    // BEGIN MIDDLEWARE
 
-    app.use(function (req, res, next) {
-      console.log("before");
-      console.log(req.body);
-      console.log(req.headers);
-      next();
-    });
+    // app.use(function (req, res, next) {
+    //   console.log("before");
+    //   console.log(req.body);
+    //   console.log(req.headers);
+    //   next();
+    // });
 
     app.use(middleware_responseTime_start);
 
@@ -258,32 +232,18 @@ helpersInitialized.then(
     app.use(middleware_log_request_body);
     app.use(middleware_log_middleware_errors);
 
-    app.use(function (req, res, next) {
-      console.log("part2");
-      console.log(req.body);
-      console.log(req.headers);
-      next();
-    });
+    // app.use(function (req, res, next) {
+    //   console.log("part2");
+    //   console.log(req.body);
+    //   console.log(req.headers);
+    //   next();
+    // });
 
     app.all("/api/v3/*", addCorsHeader);
     app.all("/font/*", addCorsHeader);
     app.all("/api/v3/*", middleware_check_if_options);
 
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    //
-    //             END MIDDLEWARE
-    //
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
+    // END MIDDLEWARE
 
     app.get("/api/v3/math/pca", handle_GET_math_pca);
 
@@ -716,50 +676,6 @@ helpersInitialized.then(
       authOptional(assignToP),
       want("errIfNoAuth", getBool, assignToP),
       handle_GET_users
-    );
-
-    // use this to generate coupons for free upgrades
-    // TODO_SECURITY
-    app.get(
-      "/api/v3/createPlanChangeCoupon_aiudhfaiodufy78sadtfiasdf",
-      moveToBody,
-      need("uid", getInt, assignToP),
-      need("planCode", getOptionalStringLimitLength(999), assignToP),
-      handle_GET_createPlanChangeCoupon
-    );
-
-    app.get(
-      "/api/v3/changePlanWithCoupon",
-      moveToBody,
-      authOptional(assignToP),
-      need("code", getOptionalStringLimitLength(999), assignToP),
-      handle_GET_changePlanWithCoupon
-    );
-
-    // Just for testing that the new custom stripe form is submitting properly
-    app.post("/api/v3/stripe_save_token", handle_POST_stripe_save_token);
-
-    app.post(
-      "/api/v3/stripe_upgrade",
-      auth(assignToP),
-      need("stripeResponse", getStringLimitLength(9999), assignToP),
-      need("plan", getStringLimitLength(99), assignToP),
-      handle_POST_stripe_upgrade
-    );
-
-    app.post(
-      "/api/v3/stripe_cancel",
-      auth(assignToP),
-      handle_POST_stripe_cancel
-    );
-
-    app.post(
-      "/api/v3/charge",
-      auth(assignToP),
-      want("stripeToken", getOptionalStringLimitLength(999), assignToP),
-      want("stripeEmail", getOptionalStringLimitLength(999), assignToP),
-      need("plan", getOptionalStringLimitLength(999), assignToP),
-      handle_POST_charge
     );
 
     app.get(
@@ -1279,32 +1195,6 @@ helpersInitialized.then(
       want("suzinvite", getOptionalStringLimitLength(32), assignToP),
       // TODO want('lastMetaTime', getInt, assignToP, 0),
       handle_GET_metadata
-    );
-
-    app.get(
-      "/api/v3/enterprise_deal_url",
-      moveToBody,
-      // want('upfront', getBool, assignToP),
-      need("monthly", getInt, assignToP),
-      want("maxUsers", getInt, assignToP),
-      want("plan_name", getOptionalStringLimitLength(99), assignToP),
-      want("plan_id", getOptionalStringLimitLength(99), assignToP),
-      handle_GET_enterprise_deal_url
-    );
-
-    app.get(
-      "/api/v3/stripe_account_connect",
-      handle_GET_stripe_account_connect
-    );
-
-    app.get(
-      "/api/v3/stripe_account_connected_oauth_callback",
-      moveToBody,
-      want("code", getStringLimitLength(9999), assignToP),
-      want("access_token", getStringLimitLength(9999), assignToP),
-      want("error", getStringLimitLength(9999), assignToP),
-      want("error_description", getStringLimitLength(9999), assignToP),
-      handle_GET_stripe_account_connected_oauth_callback
     );
 
     app.get(
@@ -1885,12 +1775,6 @@ helpersInitialized.then(
           "Content-Type": "text/html",
         }
       )
-    );
-    app.get(
-      /^\/styleguide$/,
-      makeFileFetcher(hostname, portForParticipationFiles, "/styleguide.html", {
-        "Content-Type": "text/html",
-      })
     );
     // Duplicate url for content at root. Needed so we have something for "About" to link to.
     app.get(/^\/about$/, makeRedirectorTo("/home"));
