@@ -1,4 +1,3 @@
-use nix
 
 export PORT=8000
 

@@ -9,7 +9,6 @@ Polis Whitelabel is a pared down version of Pol.is.
 
 The following things are different:
 
-* Nix config added
 * Heroku config removed
 * Bundlewatch removed
 * nginx config removed
