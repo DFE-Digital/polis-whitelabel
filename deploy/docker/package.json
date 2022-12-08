@@ -5,7 +5,7 @@
         "build:server": "docker build -f ./server.Dockerfile -t polis-server:latest ../../server",
         "build:caddy": "docker build -f ./caddy.Dockerfile -t polis-caddy:latest ../../caddy",
         "build:postgres": "docker build -f ./postgres.Dockerfile -t polis-postgres:latest ../../database",
-        "build:compose": "docker-compose -f docker-compose.example.yml build --parallel",
-        "run:compose": "docker-compose -f docker-compose.example.yml up"
+        "build:compose": "docker-compose -f docker-compose.dev.yml build --parallel",
+        "run:compose": "docker-compose -f docker-compose.dev.yml up"
     }
 }
