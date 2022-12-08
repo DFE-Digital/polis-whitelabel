@@ -2631,6 +2631,7 @@ function handle_POST_comments(
               ? User.getXidStuff(xid, zid)
               : Promise.resolve();
           pidPromise = xidUserPromise.then((xidUser: UserType) => {
+            // @ts-ignore
             shouldCreateXidRecord = xidUser === "noXidRecord";
             if (xidUser && xidUser.uid) {
               uid = xidUser.uid;

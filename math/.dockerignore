@@ -22,4 +22,4 @@ old
 wiki
 .lein-git-deps/debug-repl
 data
-.git
+.envrc

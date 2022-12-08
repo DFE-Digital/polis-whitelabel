@@ -53,7 +53,7 @@ npm install -g npm@7.0
 
 ```
 # user:ubuntu
-git clone https://github.com/sirodoht/polis.git
+git clone https://github.com/DFE-Digital/polis-whitelabel.git
 ```
 
 ## polis/database

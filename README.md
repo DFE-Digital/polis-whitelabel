@@ -13,7 +13,6 @@ The following things are different:
 * Bundlewatch removed
 * nginx config removed
 * Caddy config added
-* All components now use a single Node.js version
 * e2e tests upgraded to latest Node.js LTS version
 * e2e cypress updated to v10
 * Stripe integration removed

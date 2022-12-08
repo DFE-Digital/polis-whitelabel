@@ -1,14 +1,8 @@
-# before running docker-compose up for the first time,
-# either do a pull:
-# docker-compose pull
-# or do a build:
-# GIT_HASH $(git rev-parse --short HEAD) docker-compose up --detach
-
-# subsequently you should only need to run:
-# docker-compose up --detach
+# To run, build the docker images individually, then
+# docker-compose up
 
 # force a full re-build with no cache from previous builds:
-# docker-compose build --build-arg GIT_HASH $(git rev-parse --short HEAD) --parallel --no-cache
+# docker-compose build --parallel --no-cache
 
 # to stop:
 # docker-compose down
@@ -17,11 +11,11 @@ version: "3.4"
 
 services:
   server:
-    env_file: ./server/docker-dev.env
-    image: docker.io/compdem/polis-server:${TAG}
+    env_file: ../../server/.envrc
+    image: polis-server:latest
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: ../../server
+      dockerfile: ./server.Dockerfile
     depends_on:
       - "postgres"
       - "file-server"
@@ -32,37 +26,35 @@ services:
 
   math:
     container_name: polis-math
-    env_file: ./math/docker-dev.env
-    image: docker.io/compdem/polis-math:${TAG}
+    env_file: ../../math/.envrc
+    image: polis-math:latest
     depends_on:
       - "postgres"
     build:
-      context: ./math
+      context: ../../math
     networks:
       - "polis-net"
 
   postgres:
     container_name: polis-postgres
-    env_file: ./server/docker-db-dev.env
-    image: docker.io/compdem/polis-postgres:${TAG}
+    env_file: ../../database/.envrc
+    image: polis-postgres:latest
     restart: always
     build:
-      context: ./server
-      dockerfile: Dockerfile-db
+      context: ../../database
+      dockerfile: ./postgres.Dockerfile
     networks:
       - "polis-net"
-    volumes:
-      - "backups:/backups"
-      - "postgres:/var/lib/postgresql/data"
+    # volumes:
+    #   - "backups:/backups"
+    #   - "postgres:/var/lib/postgresql/data"
 
   nginx-proxy:
-    container_name: polis-nginx-proxy
-    image: docker.io/compdem/polis-nginx-proxy:${TAG}
+    container_name: polis-caddy
+    image: polis-caddy:latest
     build:
-      context: ./file-server
-      dockerfile: nginx.Dockerfile
-    environment:
-      - TAG
+      context: ../../caddy
+      dockerfile: caddy.Dockerfile
     depends_on:
       - "server"
     networks:
@@ -73,18 +65,16 @@ services:
 
   file-server:
     container_name: polis-file-server
-    image: docker.io/compdem/polis-file-server:${TAG}
+    image: polis-file-server:latest
     build:
-      context: ./
-      dockerfile: file-server/Dockerfile
-      args:
-        GIT_HASH: "${GIT_HASH}"
+      context: ../../file-server
+      dockerfile: ./file-server.Dockerfile
     networks:
       - "polis-net"
 
 networks:
   polis-net:
 
-volumes:
-  backups:
-  postgres:
+# volumes:
+#   backups:
+#   postgres:

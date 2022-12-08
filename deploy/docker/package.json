@@ -1,7 +1,9 @@
 {
     "scripts": {
-        "build:file-server": "docker build -f ../../file-server/Dockerfile -t polis-file-server:latest ../../",
-        "build:math": "docker build -f ../../math/Dockerfile -t polis-math:latest ../../math",
-        "build:server": "docker build -f ../../server/Dockerfile -t polis-server:latest ../../server"
+        "build:file-server": "docker build -f ./file-server.Dockerfile -t polis-file-server:latest ../../",
+        "build:math": "docker build -f ./math.Dockerfile -t polis-math:latest ../../math",
+        "build:server": "docker build -f ./server.Dockerfile -t polis-server:latest ../../server",
+        "build:caddy": "docker build -f ./caddy.Dockerfile -t polis-caddy:latest ../../caddy",
+        "build:postgres": "docker build -f ./postgres.Dockerfile -t polis-postgres:latest ../../database"
     }
 }
