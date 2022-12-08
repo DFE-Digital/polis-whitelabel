@@ -1,10 +1,5 @@
-FROM docker.io/nginx:1.21.5-alpine
+FROM docker.io/caddy:2.6.2-alpine
 
-COPY nginx/nginx-ssl.site.default.conf /etc/nginx/conf.d/default.conf
-
-# We only use these in testing.
-COPY nginx/certs/snakeoil.cert.pem /etc/nginx/certs/snakeoil.cert.pem
-COPY nginx/certs/snakeoil.key.pem  /etc/nginx/certs/snakeoil.key.pem
+COPY ../../caddy/Caddyfile.dev /etc/caddy/Caddyfile
 
 EXPOSE 80
-EXPOSE 443

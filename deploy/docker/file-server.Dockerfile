@@ -1,19 +1,18 @@
 ARG TAG=dev
 
-# polis-client-admin
-FROM --platform=linux/amd64 docker.io/node:11.15.0-alpine AS client-base
-
-# Fixes Bug in Alpine < 12.4.0 https://stackoverflow.com/a/52196681/199
-RUN npm config set unsafe-perm true
+FROM --platform=linux/amd64 docker.io/node:11.15.1-alpine AS client-base
 
 RUN apk add git g++ make python openssh --no-cache
 
-# Upgrade npm v6.7.0 -> v6.9.2 to alias multiple pkg versions.
-# See: https://stackoverflow.com/a/56134858/504018
-RUN npm install -g npm@6.9.2
+
+# Gulp v3 stops us from upgrading beyond Node v11
+FROM --platform=linux/amd64 docker.io/node:11.15.1-alpine AS legacy-client-base
+
+RUN apk add git g++ make python openssh --no-cache
+
 
 # polis-client-admin
-FROM client-base AS client-admin
+FROM legacy-client-base AS client-admin
 
 WORKDIR /client-admin/app
 
@@ -26,31 +25,21 @@ ARG GIT_HASH
 RUN npm run deploy:prod
 
 
-
 # polis-client-participation
-# # Gulp v3 stops us from upgrading beyond Node v11
 FROM client-base AS client-participation
 
 WORKDIR /client-participation/app
 
-# Allow global npm installs in Docker
-RUN npm config set unsafe-perm true
-
 COPY client-participation/. .
 COPY file-server/polis.config.js polis.config.js
 
-# It would be nice if this was ci, but misbehaving for some reason
-RUN npm ci
+RUN npm clean-install
 
-ARG GIT_HASH
-ARG BABEL_ENV=production
-
-RUN npm run deploy:prod
+RUN npm run build:prod
 
 
 # polis-client-report
-# Gulp v3 stops us from upgrading beyond Node v11
-FROM client-base AS client-report
+FROM legacy-client-base AS client-report
 
 WORKDIR /client-report/app
 
@@ -66,7 +55,7 @@ RUN npm run deploy:prod
 
 
 # actual file server component
-FROM --platform=linux/amd64 docker.io/node:16.9.0-alpine
+FROM client-base
 
 WORKDIR /app
 
