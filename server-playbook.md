@@ -1,4 +1,19 @@
-# Server playbook for Ubuntu 20.04.5 LTS
+# Developer setup for Docker
+
+> **Warning**
+> The Docker development environment is a work in progress, although it provides a quick way to get the code running locally, the development loop is much quicker and more flexible using the Virtual Machine setup detailed below.
+
+Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+```sh
+cd deploy/docker
+npm run build:compose
+npm run run:compose
+```
+
+Visit [http://localhost:8000](http://localhost:8000)
+
+# Developer setup for Ubuntu 20.04.5 LTS Virtual Machine
 
 This is a server playbook on how to setup a production environment for polis.
 
@@ -177,7 +192,6 @@ clojure -M:run full
 ## polis/caddy
 
 ```sh
-
 # user:root
 cd polis/caddy
 

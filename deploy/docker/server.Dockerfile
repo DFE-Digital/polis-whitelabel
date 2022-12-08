@@ -17,6 +17,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 5000
+EXPOSE 8000
 
 CMD npm run start
