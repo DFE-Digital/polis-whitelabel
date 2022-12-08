@@ -6,4 +6,6 @@ COPY . .
 # Install clojure and fetch dependencies
 RUN clojure -A:dev -P
 
-CMD ["bash ./bin/run.sh"]
+RUN chmod +x ./bin/run.sh
+
+CMD ["./bin/run.sh"]
