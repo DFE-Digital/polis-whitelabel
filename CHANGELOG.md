@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Features
+
+- [#7](https://github.com/DFE-Digital/polis-whitelabel/issues/7) Developer workflow established and documented - based on the [suburb fork of pol.is](https://github.com/sirodoht/suburb/commit/6638e3078165c62c96a82f098737607bbb8848ee)
+
 ### Bugs
 
 - [#1](https://github.com/DFE-Digital/polis-whitelabel/issues/1) Fixed `authorUid is undefined` crash in `server`
