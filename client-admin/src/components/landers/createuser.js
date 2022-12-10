@@ -5,7 +5,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { doCreateUser, doFacebookSignin } from '../../actions'
 import { Heading, Box, Text, Button, jsx } from 'theme-ui'
-import config from '../../../polis.config'
+import { PRIVACY_URL, TERMS_OF_SERVICE_URL } from '../../../polis.config'
 
 import { Link } from 'react-router-dom'
 import StaticLayout from './lander-layout'
@@ -134,11 +134,11 @@ class Createuser extends React.Component {
 
           <Box>
             I agree to the{' '}
-            <a href={ config.TERMS_OF_SERVICE_URL } tabIndex="110">
+            <a href={ TERMS_OF_SERVICE_URL } tabIndex="110">
               pol.is terms
             </a>{' '}
             and{' '}
-            <a href={ config.PRIVACY_URL } tabIndex="111">
+            <a href={ PRIVACY_URL } tabIndex="111">
               {' '}
               privacy agreement
             </a>
