@@ -51,6 +51,8 @@ in a JSON file at `.polis_s3_creds_client.json` that looks like this:
 - User can `/createuser` and make a new account, login
 - User can see `/privacy` policy
 - User can see `/tos`
+- User can see `/cookies`
+- User can see `/accessibility`
 
 ### After login
 

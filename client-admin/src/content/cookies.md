@@ -1,0 +1,4 @@
+
+# Cookies
+
+[YOUR COOKIE POLICY HERE]

@@ -167,6 +167,8 @@ get /^\/summary\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // summa
 get /^\/thirdPartyCookieTestPt1\.html$/, fetchThirdPartyCookieTestPt1);
 get /^\/thirdPartyCookieTestPt2\.html$/, fetchThirdPartyCookieTestPt2);
 get /^\/tos$/, fetchIndexForAdminPage);
+get /^\/cookies$/, fetchIndexForAdminPage);
+get /^\/accessibility$/, fetchIndexForAdminPage);
 get /^\/twitterAuthReturn(\/.*)?$/,
 get /^\/user\/create(\/.*)?$/, fetchIndexWithoutPreloadData);
 get /^\/user\/login(\/.*)?$/, fetchIndexWithoutPreloadData);

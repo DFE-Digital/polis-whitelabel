@@ -15,6 +15,8 @@ import { Flex, Box, jsx } from 'theme-ui'
 import Home from './components/landers/home'
 import TOS from './components/landers/tos'
 import Privacy from './components/landers/privacy'
+import Accessibility from './components/landers/accessibility'
+import Cookies from './components/landers/cookies'
 import PasswordReset from './components/landers/password-reset'
 import PasswordResetInit from './components/landers/password-reset-init'
 import PasswordResetInitDone from './components/landers/password-reset-init-done'
@@ -165,6 +167,8 @@ class App extends React.Component {
           />
           <Route exact path="/tos" component={TOS} />
           <Route exact path="/privacy" component={Privacy} />
+          <Route exact path="/accessibility" component={Accessibility} />
+          <Route exact path="/cookies" component={Cookies} />
 
           <InteriorHeader>
             <Route

@@ -38,8 +38,8 @@ module.exports = {
   SCP_SUBDIR_PROD: "prod",
 
   // Leaving any of these blank will not show them
-  PRIVACY_URL: "https://pol.is/privacy",
-  ACCESSIBILITY_URL: "",
-  COOKIES_URL: "",
-  TERMS_OF_SERVICE_URL: "https://pol.is/tos"
+  PRIVACY_URL: "/privacy",
+  ACCESSIBILITY_URL: "/accessibility",
+  COOKIES_URL: "/cookies",
+  TERMS_OF_SERVICE_URL: "/tos"
 };

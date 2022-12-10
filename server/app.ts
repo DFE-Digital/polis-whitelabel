@@ -1714,6 +1714,8 @@ helpersInitialized.then(
     );
     app.get(/^\/privacy$/, fetchIndexForAdminPage);
     app.get(/^\/tos$/, fetchIndexForAdminPage);
+    app.get(/^\/cookies$/, fetchIndexForAdminPage);
+    app.get(/^\/accessibility$/, fetchIndexForAdminPage);
 
     // admin dash-based landers
     app.get(/^\/gov(\/.*)?/, fetchIndexForAdminPage);
