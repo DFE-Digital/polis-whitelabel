@@ -5565,7 +5565,11 @@ function renderLtiLinkagePage(
     afterJoinRedirectUrl +
     '">' +
     "</div>" +
-    '<input type="checkbox" name="gatekeeperTosPrivacy" id="gatekeeperTosPrivacy" style="position: relative; top: -1px"> &nbsp; By signing up, you agree to our <a href="https://pol.is/tos"> terms of use</a> and <a href="https://pol.is/privacy"> privacy policy </a>' +
+    '<input type="checkbox" name="gatekeeperTosPrivacy" id="gatekeeperTosPrivacy" style="position: relative; top: -1px"> &nbsp; By signing up, you agree to our <a href="' +
+    Config.get('TERMS_OF_SERVICE_URL') +
+    '"> terms of use</a> and <a href="'
+    Config.get('PRIVACY_URL') +
+    '"> privacy policy </a>' +
     '<div class="row" id="errorDiv"></div>' +
     '<div class="FormVertical-group">' +
     '<button type="submit" class="Btn Btn-primary">Create new pol.is account</button>' +

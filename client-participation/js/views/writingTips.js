@@ -2,8 +2,12 @@
 
 var template = require("../templates/writingTips.handlebars");
 var Handlebones = require("handlebones");
+var config = require("../../polis.config");
 
 module.exports = Handlebones.View.extend({
   name: "writingTips",
-  template: template
+  template: template,
+  context: function() {
+    return { privacyUrl: config.PRIVACY_URL }
+  }
 });

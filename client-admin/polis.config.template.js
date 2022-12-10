@@ -32,4 +32,10 @@ module.exports = {
   // Uploader settings: scp
   SCP_SUBDIR_PREPROD: 'preprod',
   SCP_SUBDIR_PROD: 'prod',
+
+  // Leaving any of these blank will not show them
+  PRIVACY_URL: "/privacy",
+  ACCESSIBILITY_URL: "/accessibility",
+  COOKIES_URL: "/cookies",
+  TERMS_OF_SERVICE_URL: "/tos"
 };

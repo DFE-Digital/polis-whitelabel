@@ -29,6 +29,10 @@ export DOMAIN_OVERRIDE=localhost:8000
 export WEBSERVER_USERNAME=ws-user
 export WEBSERVER_PASS=ws-pass
 
+# Some URL confguration
+export PRIVACY_URL="/privacy",
+export TERMS_OF_SERVICE_URL="/tos"
+
 # Set to `true` and insert google creds if desired
 # export SHOULD_USE_TRANSLATION_API=false
 # export GOOGLE_CREDENTIALS_BASE64=xxxxxxxxxxxxxxxxxxxxxxx...
