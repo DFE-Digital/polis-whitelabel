@@ -22,7 +22,7 @@ Essential cookies keep your information secure while you use our service. Some o
 | `referrer` | Used to store referrer | 1 year | [Issue 26](https://github.com/DFE-Digital/polis-whitelabel/issues/26) |
 | `parent_url` | Used to store parent url | 1 year | [Issue 26](https://github.com/DFE-Digital/polis-whitelabel/issues/26) |
 
-## Redundant cookies</h2>
+## Redundant cookies
 
 We know the following cookies do not do anything and we plan to remove them from the system.
 
