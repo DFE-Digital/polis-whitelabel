@@ -3,7 +3,7 @@
 
 Cookies are small files saved on your phone, tablet or computer when you visit a website.
 
-We use cookies to make [YOUR WEBSITE HERE] work.
+We use cookies to make pol.is work.
 
 ## Essential cookies
 

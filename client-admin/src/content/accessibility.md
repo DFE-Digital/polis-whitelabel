@@ -11,13 +11,13 @@ This website is run by the [YOUR ORGANISATION HERE]. We want as many people as p
 
 ## How accessible this website is
 
-We know some parts of this website aren't fully accessible. In addition to the [issues that fail compliance](#non-compliance-with-the-accessibility-regulations) the following are also known about:
+We know some parts of this website aren't fully accessible. In addition to the issues that fail compliance (detailed in a later section) the following are also known about:
 
 ### General accessibility issues
 
-* Extensive use of italic text which is difficult to read for those with partial sight
-* Bold styling used for non-emphasised words causing screen readers to emphasise the wrong parts of the page
-* Dynamic feedback in the statement submission appears in different parts of the page and with different wording which makes for confusing experience
+* Extensive use of italic text which is difficult to read for those with partial sight.
+* Bold styling used for non-emphasised words causing screen readers to emphasise the wrong parts of the page.
+* Dynamic feedback in the statement submission appears in different parts of the page and with different wording which makes for confusing experience.
 * Errors presented as red text on white background don't have sufficient contrast in many cases.
 
 ### Observations from using JAWS screen reader
