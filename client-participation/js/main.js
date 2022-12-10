@@ -38,6 +38,8 @@ var HeaderPartial = require("./templates/header.handlebars");
 var HeaderWhatisPolisPartial = require("./templates/headerWhatIsPolis.handlebars");
 var LinkAddPolisPartial = require("./templates/link-AddPolis-partial.handlebars");
 var LinkPrivacyPartial = require("./templates/link-privacy-partial.handlebars");
+var LinkCookiesPartial = require("./templates/link-cookies-partial.handlebars");
+var LinkAccessibilityPartial = require("./templates/link-accessibility-partial.handlebars");
 var LinkTosPartial = require("./templates/link-TOS-partial.handlebars");
 var PolisLogoPartial = require("./templates/polisLogo.handlebars");
 
@@ -343,6 +345,8 @@ Handlebars.registerPartial("header", HeaderPartial);
 Handlebars.registerPartial("headerWhatIsPolis", HeaderWhatisPolisPartial);
 Handlebars.registerPartial("footer", FooterPartial);
 Handlebars.registerPartial("linkTos", LinkTosPartial);
+Handlebars.registerPartial("linkAccessibility", LinkAccessibilityPartial);
+Handlebars.registerPartial("linkCookies", LinkCookiesPartial);
 Handlebars.registerPartial("linkPrivacy", LinkPrivacyPartial);
 Handlebars.registerPartial("linkAddPolis", LinkAddPolisPartial);
 Handlebars.registerPartial("iconFaCircleCheck", IconFaCircleCheckPartial);

@@ -23,6 +23,8 @@ s.majorityOpinionShort  = "Maioria";
 s.info  = "Informasaun";
 s.addPolisToYourSite  = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy  = "Privasidade";
+s.accessibility = "";
+s.cookies = "";
 s.TOS  = "Tipu servisu";
 s.writePrompt  = "Fahe o nia hanoin..";
 s.anonPerson  = "Naran-laek (anónimu)";

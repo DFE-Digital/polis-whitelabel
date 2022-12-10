@@ -25,6 +25,7 @@ var Utils = require("../util/utils");
 var VisView = require("../lib/VisView");
 var VoteMoreView = require("../views/voteMoreView");
 var WritingTipsView = require("../views/writingTips");
+var config = require("../../polis.config");
 var $ = require("jquery");
 
 
@@ -144,6 +145,10 @@ module.exports = ConversationView.extend({
     ctx.polis_bgcolor = "white"; //preload.firstConv.bgcolor || "#f7f7f7";
     ctx.hideSocialButtons = preload.firstConv.socialbtn_type === 0;
     ctx.hideHelp = !Utils.userCanSeeHelp() || preload.firstConv.help_type === 0;
+    ctx.accessibilityUrl = config.ACCESSIBILITY_URL;
+    ctx.privacyUrl = config.PRIVACY_URL;
+    ctx.termsOfServiceUrl = config.TERMS_OF_SERVICE_URL;
+    ctx.cookiesUrl = config.COOKIES_URL;
 
     // var md_content = "Hello.\n======\n* This is markdown.\n * It is fun\n * Love it or leave it.\n* This is [an example](http://example.com/ \"Title\") inline link.\n\n![Alt text](https://62e528761d0685343e1c-f3d1b99a743ffa4142d9d7f1978d9686.ssl.cf2.rackcdn.com/files/67396/width668/image-20141216-14144-1fmodw7.jpg)"
     var md_content = ctx.description || "";

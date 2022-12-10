@@ -29,6 +29,8 @@ s.majorityOpinionShort = "Majority";
 s.info = "Info";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Privacy";
+s.cookies = "Cookies";
+s.accessibility = "Accessibility";
 s.TOS = "TOS";
 s.writePrompt = "Share your perspective...";
 s.anonPerson = "Anonymous";

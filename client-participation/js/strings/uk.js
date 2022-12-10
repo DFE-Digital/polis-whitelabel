@@ -29,6 +29,8 @@ s.majorityOpinionShort = "Більшість";
 s.info = "Відомості";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Приватність";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "Умови обслуговування";
 s.writePrompt = "Поділіться своєю точкою зору ...";
 s.anonPerson = "Анонім";

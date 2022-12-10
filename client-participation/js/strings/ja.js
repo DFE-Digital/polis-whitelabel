@@ -18,6 +18,8 @@ s.majorityOpinionShort = "メジャリティ";
 s.info = "インフォ";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "プライバシー";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "TOS";
 s.writePrompt = "あなたの考え方を共有しよう……";
 s.anonPerson = "匿名";

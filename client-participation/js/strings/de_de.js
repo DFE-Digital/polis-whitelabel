@@ -31,6 +31,8 @@ s.majorityOpinionShort = "Mehrheit";
 s.info = "Information";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Privatsphäre";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "Nutzungsbedingungen";
 s.writePrompt = "Teilen Sie Ihren Standpunkt mit ...";
 s.anonPerson = "Anonym";

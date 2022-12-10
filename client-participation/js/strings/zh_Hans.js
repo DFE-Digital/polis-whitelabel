@@ -13,6 +13,8 @@ s.majorityOpinionShort = "共识";
 s.info = "说明";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "隐私";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "使用条款";
 s.writePrompt = "分享您的观点...";
 s.anonPerson = "匿名人士";

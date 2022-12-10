@@ -29,6 +29,8 @@ s.majorityOpinionShort = "Mwyafrif";
 s.info = "Gwybodaeth";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Preifatrwydd";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "TOS";
 s.writePrompt = "Rhannwch eich safbwynt ...";
 s.anonPerson = "Anhysbys";

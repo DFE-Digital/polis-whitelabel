@@ -442,8 +442,10 @@
         text-align: center;
       "
       >
-        {{> linkPrivacy}}
-        {{> linkTos}}
+      {{#if accessibilityUrl}}{{> linkAccessibility}}{{/if}}
+      {{#if accessibilityUrl}}{{> linkCookies}}{{/if}}
+      {{#if privacyUrl}}{{> linkPrivacy}}{{/if}}
+      {{#if termsOfServiceUrl}}{{> linkTos}}{{/if}}
     </div>
   </div>
 

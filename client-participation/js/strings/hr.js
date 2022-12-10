@@ -29,6 +29,8 @@ s.majorityOpinionShort = "Većina";
 s.info = "Info";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Obavijest o privatnosti";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "Pravila korištenja";
 s.writePrompt = "Podijelite svoje viđenje...";
 s.anonPerson = "Nepoznat";

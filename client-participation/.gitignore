@@ -2,5 +2,3 @@
 *.log
 build
 dist
-js/tmpl/
-polisStatic/

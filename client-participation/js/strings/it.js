@@ -20,6 +20,8 @@ s.majorityOpinionShort = "Maggioranza";
 s.info = "Info";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "Privacy";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "TOS";
 s.writePrompt = "Condividi il tuo punto di vista...";
 s.anonPerson = "Anonimo";

@@ -30,6 +30,8 @@ s.majorityOpinionShort = "הרוב";
 s.info = "ידע";
 s.addPolisToYourSite = "<img style='height: 20px; margin: 0px 4px;' src='{{URL}}'/>";
 s.privacy = "פרטיות";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "תנאי שימוש";
 s.writePrompt = "שתפו את נקודת מבטכם...";
 s.anonPerson = "אנונימי";

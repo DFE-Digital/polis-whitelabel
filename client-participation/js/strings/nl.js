@@ -23,6 +23,8 @@ s.majorityOpinionShort = "Meerderheid";
 s.info = "Info";
 s.addPolisToYourSite = "<img style='height: 20px. margin: 0px 4px.' src='{{URL}}'/>";
 s.privacy = "Privacy";
+s.accessibility = "";
+s.cookies = "";
 s.TOS = "Servicevoorwaarden";
 s.writePrompt = "Geef uw mening...";
 s.anonPerson = "Anoniem";
