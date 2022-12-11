@@ -17,7 +17,7 @@ RUN apk add git g++ make python openssh --no-cache
 RUN npm install -g npm@6.9.2
 
 # polis-client-admin
-FROM legacy-client-base AS client-admin
+FROM client-base AS client-admin
 
 WORKDIR /client-admin/app
 
@@ -27,7 +27,7 @@ COPY file-server/polis.config.js polis.config.js
 RUN npm install
 
 ARG GIT_HASH
-RUN npm run deploy:prod
+RUN npm run build:prod
 
 
 # polis-client-participation

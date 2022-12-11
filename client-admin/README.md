@@ -1,19 +1,25 @@
-# polis-client-admin
+# Polis Admin Console
 
-Polis Admin Console.
+This is the front-end code for the administrators.
 
 ## Dependencies
 
-* node `11.15.0`
-* npm `7.0.15`
+* node `18.12.1`
+* npm `8.19.2`
 
 ## Setup
 
 ```sh
-n 11.15.0
-npm install -g npm@7.0
+n 18.12.1
 npm install
+cp polis.config.template.js polis.config.js
+npm run build:prod
 ```
+
+From here go to `file-server` and run `make` to copy the built files across.
+
+You can run `npm run build:dev` to get an unminified version which makes for easier in-browser debugging.
+
 
 ## Common Problems
 
@@ -24,45 +30,28 @@ npm cache clear
 npm install
 ```
 
-## Building and Deploying for Production
-
-To build static assets for a production deployment, run:
+## Running Application
 
 ```sh
-gulp dist
+nvm use 14.14.0
+npm start
 ```
 
-As a convenience, the `npm deploy:prod` is provided for deploying to AWS S3 or
-via SCP to a static file server. For S3 deployment, place your AWS credentials
-in a JSON file at `.polis_s3_creds_client.json` that looks like this:
+## Running Tests
 
-```json
-{"key": "XXXXXXX", "secret": "YYYYYYY"}
+We aspire to use the Jest Testing Framework. We welcome contributors to help us write tests!
+
+```sh
+# Doesn't work right now. Will need to reinstall jest.
+npm test
 ```
 
-## QA Steps
+## Building for Production
 
-### Static, outide
+To build static assets into `dist/` for a production deployment, run
 
-- User can see home page at `/home`
-- User is redirected to `/home` if not logged in
-- User can sign in at `/signin`
-- User can reset password at `/pwreset`
-- User can `/createuser` and make a new account, login
-- User can see `/privacy` policy
-- User can see `/tos`
-- User can see `/cookies`
-- User can see `/accessibility`
+```sh
+npm run build:prod
+```
 
-### After login
-
-- User can get `/integrate` embed code for whole site
-- User can see social linkage at `/account`
-- User can see all of their conversations
-
-## Icons from the Noun Project
-
-* Checklist by David Courey from the Noun Project
-* AI by mungang kim from the Noun Project
-* Science by Akriti Bhusal from the Noun Project
-* Success File by Ben Davis from the Noun Project
+Deployment is currently performed via Docker, and so no other deployment scripts are provided.
