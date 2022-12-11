@@ -1,4 +1,4 @@
-describe.skip('Embedded Conversations', () => {
+describe('Embedded Conversations', () => {
   // This test requires overriding client-admin/embed.html with
   // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
@@ -116,7 +116,7 @@ describe.skip('Embedded Conversations', () => {
   })
 
   // Seems convo owner needs special permission to disable branding.
-  it.skip('hides footer when user-can-see-footer (ucsf) is OFF', function () {
+  it('hides footer when user-can-see-footer (ucsf) is OFF', function () {
     cy.logout()
     cy.visit(
       `${
@@ -176,7 +176,7 @@ describe.skip('Embedded Conversations', () => {
 
   // This is currently broken and has a pending PR to fix.
   // TODO fix later
-  it.skip('creates xid when provided', function () {
+  it('creates xid when provided', function () {
     cy.logout()
     cy.visit(
       `${
@@ -196,7 +196,7 @@ describe.skip('Embedded Conversations', () => {
     })
   })
 
-  it.skip('does not create xid when not provided', function () {
+  it('does not create xid when not provided', function () {
     cy.logout()
     cy.visit(
       `${
