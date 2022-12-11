@@ -8,4 +8,14 @@ describe('Public pages', () => {
     cy.visit('/tos')
     cy.get('h1').should('contain', 'Terms of')
   })
+
+  it('renders Accessibility statement', function () {
+    cy.visit('/accessibility')
+    cy.get('h1').should('contain', 'Accessibility')
+  })
+
+  it('renders Cookie policy', function () {
+    cy.visit('/cookies')
+    cy.get('h1').should('contain', 'Cookies')
+  })
 })
