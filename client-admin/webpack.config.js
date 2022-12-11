@@ -10,7 +10,6 @@ var CopyPlugin = require("copy-webpack-plugin");
 var TerserPlugin = require("terser-webpack-plugin");
 var glob = require('glob');
 var fs = require('fs');
-var { boolean: isTrue } = require("boolean");
 
 const outputDirectory = 'dist'
 
@@ -56,9 +55,7 @@ module.exports = (env, options) => {
         inject: "body",
         templateParameters: {
           domainWhitelist: `["${polisConfig.domainWhitelist.join('","')}"]`,
-          fbAppId: polisConfig.FB_APP_ID,
-          usePlans: !isTrue(polisConfig.DISABLE_PLANS),
-          useIntercom: !isTrue(polisConfig.DISABLE_INTERCOM),
+          fbAppId: polisConfig.FB_APP_ID
         },
       }),
       new LodashModuleReplacementPlugin({
