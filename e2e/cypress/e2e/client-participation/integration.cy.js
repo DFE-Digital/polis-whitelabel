@@ -1,4 +1,4 @@
-describe.skip('Integrated Conversations', () => {
+describe('Integrated Conversations', () => {
   // This test requires overriding client-admin/embed.html with
   // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
