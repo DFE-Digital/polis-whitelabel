@@ -21,15 +21,6 @@ From here go to `file-server` and run `make` to copy the built files across.
 You can run `npm run build:dev` to get an unminified version which makes for easier in-browser debugging.
 
 
-## Common Problems
-
-If you having troubles with npm dependencies try run the commands below:
-
-```sh
-npm cache clear
-npm install
-```
-
 ## Running Application
 
 ```sh
