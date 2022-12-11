@@ -1,14 +1,22 @@
 describe('Conversation: Configure', () => {
   describe('Closing', () => {
     before(function () {
+      cy.intercept('PUT', Cypress.config().apiPath + '/conversations').as('updateConversation')
       cy.createConvo('moderator').then(() => {
         cy.visit(`/m/${this.convoId}`)
         // We must set the topic in order for "Closed" badge to display.
         // TODO: Allow badge to display without topic set.
-        cy.get('input[data-test-id="topic"]').type('Dummy topic')
+        cy.get('input[data-test-id="topic"]')
+          .type('Dummy topic')
+          .blur() // Need to blur to send PUT conversation request
+        cy.wait('@updateConversation')
         cy.seedComment('Some seed statement', this.convoId)
         cy.get('input[data-test-id="is_active"]')
+          .should('be.checked')
           .uncheck()
+          .blur() // Need to blur to send PUT conversation request
+        cy.wait('@updateConversation')
+        cy.get('input[data-test-id="is_active"]')
           .should('not.be.checked')
       })
     })
