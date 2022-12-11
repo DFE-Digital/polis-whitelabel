@@ -1,8 +1,7 @@
 describe('Kitchen Sink Participation', () => {
   function submitVotes(participantVotes, convoId) {
-    cy.server()
-    cy.route('POST', Cypress.config().apiPath + '/votes').as('newVote')
-    cy.route('GET', Cypress.config().apiPath + '/participationInit?*').as(
+    cy.intercept('POST', Cypress.config().apiPath + '/votes').as('newVote')
+    cy.intercept('GET', Cypress.config().apiPath + '/participationInit?*').as(
       'initConvo'
     )
 

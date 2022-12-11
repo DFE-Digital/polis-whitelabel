@@ -2,11 +2,7 @@ describe('Create User page', () => {
   beforeEach(() => {
     const [name, email, password] = ['Dummy', 'test@polis.test', 'testpassword']
 
-    cy.server()
-    cy.route({
-      method: 'POST',
-      url: Cypress.config().apiPath + '/auth/new'
-    }).as('authNew')
+    cy.intercept('POST', Cypress.config().apiPath + '/auth/new').as('authNew')
 
     cy.visit('/createuser')
 
@@ -25,7 +21,7 @@ describe('Create User page', () => {
     })
 
     cy.wait('@authNew').then((xhr) => {
-      cy.wrap(xhr).its('status').should('eq', 403)
+      cy.wrap(xhr).its('response.statusCode').should('eq', 403)
       cy.wrap(xhr)
         .its('response.body')
         .should('eq', 'polis_err_reg_user_with_that_email_exists')
@@ -43,7 +39,7 @@ describe('Create User page', () => {
     cy.get('input#createUserEmailInput').clear().type(newUser.email)
     cy.get('button#createUserButton').click()
 
-    cy.wait('@authNew').its('status').should('eq', 200)
+    cy.wait('@authNew').its('response.statusCode').should('eq', 200)
     cy.location('pathname').should('eq', '/')
   })
 })

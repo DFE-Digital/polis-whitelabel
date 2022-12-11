@@ -6,11 +6,7 @@ describe('Signin page', () => {
   beforeEach(function () {
     const user = this.users.moderator
 
-    cy.server()
-    cy.route({
-      method: 'POST',
-      url: Cypress.config().apiPath + '/auth/login'
-    }).as('authLogin')
+    cy.intercept('POST', Cypress.config().apiPath + '/auth/login').as('authLogin')
 
     cy.visit('/signin')
     cy.get('input#signinEmailInput').type(user.email)
@@ -19,7 +15,7 @@ describe('Signin page', () => {
 
   it('signs in successfully', function () {
     cy.get('button#signinButton').click()
-    cy.wait('@authLogin').its('status').should('eq', 200)
+    cy.wait('@authLogin').its('response.statusCode').should('eq', 200)
     cy.location('pathname').should('eq', '/')
   })
 })

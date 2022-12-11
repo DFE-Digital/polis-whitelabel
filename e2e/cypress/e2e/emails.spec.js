@@ -7,10 +7,7 @@ describe('Emails', () => {
   }:${MAILDEV_HTTP_PORT}`.replace('https://', 'http://')
 
   beforeEach(() => {
-    cy.server()
-    cy.route('POST', Cypress.config().apiPath + '/auth/pwresettoken').as(
-      'resetPassword'
-    )
+    cy.intercept('POST', Cypress.config().apiPath + '/auth/pwresettoken').as('resetPassword')
 
     cy.request('DELETE', MAILDEV_API_BASE + '/email/all')
   })
@@ -20,7 +17,7 @@ describe('Emails', () => {
     cy.visit('/pwresetinit')
     cy.get('input[placeholder="email"]').type(nonExistingEmail)
     cy.contains('button', 'Send password reset email').click()
-    cy.wait('@resetPassword').its('status').should('eq', 200)
+    cy.wait('@resetPassword').its('response.statusCode').should('eq', 200)
     cy.location('pathname').should('eq', '/pwresetinit/done')
 
     cy.request('GET', MAILDEV_API_BASE + '/email').then((resp) => {
@@ -54,7 +51,7 @@ describe('Emails', () => {
     cy.visit('/pwresetinit')
     cy.get('input[placeholder="email"]').type(newUser.email)
     cy.contains('button', 'Send password reset email').click()
-    cy.wait('@resetPassword').its('status').should('eq', 200)
+    cy.wait('@resetPassword').its('response.statusCode').should('eq', 200)
     cy.location('pathname').should('eq', '/pwresetinit/done')
 
     cy.request('GET', MAILDEV_API_BASE + '/email').then((resp) => {
@@ -82,7 +79,7 @@ describe('Emails', () => {
       // Submit password reset form with new password.
       cy.visit(`/pwreset/${passwordResetToken}`)
 
-      cy.route('POST', Cypress.config().apiPath + '/auth/password').as(
+      cy.intercept('POST', Cypress.config().apiPath + '/auth/password').as(
         'newPassword'
       )
 
