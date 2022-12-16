@@ -61,8 +61,8 @@ source ~/.bashrc
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 bash n lts
 npm install -g n
-n 18.12.1 # for client-participation build
-n 11.15.0
+n 18.12.1 # for components migrated to latest version
+n 11.15.0 # for components still on old version
 npm install -g npm@7.0
 ```
 
@@ -97,6 +97,7 @@ Now follow the instructions in the [database README](database/README.md) switchi
 
 ```sh
 # user:root (production only)
+n use 11.15.0
 su - polis
 
 cd polis/server/
@@ -112,15 +113,15 @@ npm start
 
 ```sh
 # user:root (production only)
+# Note client-participation has migrated to the latest Node version
+n use 18.12.1
 su - polis
 
 cd polis/client-admin
-cp .envrc.example .envrc
-direnv allow .
 npm install
+
 cp polis.config.template.js polis.config.js
-npm run build
-npm run deploy:prod
+npm run build:prod
 ```
 
 ## polis/client-participation
@@ -142,6 +143,7 @@ npm run build:prod
 
 ```sh
 # user:root (production only)
+n use 11.15.0
 su - polis
 
 # user:polis
@@ -159,6 +161,7 @@ npm run deploy:prod
 
 ```sh
 # user:root
+n use 11.15.0
 su - polis
 
 # user:polis

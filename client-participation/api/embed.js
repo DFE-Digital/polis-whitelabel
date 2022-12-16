@@ -3,7 +3,7 @@
   var firstRun = !window.polis._hasRun;
   polis._hasRun = 1;
   var iframes = [];
-  var polisUrl = "https://<%= polisHostName %>";
+  var polisUrl = "<%= polisUrl %>";
   var maxHeightsSeen = {};
 
   polis.on = polis.on || {};
@@ -211,8 +211,10 @@
 
     window.addEventListener("message", function(event) {
       var data = event.data||{};
-      var domain = event.origin.replace(/^https?:\/\//,'');
-      if (!domain.match(/(^|\.)<%= polisHostName %>$/)) {
+      var messageDomain = new URL(event.origin).host;
+      // Skip if the message did not come from the configured domain or subdomain
+      const domainRegex = RegExp('(^|\.)' + new URL(polisUrl).host)
+      if (!domainRegex.test(messageDomain)) {
         return;
       }
 
