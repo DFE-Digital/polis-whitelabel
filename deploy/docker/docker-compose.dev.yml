@@ -2,6 +2,14 @@
 version: "3.4"
 
 services:
+  maildev:
+    image: docker.io/maildev/maildev
+      - "polis-net"
+    ports:
+      # User interface
+      - "1080:1080"
+      # SMTP port
+      - "25:25"
   server:
     env_file: ../../server/.envrc
     # The following overrides the env_file ...
