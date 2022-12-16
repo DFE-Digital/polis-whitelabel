@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock page for testing embedded debates</title>
+
+    <style>
+      .banner {
+        background-color: #ccc;
+        border-radius: 3px;
+        height: 80px;
+        width: 620px;
+        margin: 40px 10px;
+      }
+      .paragraph {
+        background-color: #ddd;
+        border-radius: 3px;
+        height: 20px;
+        width: 620px;
+        margin: 20px 10px 0px 10px;
+      }
+      .last-line {
+        width: 100px;
+      }
+      .spacer {
+        height: 20px;
+      }
+    </style>
+</head>
+<body>
+
+  <div style="width: 620px; margin: auto;">
+    <div class="banner"></div>
+
+    <div class="paragraph"></div>
+    <div class="paragraph"></div>
+    <div class="paragraph"></div>
+    <div class="paragraph last-line"></div>
+    <div class="spacer"></div>
+
+    <div
+      data-border="none"
+      data-border_radius="0px";
+      data-padding="0px";
+
+      data-width="320px"
+
+      data-ucsf="0"
+      data-ui_lang="fr"
+
+      class='polis'
+      data-page_id='EMBEDTESTPAGE'
+      data-site_id='polis_site_id_wghhkXulTG7ViJzypb'>
+  </div>
+
+</div>
+<script async src='{{ basePolisUrl }}/embed.js'>
+</script>
+</body>
+</html>

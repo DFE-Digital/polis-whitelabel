@@ -2,6 +2,7 @@ describe('Embedded Conversations', () => {
   // This test requires overriding client-admin/embed.html with
   // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
+  const EMBED_URL = 'http://localhost:3000/embed.html'
   const CONVO_DESCRIPTION = 'This is dummy description for embed tests.'
   const CONVO_TOPIC = 'Embed test topic'
 
@@ -16,9 +17,7 @@ describe('Embedded Conversations', () => {
   it('renders a default embed', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }`
     )
@@ -46,9 +45,7 @@ describe('Embedded Conversations', () => {
   it('hides voting when user-can-vote (ucv) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucv=false`
     )
@@ -64,9 +61,7 @@ describe('Embedded Conversations', () => {
   it('hides commenting when user-can-write (ucw) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucw=false`
     )
@@ -82,9 +77,7 @@ describe('Embedded Conversations', () => {
   it('hides help text when user-can-see-help (ucsh) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucsh=false`
     )
@@ -100,9 +93,7 @@ describe('Embedded Conversations', () => {
   it('hides description when user-can-see-description (ucsd) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucsd=false`
     )
@@ -119,9 +110,7 @@ describe('Embedded Conversations', () => {
   it('hides footer when user-can-see-footer (ucsf) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucsf=false`
     )
@@ -137,9 +126,7 @@ describe('Embedded Conversations', () => {
   it('hides vis when user-can-see-vis (ucsv) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucsv=false`
     )
@@ -155,9 +142,7 @@ describe('Embedded Conversations', () => {
   it('hides topic when user-can-see-topic (ucst) is OFF', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&data-ucst=false`
     )
@@ -179,9 +164,7 @@ describe('Embedded Conversations', () => {
   it('creates xid when provided', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }`
     )
@@ -199,9 +182,7 @@ describe('Embedded Conversations', () => {
   it('does not create xid when not provided', function () {
     cy.logout()
     cy.visit(
-      `${
-        Cypress.config().baseUrl
-      }/embed.html?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
+      `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
       }&xid=foobar`
     )
