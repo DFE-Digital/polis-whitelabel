@@ -16,7 +16,7 @@ Open the `*.jmx` file
 
 ## `conversation-basic.jmx`
 
-A basic script that hits the `/XXXXXX` conversation page only. This is actually templated as well as hits the database
+A basic script that hits the conversation page only. This _broadly_ approximates participants hitting pol.is to vote. 
 
 ### How to run
 
