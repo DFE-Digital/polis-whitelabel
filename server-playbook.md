@@ -115,8 +115,6 @@ npm start
 su - polis
 
 cd polis/client-admin
-cp .envrc.example .envrc
-direnv allow .
 npm install
 cp polis.config.template.js polis.config.js
 npm run build

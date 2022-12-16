@@ -114,7 +114,7 @@ module.exports = (env, options) => {
           { 
             from: 'api/embed.js',
             transform(content, absoluteFrom) {
-              return lodashTemplate(content.toString())({ polisHostName: polisConfig.SERVICE_HOSTNAME })
+              return lodashTemplate(content.toString())({ polisUrl: polisConfig.SERVICE_URL })
             }
           },
           { from: 'node_modules/font-awesome/fonts/**/*', to: './fonts/[name][ext]' }

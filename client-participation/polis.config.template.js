@@ -9,12 +9,8 @@ module.exports = {
     ".+\\.(n|ssl)ip\\.io$",
   ],
 
-  // Point to a polisServer instance (local recommended for dev)
-  SERVICE_URL: "http:localhost:8000",
-
   // Used for setting appropriate hostname for embedding.
-  //SERVICE_HOSTNAME: "123.45.67.89.sslip.io",
-  SERVICE_HOSTNAME: "localhost",
+  SERVICE_URL: "http://192.168.64.5",
 
   // Note that this must match the participation client port specified in polisServer instance
   PORT: 5001,

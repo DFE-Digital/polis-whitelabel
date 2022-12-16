@@ -16,8 +16,6 @@ module.exports = {
 
   FB_APP_ID: '661042417336977',
 
-  SERVICE_URL: 'http://localhost:8000',
-
   UPLOADER: 'local', // alt: s3, scp
 
   // Uploader settings: local
