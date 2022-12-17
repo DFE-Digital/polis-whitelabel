@@ -13,8 +13,6 @@ const outputDirectory = 'dist'
 /**
  * Generates .headersJson files alongside files served by the file-server. Reading these files instructs file-server
  * what HTML headers should be added to each file.
- * 
- * @deprecated
  */
 function writeHeadersJsonForOutputFiles(isDev) {
   function writeHeadersJson(matchGlob, headersData = {}) {
