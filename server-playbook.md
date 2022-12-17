@@ -97,6 +97,7 @@ Now follow the instructions in the [database README](database/README.md) switchi
 
 ```sh
 # user:root (production only)
+n 11.15.0
 su - polis
 
 cd polis/server/
@@ -112,6 +113,7 @@ npm start
 
 ```sh
 # user:root (production only)
+n use 18.12.1
 su - polis
 
 cd polis/client-admin
@@ -127,7 +129,6 @@ npm run deploy:prod
 
 ```sh
 # user:root (production only)
-# Note client-participation has migrated to the latest Node version
 n use 18.12.1
 su - polis
 
@@ -142,23 +143,20 @@ npm run build:prod
 
 ```sh
 # user:root (production only)
+n use 18.12.1
 su - polis
 
 # user:polis
 cd polis/client-report
-cp .envrc.example .envrc
-direnv allow .
-cp polis.config.template.js polis.config.js
 npm install
-npm install # yes, twice
-npm run build
-npm run deploy:prod
+npm run build:prod
 ```
 
 ## polis/file-server
 
 ```sh
 # user:root
+n use 18.12.1
 su - polis
 
 # user:polis
