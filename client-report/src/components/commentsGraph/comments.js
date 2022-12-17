@@ -4,7 +4,6 @@ import React from "react";
 import _ from "lodash";
 import * as globals from "../globals";
 import textWrap from 'svg-text-wrap';
-// import * as d3 from "d3";
 
 class Comments extends React.Component {
 

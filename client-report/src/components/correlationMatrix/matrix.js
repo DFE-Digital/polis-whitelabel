@@ -3,8 +3,6 @@
 import React from "react";
 // import { connect } from "react-redux";
 import Flex from "../framework/flex";
-import * as d3 from "d3";
-import { interpolatePuOr } from 'd3-scale-chromatic';
 
 import Radium from "radium";
 import _ from "lodash";
@@ -40,7 +38,7 @@ class Matrix extends React.Component {
     return (
       <g>
         <rect
-          fill={interpolatePuOr(scale(comment))}
+          fill={d3.interpolatePuOr(scale(comment))}
           onMouseEnter={() => {
             return this.onMouseEnterCell(row, column, comment);
           }}
@@ -178,7 +176,7 @@ class Matrix extends React.Component {
               x={300}
               y={40}
               textAnchor={"middle"}
-              fill={interpolatePuOr(scale(this.state.mouseOverCorrelation))}
+              fill={d3.interpolatePuOr(scale(this.state.mouseOverCorrelation))}
               style={{
                 fontFamily: globals.sans,
                 fontSize: 18

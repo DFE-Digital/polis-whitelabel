@@ -73,7 +73,7 @@ class allCommentsModeratedIn extends React.Component {
         <p style={globals.paragraph}>
           Group votes across all statements, excluding those statements which were moderated out.
         </p>
-        <label htmlFor="allCommentsSortMode">Sort by: </label>
+        <label for="allCommentsSortMode">Sort by: </label>
         <select id="allCommentsSortMode" onChange={this.onSortChanged.bind(this)} value={this.state.sortStyle}>
           <option value="tid">Statement Id</option>
           <option value="consensus">Group-informed Consensus</option>

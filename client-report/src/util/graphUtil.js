@@ -2,7 +2,6 @@
 
 import * as globals from "../components/globals";
 import createHull from "hull.js";
-import * as d3 from "d3";
 
 const graphUtil = (comments, math, badTids) => {
 
