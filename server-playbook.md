@@ -117,12 +117,10 @@ n use 18.12.1
 su - polis
 
 cd polis/client-admin
-cp .envrc.example .envrc
-direnv allow .
 npm install
+
 cp polis.config.template.js polis.config.js
-npm run build
-npm run deploy:prod
+npm run build:prod
 ```
 
 ## polis/client-participation
@@ -149,6 +147,7 @@ su - polis
 # user:polis
 cd polis/client-report
 npm install
+
 npm run build:prod
 ```
 
