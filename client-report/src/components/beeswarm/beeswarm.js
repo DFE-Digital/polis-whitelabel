@@ -5,6 +5,7 @@ import CommentList from "../lists/commentList";
 import * as globals from "../globals";
 import _ from "lodash";
 import Flex from "../framework/flex"
+import * as d3 from "d3";
 
 function type(d) {
   if (!d.value) return;
