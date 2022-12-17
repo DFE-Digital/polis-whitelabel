@@ -1,7 +1,7 @@
 
-FROM --platform=linux/amd64 docker.io/node:16.14.2-alpine AS client-base
+FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine AS client-base
 
-RUN apk add git g++ make python2 openssh --no-cache
+RUN apk add git --no-cache
 
 # polis-client-admin
 FROM client-base AS client-admin
@@ -13,7 +13,6 @@ COPY file-server/polis.config.js polis.config.js
 
 RUN npm install
 
-ARG GIT_HASH
 RUN npm run build:prod
 
 
