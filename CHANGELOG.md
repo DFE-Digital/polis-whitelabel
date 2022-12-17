@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#37](https://github.com/DFE-Digital/polis-whitelabel/issues/37) Migrated client-report from Gulp 3 to Webpack
 - [#30](https://github.com/DFE-Digital/polis-whitelabel/issues/30) Migrated client-admin from Gulp 3 to Webpack
 - [#5](https://github.com/DFE-Digital/polis-whitelabel/issues/5) Restored Docker build process
 - [#1](https://github.com/DFE-Digital/polis-whitelabel/issues/1) Fixed `authorUid is undefined` crash in `server`
