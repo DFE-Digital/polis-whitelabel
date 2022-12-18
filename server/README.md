@@ -39,3 +39,9 @@ npm run dev
 ```sh
 npm start
 ```
+
+## Enable translation API
+
+Create a developer account on Google Cloud ([console.cloud.google.com](https://console.cloud.google.com)) and follow the instructions there to setup a 'service principal' for your pol.is instance.
+
+You can generate a JSON file using the tutorial which has the key and other metadata required for the translation API. Copy this into `google-translate-key.json` and make sure the `GOOGLE_APPLICATION_CREDENTIALS` is set appropriately and `SHOULD_USE_TRANSLATION_API` is set to a truthy value.

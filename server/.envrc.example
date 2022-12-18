@@ -33,10 +33,9 @@ export WEBSERVER_PASS=ws-pass
 export PRIVACY_URL="/privacy",
 export TERMS_OF_SERVICE_URL="/tos"
 
-# Set to `true` and insert google creds if desired
-# export SHOULD_USE_TRANSLATION_API=false
-# export GOOGLE_CREDENTIALS_BASE64=xxxxxxxxxxxxxxxxxxxxxxx...
-# export GOOGLE_CREDS_STRINGIFIED=xxxxxxxxxxxxxxxxxxxxxxx...
+# Set to `true` and copy across Google Translate credentials file from the Cloud Console and reference here
+# export SHOULD_USE_TRANSLATION_API=true
+# export GOOGLE_APPLICATION_CREDENTIALS="google-translate-key.json"
 
 # export AWS_REGION=us-east-1
 # Options: maildev, aws-ses, mailgun
