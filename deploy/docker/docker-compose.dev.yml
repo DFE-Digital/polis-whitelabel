@@ -3,6 +3,7 @@ version: "3.4"
 
 services:
   server:
+    container_name: polis-server
     env_file: ../../server/.envrc
     # The following overrides the env_file ...
     environment:

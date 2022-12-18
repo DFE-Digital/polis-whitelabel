@@ -1,8 +1,8 @@
 import _ from "underscore";
 import fs from "fs";
 // For some reason "@google-cloud/translate/v2" doesn't work, have to import then unpack
-import { v2 } from "@google-cloud/translate";
-const { Translate } = v2;
+import translate from "@google-cloud/translate";
+const { Translate } = translate.v2;
 import isTrue from "boolean";
 
 import pg from "./db/pg-query";
