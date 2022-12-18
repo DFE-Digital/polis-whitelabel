@@ -41,8 +41,7 @@
     "request": "^2.72.0",
     "request-promise": "^3.0.0",
     "response-time": "2.3.1",
-    "simple-oauth2": "0.2.1",
-    "sql": "0.34.0",
+    "sql": "^0.78.0",
     "underscore": "1.12.1",
     "valid-url": "1.0.9",
     "winston": "1.0.2"
