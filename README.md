@@ -13,8 +13,7 @@ The following things are different:
 * Bundlewatch removed
 * nginx config removed
 * Caddy config added
-* e2e tests upgraded to latest Node.js LTS version
-* e2e cypress updated to v10
+* Project runs Node 18.12.1 (with the exception of `server` on Ubuntu)
 * Stripe integration removed
 * Database setup has moved into its own directory
 * Separate server.ts into handlers.ts and helpers.ts

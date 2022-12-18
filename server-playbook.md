@@ -61,8 +61,8 @@ source ~/.bashrc
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 bash n lts
 npm install -g n
-n 18.12.1 # for client-participation build
-n 11.15.0
+n 18.12.1
+n 16.19.0 # For server on Ubuntu
 npm install -g npm@7.0
 ```
 
@@ -97,7 +97,7 @@ Now follow the instructions in the [database README](database/README.md) switchi
 
 ```sh
 # user:root (production only)
-n 11.15.0
+n 16.19.0
 su - polis
 
 cd polis/server/
