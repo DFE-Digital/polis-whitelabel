@@ -1,4 +1,2 @@
-.google_creds_temp
 dist/*
 polis.config.js
-postgres-data/
