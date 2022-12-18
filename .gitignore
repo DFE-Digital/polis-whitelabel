@@ -1,4 +1,5 @@
 .envrc
+.vscode
 node_modules/
 npm-debug.log
 polis.config.js
