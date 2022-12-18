@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update server to run a new version of Node and update dependencies
 - [#39](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Fix to #37 so that file-server.Dockerfile now builds with latest versions
 - [#37](https://github.com/DFE-Digital/polis-whitelabel/issues/37) Migrated client-report from Gulp 3 to Webpack
 - [#30](https://github.com/DFE-Digital/polis-whitelabel/issues/30) Migrated client-admin from Gulp 3 to Webpack
