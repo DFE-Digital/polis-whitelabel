@@ -20,7 +20,7 @@ The following things are different:
 * Started work reducing the file sizes
 * Working developer environment documented
 * 'One-click' Docker build and deployment implemented
-* Basic performance tests included
+* Basic performance tests included (note this may get migrated out to deployment repo soon)
 
 ## Deployment
 
