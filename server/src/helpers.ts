@@ -3399,68 +3399,6 @@ function finishOne(
     });
 }
 
-function populateGeoIpInfo(zid: any, uid?: any, ipAddress?: string | null) {
-  var userId = process.env.MAXMIND_USERID;
-  var licenseKey = process.env.MAXMIND_LICENSEKEY;
-
-  var url = "https://geoip.maxmind.com/geoip/v2.1/city/";
-  var contentType =
-    "application/vnd.maxmind.com-city+json; charset=UTF-8; version=2.1";
-
-  // "city" is     $0.0004 per query
-  // "insights" is $0.002  per query
-  var insights = false;
-
-  if (insights) {
-    url = "https://geoip.maxmind.com/geoip/v2.1/insights/";
-    contentType =
-      "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1";
-  }
-  //   No overload matches this call.
-  // Overload 1 of 3, '(uri: string, options?: RequestPromiseOptions | undefined, callback?: RequestCallback | undefined): RequestPromise<any>', gave the following error.
-  //   Argument of type '{ method: string; contentType: string; headers: { Authorization: string; }; }' is not assignable to parameter of type 'RequestPromiseOptions'.
-  //     Object literal may only specify known properties, and 'contentType' does not exist in type 'RequestPromiseOptions'.
-  // Overload 2 of 3, '(uri: string, callback?: RequestCallback | undefined): RequestPromise<any>', gave the following error.
-  //   Argument of type '{ method: string; contentType: string; headers: { Authorization: string; }; }' is not assignable to parameter of type 'RequestCallback'.
-  //     Object literal may only specify known properties, and 'method' does not exist in type 'RequestCallback'.
-  // Overload 3 of 3, '(options: RequiredUriUrl & RequestPromiseOptions, callback?: RequestCallback | undefined): RequestPromise<any>', gave the following error.
-  //   Argument of type 'string' is not assignable to parameter of type 'RequiredUriUrl & RequestPromiseOptions'.ts(2769)
-  // @ts-ignore
-  return request
-    .get(url + ipAddress, {
-      method: "GET",
-      contentType: contentType,
-      headers: {
-        Authorization:
-          "Basic " +
-          new Buffer(userId + ":" + licenseKey, "utf8").toString("base64"),
-      },
-    })
-    .then(function (response: string) {
-      var parsedResponse = JSON.parse(response);
-      console.log("BEGIN MAXMIND RESPONSE");
-      console.log(response);
-      console.log("END MAXMIND RESPONSE");
-
-      return dbPgQuery.queryP(
-        "update participants_extended set modified=now_as_millis(), country_iso_code=($4), encrypted_maxmind_response_city=($3), " +
-          "location=ST_GeographyFromText('SRID=4326;POINT(" +
-          parsedResponse.location.latitude +
-          " " +
-          parsedResponse.location.longitude +
-          ")'), latitude=($5), longitude=($6) where zid = ($1) and uid = ($2);",
-        [
-          zid,
-          uid,
-          Session.encrypt(response),
-          parsedResponse.country.iso_code,
-          parsedResponse.location.latitude,
-          parsedResponse.location.longitude,
-        ]
-      );
-    });
-}
-
 function addParticipantAndMetadata(
   zid: any,
   uid?: any,
@@ -3484,21 +3422,6 @@ function addParticipantAndMetadata(
   if (referer) {
     info.referrer = referer;
   }
-  let x_forwarded_for = req?.headers?.["x-forwarded-for"];
-  let ip: string | null = null;
-  if (x_forwarded_for) {
-    let ips = x_forwarded_for;
-    ips = ips && ips.split(", ");
-    ip = ips.length && ips[0];
-    info.encrypted_ip_address = Session.encrypt(ip);
-    info.encrypted_x_forwarded_for = Session.encrypt(x_forwarded_for);
-  }
-  if (permanent_cookie) {
-    info.permanent_cookie = permanent_cookie;
-  }
-  if (req?.headers?.["origin"]) {
-    info.origin = req?.headers?.["origin"];
-  }
   //   Argument of type '(rows: any[]) => any[]' is not assignable to parameter of type '(value: unknown) => any[] | PromiseLike<any[]>'.
   // Types of parameters 'rows' and 'value' are incompatible.
   //     Type 'unknown' is not assignable to type 'any[]'.ts(2345)
@@ -3508,9 +3431,6 @@ function addParticipantAndMetadata(
     let pid = ptpt.pid;
     populateParticipantLocationRecordIfPossible(zid, uid, pid);
     addExtendedParticipantInfo(zid, uid, info);
-    if (ip) {
-      populateGeoIpInfo(zid, uid, ip);
-    }
     return rows;
   });
 }
