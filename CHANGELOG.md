@@ -16,9 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
-- [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update server to run a new version of Node and update dependencies
+- [#45](https://github.com/DFE-Digital/polis-whitelabel/issues/45) Update `file-server` to update dependencies in Dockerfile
+- [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update `server` to run a new version of Node and update dependencies
 - [#42](https://github.com/DFE-Digital/polis-whitelabel/issues/42) Fix to crash when voting anonymously and remove legacy IP logging
-- [#39](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Fix to #37 so that file-server.Dockerfile now builds with latest versions
+- [#39](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Fix to #37 so that `file-server.Dockerfile` now builds with latest versions
 - [#37](https://github.com/DFE-Digital/polis-whitelabel/issues/37) Migrated client-report from Gulp 3 to Webpack
 - [#30](https://github.com/DFE-Digital/polis-whitelabel/issues/30) Migrated client-admin from Gulp 3 to Webpack
 - [#5](https://github.com/DFE-Digital/polis-whitelabel/issues/5) Restored Docker build process
