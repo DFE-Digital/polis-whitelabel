@@ -1,23 +1,26 @@
-# Polis Whitelabel
+# Pol.is Whitelabel
 
-Polis Whitelabel is a fork of [Polis](https://github.com/compdemocracy/polis). Polis is
-a system for understanding what large groups of people think about an issue.
+Pol.is Whitelabel is a fork of [Pol.is](https://github.com/compdemocracy/polis). Pol.is is
+a system for understanding what large groups of people think about an issue. Pol.is Whitelabel is a pared down version of Pol.is with the goals of separating out deployment code from application code, make the system more configurable and refactoring to make feature development more straightforward.
 
-## Differences from Polis
-
-Polis Whitelabel is a pared down version of Pol.is.
+## Key differences from Pol.is
 
 The following things are different:
 
 * Heroku config removed
 * Bundlewatch removed
-* nginx config removed
-* Caddy config added
-* Project runs Node 18.12.1 (with the exception of `server` on Ubuntu)
+* Maxmind integration removed
 * Stripe integration removed
+* Intercom integration removed
+* NGinx config removed
+* Caddy used in place of NGinx (note this may be changed soon)
+* Project runs Node 18 (with the exception of `server` on Ubuntu)
+* Lots of vulnerable dependencies updated
 * Database setup has moved into its own directory
-* Separate server.ts into handlers.ts and helpers.ts
-* Intercom removed
+* Started work reducing the file sizes
+* Working developer environment documented
+* 'One-click' Docker build and deployment implemented
+* Basic performance tests included
 
 ## Deployment
 
