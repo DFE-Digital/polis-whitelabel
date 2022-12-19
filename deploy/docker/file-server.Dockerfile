@@ -1,5 +1,5 @@
 
-FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine AS client-base
+FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine3.17 AS client-base
 
 RUN apk add git --no-cache
 
