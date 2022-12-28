@@ -1,0 +1,22 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"remoteUser": "polis",
+
+	// This somehow knows to install the features in the right docker-compose service
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/clojure-asdf:1": {},
+		"ghcr.io/devcontainers-contrib/features/direnv-asdf:1": {},
+		"ghcr.io/devcontainers/features/java:1": {},
+		"ghcr.io/devcontainers/features/node:1": {}
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// Here we hook the direnv configuration to the polis user's .bashrc
+	"postCreateCommand": "echo \"eval \\\"\\$(direnv hook bash)\\\"\" >> /home/polis/.bashrc"
+
+}
