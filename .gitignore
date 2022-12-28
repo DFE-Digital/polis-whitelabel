@@ -1,5 +1,6 @@
 .envrc
 .vscode
+.clj-kondo
 node_modules/
 npm-debug.log
 polis.config.js
