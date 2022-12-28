@@ -1,6 +1,6 @@
 # Docker deployment
 
-The Dockerfiles are primarily meant to be for production use since changes will need a full build cycle to reflect and they don't contain a lot of the usefuly development tools that Devcontainers do. We can use the Docker Compose to test the service locally though in a production-like environment.
+The Dockerfiles are primarily meant to be for production use since changes will need a full build cycle to reflect and they don't contain a lot of the usefully development tools that Devcontainers do. We can use the Docker Compose to test the service locally though in a production-like environment.
 
 ## Setup
 

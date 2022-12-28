@@ -6,7 +6,7 @@ Devcontainers are a streamlined way to setup a development environment with a fu
 
 This integrates really well with the [VS Code Devcontainer extension](https://code.visualstudio.com/docs/devcontainers/containers) which reads the `devcontainer.json` file and will automatically launch the container, once built, and allow you to work on it.
 
-> **WARNING** This container is not intended for production - it has a full Ubuntu OS with development utilities installed and default passwords enabled. Use the dockers scripts in `deploy/docker` for production containers.
+> **WARNING** This container is not intended for production - it has a full Ubuntu OS with development utilities installed and default passwords enabled. Use the dockers scripts in `deploy/docker` for production containers and for testing production-like systems.
 
 ## Setup
 

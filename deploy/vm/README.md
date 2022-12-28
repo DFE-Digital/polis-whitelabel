@@ -1,9 +1,9 @@
 
 # Developer setup for Ubuntu 20.04.5 LTS Virtual Machine
 
-This is a server playbook on how to setup a production environment for Pol.is.
+This is a guide on how to setup a running Pol.is instance. This is meant primarily for easy development but could be adapted for production use with some further hardening.
 
-## Development Virtual Machine setup
+## Setup
 
 You can use [Ubuntu Multipass](https://multipass.run/) to easily setup a virtual machine on your local laptop. You will need at least 8GB RAM and 16GB of disk
 
