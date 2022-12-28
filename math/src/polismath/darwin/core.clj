@@ -2,7 +2,7 @@
 
 (ns polismath.darwin.core
   "The darwin.core namespace wraps the more pure (+ writing files/zips) code in darwin.export. Deals with parsing the
-  params, updating the db status, uploading to aws, etc. This gets hooked up in the tasks namespace."
+  params, updating the db status, etc. This gets hooked up in the tasks namespace."
   (:require
     [polismath.darwin.export :as export]
     ;; XXX Deprecate; use component config directly
@@ -18,9 +18,6 @@
     [ring.middleware.basic-authentication :as auth :refer [wrap-basic-authentication]]
     [bidi.ring]
     [com.stuartsierra.component :as component]
-    [cognitect.aws.client.api :as aws]
-    [cognitect.aws.credentials :as aws-creds]
-    ;[amazonica.aws.s3 :as s3]
     [clj-time.core :as time]
     [clj-http.client :as client]
     [polismath.utils :as utils]
@@ -56,25 +53,6 @@
   (update-export-status darwin params {:status status :params params}))
 
 
-;; We use AWS to store conversation exports whcih took a long time to compute.
-;; These exports are set to expire automatically.
-;; The number of days before expiry should be stored in env variable :export-expiry-days.
-;; This value is used to compute the expiry of the exports postgres blob as well.
-
-(defn aws-cred [darwin]
-  (-> darwin :config :aws))
-
-(defn full-aws-path
-  [darwin filename]
-  (str (-> darwin :config :math-env-string) "/" filename))
-
-(defn upload-to-aws
-  [{:as darwin :keys [s3-client]} filename]
-  (aws/invoke s3-client
-              {:op :PutObject
-               :request {:Bucket "polis-datadump"
-                         :Body (io/input-stream (io/file filename))
-                         :Key (full-aws-path darwin filename)}}))
 
 (defn send-email-notification-via-polis-api!
   [darwin {:as params :keys [zinvite email filename]}]
@@ -99,7 +77,6 @@
 (defn handle-completion!
   [{:as darwin :keys [postgres]} {:as params :keys [filename task_bucket]}]
   (log/info "Completed export computation for filename" filename "params:" (with-out-str (str params)))
-  (upload-to-aws darwin filename)
   ;;(upload-to-polis-polismath.darwin.core darwin filename)
   (notify-of-status darwin params "complete")
   (postgres/mark-task-complete! postgres "generate_export_data" task_bucket)
@@ -225,16 +202,9 @@
 
 
 ;; NOOP right now for compatibility
-(defrecord Darwin [config postgres conversation-manager s3-client]
+(defrecord Darwin [config postgres conversation-manager]
   component/Lifecycle
-  (start [component]
-    (if-let [aws-config (get config :aws)]
-      (let [creds (aws-creds/basic-credentials-provider aws-config)]
-        (assoc component
-               :s3-client (aws/client {:api :s3
-                                       :credentials-provider creds})))
-      (do (log/info "Skipping AWS connection")
-          component)))
+  (start [component] (log/info "Darwin Started"))
   (stop [component]
     component))
 

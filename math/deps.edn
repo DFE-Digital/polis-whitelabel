@@ -29,9 +29,6 @@
         ring/ring-ssl {:mvn/version "0.3.0"}
         bidi/bidi {:mvn/version "2.1.5" :exclusions [prismatic/schema]}
         bigml/sampling {:mvn/version "3.2"}
-        com.cognitect.aws/api {:mvn/version "0.8.524"}
-        com.cognitect.aws/endpoints {:mvn/version "1.1.12.69"}
-        com.cognitect.aws/s3 {:mvn/version "814.2.991.0"}
 
         org.postgresql/postgresql {:mvn/version "42.2.5"}
         korma/korma {:mvn/version "0.4.3"}
@@ -41,14 +38,16 @@
         environ/environ {:mvn/version "1.1.0"}
         mount/mount {:mvn/version "0.1.15"}
         honeysql/honeysql {:mvn/version "0.9.4"}
-        metasoarous/oz {:mvn/version "1.6.0-alpha34"}
         ;; Dev
         org.clojure/test.check {:mvn/version "0.9.0"}
         irresponsible/tentacles {:mvn/version "0.6.3"}
         techascent/tech.ml.dataset {:mvn/version "6.085"}}
- :aliases {:dev 
+ :aliases {:dev
            {:extra-paths ["dev" "test"]
-            :extra-deps {cider/cider-nrepl {:mvn/version "0.26.0"}}
+            :extra-deps {
+                         cider/cider-nrepl {:mvn/version "0.26.0"}
+                         metasoarous/oz {:mvn/version "1.6.0-alpha34"}
+                         }
             :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
            :run
            {:main-opts ["-m" "polismath.runner"]}

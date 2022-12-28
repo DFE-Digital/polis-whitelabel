@@ -52,9 +52,9 @@
                  [environ "1.2.0"]
                  [mount "0.1.16"]
                  [honeysql "1.0.444"]
-                 [metasoarous/oz "1.6.0-alpha3"]
-
+                 
                  ;; Dev
+                 [metasoarous/oz "1.6.0-alpha3"]
                  [org.clojure/test.check "1.1.0"]
                  [irresponsible/tentacles "0.6.6"]]
 
