@@ -19,12 +19,16 @@ The following things are different:
 * Database setup has moved into its own directory
 * Started work reducing the file sizes
 * Working developer environment documented
-* 'One-click' Docker build and deployment implemented
+* Rapid setup of the development environment
 * Basic performance tests included (note this may get migrated out to deployment repo soon)
 
 ## Deployment
 
-See [Server Playbook](server-playbook.md).
+We have three different scenarios for deployment
+
+* [Devcontainer](./.devcontainer/README.md)  (development)
+* [Docker](./deploy/docker/README.md) (production/testing)
+* [Virtual Machine](./deploy/vm/README.md) (production/testing/development)
 
 ## Architecture
 
