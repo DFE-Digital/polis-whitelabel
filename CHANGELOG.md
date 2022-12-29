@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
-- [#49](https://github.com/DFE-Digital/polis-whitelabel/issues/49) Updated many math library depdencies
+- [#49](https://github.com/DFE-Digital/polis-whitelabel/issues/49) Updated/removed vulnerable math dependencies including AWS housekeeping functions
 - [#45](https://github.com/DFE-Digital/polis-whitelabel/issues/45) Update `file-server` to update dependencies in Dockerfile
 - [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update `server` to run a new version of Node and update dependencies
 - [#42](https://github.com/DFE-Digital/polis-whitelabel/issues/42) Fix to crash when voting anonymously and remove legacy IP logging
