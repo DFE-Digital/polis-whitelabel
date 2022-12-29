@@ -12,7 +12,7 @@
 
         org.flatland/ordered {:mvn/version "1.5.7"} 
         ;; Other stuff
-        commons-collections/commons-collections {:mvn/version "20040616"}
+        commons-collections/commons-collections {:mvn/version "3.2.2"}
         cheshire/cheshire {:mvn/version "5.8.1"}
         com.taoensso/timbre {:mvn/version "4.10.0"}
         ;; Updates; requires fixing index conflict between named-matrix and core.matrix
@@ -39,14 +39,15 @@
         mount/mount {:mvn/version "0.1.15"}
         honeysql/honeysql {:mvn/version "0.9.4"}
         ;; Dev
-        org.clojure/test.check {:mvn/version "0.9.0"}
-        irresponsible/tentacles {:mvn/version "0.6.3"}
-        techascent/tech.ml.dataset {:mvn/version "6.085"}}
+        org.clojure/test.check {:mvn/version "0.9.0"} ; FIXME: Should be test dependency but needed in conversation.clj
+        }
  :aliases {:dev
            {:extra-paths ["dev" "test"]
             :extra-deps {
                          cider/cider-nrepl {:mvn/version "0.26.0"}
+                         irresponsible/tentacles {:mvn/version "0.6.3"}
                          metasoarous/oz {:mvn/version "1.6.0-alpha34"}
+                         techascent/tech.ml.dataset {:mvn/version "6.085"}
                          }
             :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
            :run

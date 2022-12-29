@@ -23,7 +23,7 @@
 
                  [org.flatland/ordered "1.5.9"]
                  ;; Other stuff
-                 [commons-collections/commons-collections "20040616"]
+                 [commons-collections/commons-collections "3.2.2"]
                  [cheshire "5.10.0"]
                  [com.taoensso/timbre "4.10.0"]
                  ;; Updates; requires fixing index conflict between named-matrix and core.matrix
@@ -50,17 +50,17 @@
                  [environ "1.2.0"]
                  [mount "0.1.16"]
                  [honeysql "1.0.444"]
-                 
-                 ;; Dev
-                 [org.clojure/test.check "1.1.0"]
-                 [irresponsible/tentacles "0.6.6"]]
+                 [org.clojure/test.check "1.1.0"] ; FIXME: Should be a test dependency but used in conversations.clj
+                 ]
 
   :gorilla-options {:keymap {"command:app:save" "alt+g alt+w"}
                     :port 989796}
   :main ^:skip-aot polismath.runner
   :min-lein-version "2.3.0"
-  :profiles {:dev {:dependencies []
-                   :source-paths ["src" "dev"]}
+  :profiles {:dev {:dependencies [[cider/cider-nrep "0.26.0"]
+                                  [metasoarous/oz "1.6.0-alpha34"]
+                                  [irresponsible/tentacles "0.6.6"]]
+                   :source-paths ["src" "dev", "test"]}
              :production {:env {}}}
   :test-selectors {:default (fn [m]
                               (not (or (clojure.string/includes? (str (:ns m)) "conv-man-tests")
