@@ -204,7 +204,9 @@
 ;; NOOP right now for compatibility
 (defrecord Darwin [config postgres conversation-manager]
   component/Lifecycle
-  (start [component] (log/info "Darwin Started"))
+  (start [component] 
+         (log/info "Starting Darwin ...") 
+          component)
   (stop [component]
     component))
 
