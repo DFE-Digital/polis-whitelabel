@@ -41,7 +41,7 @@
                  [ring/ring-ssl "0.3.0"]
                  [bidi "2.1.6" :exclusions [prismatic/schema]]
                  [bigml/sampling "3.2"]
-                 [org.postgresql/postgresql "42.2.15"]
+                 [org.postgresql/postgresql "42.5.1"]
                  [korma "0.4.3"]
                  [clj-time "0.15.2"]
                  [clj-excel "0.0.1"]

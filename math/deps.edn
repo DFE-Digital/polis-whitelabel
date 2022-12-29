@@ -30,7 +30,7 @@
         bidi/bidi {:mvn/version "2.1.5" :exclusions [prismatic/schema]}
         bigml/sampling {:mvn/version "3.2"}
 
-        org.postgresql/postgresql {:mvn/version "42.2.5"}
+        org.postgresql/postgresql {:mvn/version "42.5.1"}
         korma/korma {:mvn/version "0.4.3"}
         clj-time/clj-time {:mvn/version "0.15.1"}
         semantic-csv/semantic-csv {:mvn/version "0.2.0"}
