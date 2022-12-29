@@ -22,7 +22,7 @@
         net.mikera/vectorz-clj {:mvn/version "0.48.0"}
         net.mikera/core.matrix.stats {:mvn/version "0.7.0"}
         criterium/criterium {:mvn/version "0.4.4"}
-        clj-http/clj-http {:mvn/version "3.9.1"}
+        clj-http/clj-http {:mvn/version "3.12.3"}
         ;; implicitly requires jetty, component and ring
         ring/ring-core {:mvn/version "1.9.6" :exclusions [clj-time/clj-time]}
         ring-jetty-component/ring-jetty-component {:mvn/version "0.3.1" :exclusions [clj-time/clj-time]}

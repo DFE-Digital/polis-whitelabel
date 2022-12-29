@@ -34,7 +34,7 @@
                  [net.mikera/core.matrix.stats "0.7.0"]
                  [net.mikera/vectorz-clj "0.48.0"]
                  [criterium "0.4.6"]
-                 [clj-http "3.10.2"]
+                 [clj-http "3.12.3"]
                  ;; implicitly requires jetty, component and ring
                  [ring/ring-core "1.9.6" :exclusions [clj-time]]
                  [ring-jetty-component "0.3.1" :exclusions [clj-time]]
