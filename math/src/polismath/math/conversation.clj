@@ -3,25 +3,25 @@
 (ns polismath.math.conversation
   (:refer-clojure :exclude [* -  + == /])
   (:require
-    [polismath.utils :as utils]
-    [polismath.math.pca :as pca]
-    [polismath.math.clusters :as clusters]
-    [polismath.math.repness :as repness]
-    [polismath.math.named-matrix :as nm]
-    [clojure.core.matrix :as matrix]
-    [clojure.spec.alpha :as s]
-    [clojure.tools.reader.edn :as edn]
-    [clojure.tools.trace :as tr]
-    [clojure.math.numeric-tower :as math]
-    [clojure.core.matrix :as matrix]
-    [clojure.core.matrix.operators :refer :all]
-    [plumbing.core :as plmb]
-    [plumbing.graph :as graph]
-    [bigml.sampling.simple :as sampling]
+   [polismath.utils :as utils]
+   [polismath.math.pca :as pca]
+   [polismath.math.clusters :as clusters]
+   [polismath.math.repness :as repness]
+   [polismath.math.named-matrix :as nm]
+   [clojure.core.matrix :as matrix]
+   [clojure.spec.alpha :as s]
+   [clojure.tools.reader.edn :as edn]
+   [clojure.tools.trace :as tr]
+   [clojure.math.numeric-tower :as math]
+   [clojure.core.matrix :as matrix]
+   [clojure.core.matrix.operators :refer :all]
+   [plumbing.core :as plmb]
+   [plumbing.graph :as graph]
+   [bigml.sampling.simple :as sampling]
     ;[alex-and-georges.debug-repl :as dbr]
-    [taoensso.timbre :as log]
-    [clojure.spec.gen.alpha :as gen]
-    [clojure.test.check.generators :as generators]))
+   [taoensso.timbre :as log]
+  ;;  [clojure.test.check.generators :as generators]
+   ))
 
 
 ;; Starting to spec out our domain model here and build generators for the pieces
