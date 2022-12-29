@@ -1,4 +1,4 @@
-FROM docker.io/clojure:tools-deps
+FROM docker.io/clojure:tools-deps-1.11.1.1208-jammy
 
 WORKDIR /app
 COPY . .
