@@ -8,6 +8,5 @@ do
   echo "XXXXXXXXXXXXXXXXXX REBOOTING MATH WORKER XXXXXXXXXXXXXXXXXX"
   echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   echo "                                                           "
-  # Run with minimal production dependencies, use trampoline to free up memory from lein once launched
-  timeout 86400 lein with-profile production trampoline run full
+  timeout -s KILL 14400 clojure -M:run full
 done
