@@ -14,7 +14,7 @@ export NODE_ENV=development
 export ENCRYPTION_PASSWORD_00001=somesecret
 
 # Options: prod, preprod, dev
-export MATH_ENV=dev
+export MATH_ENV=prod
 
 # Set the domain name; make sure this matches what's running on math node
 export DOMAIN_OVERRIDE=localhost:8000
@@ -25,7 +25,7 @@ export DOMAIN_OVERRIDE=localhost:8000
 # export ADMIN_EMAIL_EMAIL_TEST=""
 # export ADMIN_UIDS=[]
 
-# These may be the deprecated settings for submitting web requests to the math worker
+# These are the shared credentials for the math worker to use when polling
 export WEBSERVER_USERNAME=ws-user
 export WEBSERVER_PASS=ws-pass
 
