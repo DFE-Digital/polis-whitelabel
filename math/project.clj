@@ -16,24 +16,25 @@
                  [org.clojure/data.csv "1.0.0"]
                  [org.clojure/math.numeric-tower "0.0.4"]
                  [org.clojure/core.match "1.0.0"]
-                 [org.clojure/tools.namespace "1.0.0"]
-                 [org.clojure/tools.logging "1.1.0"]
-                 [org.clojure/tools.trace "0.7.10"]
-                 [org.clojure/tools.reader "1.3.3"]
-
-                 [org.flatland/ordered "1.5.9"]
+                 [org.clojure/tools.namespace "1.3.0"]
+                 [org.clojure/tools.logging "1.2.4"]
+                 [org.clojure/tools.trace "0.7.11"]
+                 [org.clojure/tools.reader "1.3.6"]
+                 [org.clojure/tools.cli "1.0.214"]
+                 [org.clojure/test.check "1.1.1"] ; FIXME: Should be a test dependency but used in conversations.clj
+                 
                  ;; Other stuff
+                 [org.flatland/ordered "1.5.9"]
                  [commons-collections/commons-collections "3.2.2"]
                  [cheshire "5.10.0"]
-                 [com.taoensso/timbre "4.10.0"]
                  ;; Updates; requires fixing index conflict between named-matrix and core.matrix
+                 [com.taoensso/timbre "4.10.0"]
                  [net.mikera/core.matrix "0.62.0"]
                  [net.mikera/vectorz-clj "0.48.0"]
                  [net.mikera/core.matrix.stats "0.7.0"]
                  [net.mikera/vectorz-clj "0.48.0"]
                  [criterium "0.4.6"]
                  [clj-http "3.10.2"]
-                 [org.clojure/tools.cli "1.0.194"]
                  ;; implicitly requires jetty, component and ring
                  [ring/ring-core "1.9.6" :exclusions [clj-time]]
                  [ring-jetty-component "0.3.1" :exclusions [clj-time]]
@@ -50,7 +51,6 @@
                  [environ "1.2.0"]
                  [mount "0.1.16"]
                  [honeysql "1.0.444"]
-                 [org.clojure/test.check "1.1.0"] ; FIXME: Should be a test dependency but used in conversations.clj
                  ]
 
   :gorilla-options {:keymap {"command:app:save" "alt+g alt+w"}
