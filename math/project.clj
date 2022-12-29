@@ -35,9 +35,9 @@
                  [clj-http "3.10.2"]
                  [org.clojure/tools.cli "1.0.194"]
                  ;; implicitly requires jetty, component and ring
-                 [ring/ring-core "1.8.1" :exclusions [clj-time]]
+                 [ring/ring-core "1.9.6" :exclusions [clj-time]]
                  [ring-jetty-component "0.3.1" :exclusions [clj-time]]
-                 [ring-basic-authentication "1.0.5"]
+                 [ring-basic-authentication "1.1.1"]
                  [ring/ring-ssl "0.3.0"]
                  [bidi "2.1.6" :exclusions [prismatic/schema]]
                  [bigml/sampling "3.2"]

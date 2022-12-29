@@ -23,9 +23,9 @@
         clj-http/clj-http {:mvn/version "3.9.1"}
         org.clojure/tools.cli {:mvn/version "0.4.1"}
         ;; implicitly requires jetty, component and ring
-        ring/ring-core {:mvn/version "1.7.1" :exclusions [clj-time/clj-time]}
+        ring/ring-core {:mvn/version "1.9.6" :exclusions [clj-time/clj-time]}
         ring-jetty-component/ring-jetty-component {:mvn/version "0.3.1" :exclusions [clj-time/clj-time]}
-        ring-basic-authentication/ring-basic-authentication {:mvn/version "1.0.5"}
+        ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
         ring/ring-ssl {:mvn/version "0.3.0"}
         bidi/bidi {:mvn/version "2.1.5" :exclusions [prismatic/schema]}
         bigml/sampling {:mvn/version "3.2"}
