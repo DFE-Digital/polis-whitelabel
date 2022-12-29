@@ -52,7 +52,6 @@
                  [honeysql "1.0.444"]
                  
                  ;; Dev
-                 [metasoarous/oz "1.6.0-alpha3"]
                  [org.clojure/test.check "1.1.0"]
                  [irresponsible/tentacles "0.6.6"]]
 
