@@ -21,7 +21,6 @@ function setHeaders (res, filePath) {
     const headers = JSON.parse(configFile);
     const headerNames = Object.keys(headers);
     if (headerNames && headerNames.length) {
-      res.setHeader('Pragma', null);
       headerNames.forEach((name) => {
         res.setHeader(name, headers[name]);
       });
@@ -33,6 +32,7 @@ function setHeaders (res, filePath) {
 
 // Create server
 const fileServer = http.createServer(function onRequest (req, res) {
+  console.log(`${new Date().toISOString()}|${req.url}`)
   serve(req, res, finalhandler(req, res));
 });
 
