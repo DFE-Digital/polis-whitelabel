@@ -86,9 +86,7 @@ const sql_participants_extended = sql.define({
     "show_translation_activated",
 
     "permanent_cookie",
-    "origin",
-    "encrypted_ip_address",
-    "encrypted_x_forwarded_for",
+    "origin"
   ],
 });
 

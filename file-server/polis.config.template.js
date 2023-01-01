@@ -19,31 +19,13 @@ module.exports = {
     ],
   
   
-    // Note that this must match the participation client port specified in polisServer instance
-    PORT: 5001,
-  
-    DISABLE_INTERCOM: true,
-    DISABLE_PLANS: true,
-  
-    // Point to a polisServer instance (local recommended for dev). 
     // Note that on build, this doesn't appear in the output files
     SERVICE_URL: 'http://example.com',
     
-    UPLOADER: 'local', // alt: s3, scp
-    
-    // Uploader settings: local
-    LOCAL_OUTPUT_PATH: './build',
-    
-    
-    // Not used
-  
-    FB_APP_ID: '661042417336977',
-    // Uploader settings: s3
-    S3_BUCKET_PROD: 'pol.is',
-    S3_BUCKET_PREPROD: 'preprod.pol.is',
-  
-    // Uploader settings: scp
-    SCP_SUBDIR_PREPROD: 'preprod',
-    SCP_SUBDIR_PROD: 'prod',
+    // Leaving any of these blank will not show them
+    PRIVACY_URL: "/privacy",
+    ACCESSIBILITY_URL: "/accessibility",
+    COOKIES_URL: "/cookies",
+    TERMS_OF_SERVICE_URL: "/tos"
   };
   

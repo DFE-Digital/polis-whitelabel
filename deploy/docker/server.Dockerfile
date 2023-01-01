@@ -1,19 +1,17 @@
-FROM --platform=linux/amd64 docker.io/node:14.14.0-alpine
+FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine3.17
 
 WORKDIR /app
 
-RUN apk add postgresql-dev python-dev build-base
+RUN apk add postgresql-dev python3-dev build-base
 
 RUN apk add --no-cache --virtual .build \
-  g++ git make python
+  g++ git make python3
 
-COPY package*.json ./
+COPY . .
 
 # TODO get `npm ci` to work
 RUN npm install
 RUN apk del .build
-
-COPY . .
 
 RUN npm run build
 

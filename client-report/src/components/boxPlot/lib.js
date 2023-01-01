@@ -1,15 +1,15 @@
 // Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-d3.functor = function functor(v) {
+import * as d3 from "d3";
+
+function functor(v) {
   return typeof v === "function" ? v : function() {
     return v;
   };
 };
 
-(function() {
-
 // Inspired by http://informationandvisualization.de/blog/box-plot
-d3.box = function() {
+const boxPlot = function() {
   var width = 1,
       height = 1,
       duration = 0,
@@ -282,7 +282,7 @@ d3.box = function() {
 
   box.domain = function(x) {
     if (!arguments.length) return domain;
-    domain = x == null ? x : d3.functor(x);
+    domain = x == null ? x : functor(x);
     return box;
   };
 
@@ -325,4 +325,4 @@ function boxQuartiles(d) {
   ];
 }
 
-})();
+export { boxPlot }

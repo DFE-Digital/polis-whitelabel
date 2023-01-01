@@ -1,6 +1,8 @@
 import _ from "underscore";
 import fs from "fs";
-import Translate from "@google-cloud/translate";
+// For some reason "@google-cloud/translate/v2" doesn't work, have to import then unpack
+import translate from "@google-cloud/translate";
+const { Translate } = translate.v2;
 import isTrue from "boolean";
 
 import pg from "./db/pg-query";
@@ -45,19 +47,7 @@ type UidToSocialInfo = {
 };
 
 const useTranslateApi = isTrue(process.env.SHOULD_USE_TRANSLATION_API);
-let translateClient: any = null;
-if (useTranslateApi) {
-  // Tell translation library where to find credentials, and write them to disk.
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = ".google_creds_temp";
-  // TODO: Consider deprecating GOOGLE_CREDS_STRINGIFIED in future.
-  const creds_string = process.env.GOOGLE_CREDENTIALS_BASE64
-    ? new Buffer(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString(
-        "ascii"
-      )
-    : (process.env.GOOGLE_CREDS_STRINGIFIED as string | NodeJS.ArrayBufferView);
-  fs.writeFileSync(process.env.GOOGLE_APPLICATION_CREDENTIALS, creds_string);
-  translateClient = Translate();
-}
+const translateClient = useTranslateApi ? new Translate() : null;
 
 function getComment(zid: Id, tid: Id) {
   return (

@@ -11,6 +11,7 @@ services:
       # SMTP port
       - "25:25"
   server:
+    container_name: polis-server
     env_file: ../../server/.envrc
     # The following overrides the env_file ...
     environment:

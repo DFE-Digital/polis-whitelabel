@@ -1,40 +1,123 @@
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+const path = require("path")
+const CopyPlugin = require("copy-webpack-plugin")
+const CompressionPlugin = require('compression-webpack-plugin')
+const HtmlWebPackPlugin = require('html-webpack-plugin')
+const EventHooksPlugin = require('event-hooks-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin")
+const glob = require('glob')
+const fs = require('fs')
+const pkg = require('./package.json')
 
-var path = require("path");
-var webpack = require("webpack");
+const outputDirectory = 'dist'
 
-module.exports = {
-  // devtool: "source-map",
-  entry: [
-    "./src/index"
-  ],
-  output: {
-    path: path.join(__dirname, "dist"),
-    filename: "report_bundle.js",
-    publicPath: "/dist/"
-  },
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      "process.env": {
-        "NODE_ENV": JSON.stringify("production")
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
+/**
+ * Generates .headersJson files alongside files served by the file-server. Reading these files instructs file-server
+ * what HTML headers should be added to each file.
+ */
+function writeHeadersJsonForOutputFiles(isDev) {
+  function writeHeadersJson(matchGlob, headersData = {}) {
+    const files = glob.sync(path.resolve(__dirname, outputDirectory, matchGlob))
+    files.forEach((f, i) => {
+    const headersFilePath = f + '.headersJson'
+    fs.writeFileSync(headersFilePath, JSON.stringify(headersData))
     })
-  ],
-  module: {
-
-    preLoaders: [
-      { test: /\.json$/, loader: "json"}
-    ],
-    loaders: [{
-      test: /\.js$/,
-      loaders: ["babel"],
-      include: path.join(__dirname, "src")
-    }]
   }
-};
+
+  function writeHeadersJsonHtml() {
+    const headersData = {
+    'x-amz-acl': 'public-read',
+    'Content-Type': 'text/html; charset=UTF-8',
+    'Cache-Control': 'no-cache'
+    }
+    writeHeadersJson('*.html', headersData)
+  }
+
+  function writeHeadersJsonJs() {
+    const headersData = {
+    'x-amz-acl': 'public-read',
+    ...(!isDev && { 'Content-Encoding': 'gzip' }),
+    'Content-Type': 'application/javascript',
+    'Cache-Control':
+      'no-transform,public,max-age=31536000,s-maxage=31536000'
+    }
+    writeHeadersJson('js/*.js', headersData)
+    writeHeadersJson('*.js', headersData)
+  }
+
+  writeHeadersJsonHtml()
+  writeHeadersJsonJs()
+}
+
+module.exports = (env, options) => {
+  const isDevBuild = options.mode === 'development'
+  const isDevServer = process.env.WEBPACK_SERVE
+  return {
+    entry: [
+      './src/index'
+    ],
+    output: {
+      publicPath: '/',
+      filename: `js/report_bundle.[chunkhash:8].js`,
+      path: path.resolve(__dirname, outputDirectory),
+      clean: true
+    },
+    plugins: [
+      new CopyPlugin({
+        patterns: [
+          { from: 'public', globOptions: { ignore: ['**/index.html'] }, noErrorOnMissing: true }
+        ]
+      }),
+      new HtmlWebPackPlugin({
+        template: path.resolve(__dirname, 'public/index.html'),
+        filename: 'index_report.html',
+        templateParameters: {
+          versionString: pkg.version
+        }
+      }),
+      // Generate the .headersJson files ...
+      new EventHooksPlugin({
+        afterEmit: () => {
+          console.log('Writing *.headersJson files...')
+          writeHeadersJsonForOutputFiles(isDevBuild || isDevServer)
+        }
+      }),
+      // Only compress files during production builds.
+      ...((isDevBuild || isDevServer) ? [] : [
+        new CompressionPlugin({
+          test: /\.(js|css)$/,
+          filename: '[path][base]',
+          deleteOriginalAssets: true
+        })
+      ])
+    ],
+    // Only minify during production builds
+    optimization: {
+      minimize: !isDevBuild,
+      minimizer: [new TerserPlugin()]
+    },
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: [
+            /node_modules/
+          ],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/react'],
+              plugins: [
+                // The following flags (legacy, loose etc.) are workarounds for an evolving decorators specification
+                // see https://stackoverflow.com/a/53249478 for details.
+                ['@babel/plugin-proposal-decorators', { legacy: true }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                ['@babel/plugin-proposal-private-methods', { loose: true }],
+                ['@babel/plugin-proposal-private-property-in-object', { loose: true }]
+              ]
+            },
+          },
+        },
+      ]
+    }
+  }
+}

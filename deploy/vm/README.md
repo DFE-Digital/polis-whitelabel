@@ -1,23 +1,9 @@
-# Developer setup for Docker
-
-> **Warning**
-> The Docker development environment is a work in progress, although it provides a quick way to get the code running locally, the development loop is much quicker and more flexible using the Virtual Machine setup detailed below.
-
-Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-
-```sh
-cd deploy/docker
-npm run build:compose
-npm run run:compose
-```
-
-Visit [http://localhost:8000](http://localhost:8000)
 
 # Developer setup for Ubuntu 20.04.5 LTS Virtual Machine
 
-This is a server playbook on how to setup a production environment for polis.
+This is a guide on how to setup a running Pol.is instance. This is meant primarily for easy development but could be adapted for production use with some further hardening.
 
-## Development Virtual Machine setup
+## Setup
 
 You can use [Ubuntu Multipass](https://multipass.run/) to easily setup a virtual machine on your local laptop. You will need at least 8GB RAM and 16GB of disk
 
@@ -61,8 +47,8 @@ source ~/.bashrc
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 bash n lts
 npm install -g n
-n 18.12.1 # for components migrated to latest version
-n 11.15.0 # for components still on old version
+n 18.12.1
+n 16.19.0 # For server on Ubuntu
 npm install -g npm@7.0
 ```
 
@@ -97,7 +83,7 @@ Now follow the instructions in the [database README](database/README.md) switchi
 
 ```sh
 # user:root (production only)
-n use 11.15.0
+n 16.19.0
 su - polis
 
 cd polis/server/
@@ -113,7 +99,6 @@ npm start
 
 ```sh
 # user:root (production only)
-# Note client-participation has migrated to the latest Node version
 n use 18.12.1
 su - polis
 
@@ -128,7 +113,6 @@ npm run build:prod
 
 ```sh
 # user:root (production only)
-# Note client-participation has migrated to the latest Node version
 n use 18.12.1
 su - polis
 
@@ -143,25 +127,21 @@ npm run build:prod
 
 ```sh
 # user:root (production only)
-n use 11.15.0
+n use 18.12.1
 su - polis
 
 # user:polis
 cd polis/client-report
-cp .envrc.example .envrc
-direnv allow .
-cp polis.config.template.js polis.config.js
 npm install
-npm install # yes, twice
-npm run build
-npm run deploy:prod
+
+npm run build:prod
 ```
 
 ## polis/file-server
 
 ```sh
 # user:root
-n use 11.15.0
+n use 18.12.1
 su - polis
 
 # user:polis

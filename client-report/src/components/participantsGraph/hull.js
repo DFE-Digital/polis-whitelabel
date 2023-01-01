@@ -2,6 +2,7 @@
 
 import React from "react";
 import * as globals from "../globals";
+import * as d3 from "d3";
 
 const Hull = ({hull}) => {
   const line = d3.line().curve(d3.curveLinear);
