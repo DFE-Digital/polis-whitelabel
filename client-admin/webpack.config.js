@@ -15,6 +15,62 @@ const outputDirectory = 'dist'
 
 var polisConfig = require("./polis.config");
 
+/**
+ * Generates .headersJson files alongside files served by the file-server. Reading these files instructs file-server
+ * what HTML headers should be added to each file.
+ * 
+ * @deprecated
+ */
+function writeHeadersJsonForOutputFiles(isDev) {
+  function writeHeadersJson(matchGlob, headersData = {}) {
+    const files = glob.sync(path.resolve(__dirname, outputDirectory, matchGlob))
+    files.forEach((f, i) => {
+      const headersFilePath = f + '.headersJson'
+      fs.writeFileSync(headersFilePath, JSON.stringify(headersData))
+    })
+  }
+
+  function writeHeadersJsonHtml() {
+    const headersData = {
+      'Content-Type': 'text/html; charset=UTF-8',
+      'Cache-Control': isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
+    }
+    writeHeadersJson('*.html', headersData)
+  }
+
+  function writeHeadersJsonJs() {
+    const headersData = {
+      ...(!isDev && { 'Content-Encoding': 'gzip' }),
+      'Content-Type': 'application/javascript',
+      'Cache-Control': isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
+    }
+    writeHeadersJson('js/*.js', headersData)
+    writeHeadersJson('*.js', headersData)
+  }
+
+  function writeHeadersJsonCss() {
+    const headersData = {
+      ...(!isDev && { 'Content-Encoding': 'gzip' }),
+      'Content-Type': 'text/css',
+      'Cache-Control':isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
+    }
+    writeHeadersJson('css/*.css', headersData)
+  }
+
+  function writeHeadersJsonMisc() {
+    const headersData = {
+      'Content-Type': 'image/vnd.microsoft.icon',
+      'Cache-Control':isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
+    }
+    writeHeadersJson('favicon.ico', headersData)
+  }
+
+  writeHeadersJsonCss()
+  writeHeadersJsonHtml()
+  writeHeadersJsonJs()
+  writeHeadersJsonMisc()
+}
+
 module.exports = (env, options) => {
   var isDevBuild = options.mode === 'development';
   var isDevServer = process.env.WEBPACK_SERVE;
@@ -23,7 +79,7 @@ module.exports = (env, options) => {
     entry: ["./src/index"],
     output: {
       publicPath: '/',
-      filename: `static/js/admin_bundle${chunkHashFragment}.js`,
+      filename: `js/admin_bundle${chunkHashFragment}.js`,
       path: path.resolve(__dirname, outputDirectory),
       clean: true,
     },
@@ -65,6 +121,12 @@ module.exports = (env, options) => {
         placeholders: true,
         shorthands: true
       }),
+      new EventHooksPlugin({
+        afterEmit: () => {
+          console.log('Writing *.headersJson files...')
+          writeHeadersJsonForOutputFiles(isDevBuild || isDevServer)
+        }
+      }),
       // Only compress and create headerJson files during production builds.
       ...((isDevBuild || isDevServer) ? [] : [
         new CompressionPlugin({
@@ -73,48 +135,7 @@ module.exports = (env, options) => {
           // See: https://webpack.js.org/plugins/compression-webpack-plugin/#options
           filename: '[path][base]',
           deleteOriginalAssets: true,
-        }),
-        new EventHooksPlugin({
-          afterEmit: () => {
-            console.log('Writing *.headersJson files...')
-
-            function writeHeadersJson(matchGlob, headersData = {}) {
-              const files = glob.sync(path.resolve(__dirname, outputDirectory, matchGlob))
-              files.forEach((f, i) => {
-                const headersFilePath = f + '.headersJson'
-                fs.writeFileSync(headersFilePath, JSON.stringify(headersData))
-              })
-            }
-
-            function writeHeadersJsonHtml() {
-              const headersData = {
-                'x-amz-acl': 'public-read',
-                'Content-Type': 'text/html; charset=UTF-8',
-                'Cache-Control': 'no-cache'
-              }
-              writeHeadersJson('*.html', headersData)
-            }
-
-            function writeHeadersJsonJs() {
-              const headersData = {
-                'x-amz-acl': 'public-read',
-                'Content-Encoding': 'gzip',
-                'Content-Type': 'application/javascript',
-                'Cache-Control':
-                  'no-transform,public,max-age=31536000,s-maxage=31536000'
-              }
-              writeHeadersJson('static/js/*.js?(.map)', headersData)
-            }
-
-            function writeHeadersJsonMisc() {
-              writeHeadersJson('favicon.ico')
-            }
-
-            writeHeadersJsonHtml()
-            writeHeadersJsonJs()
-            writeHeadersJsonMisc()
-          }
-        }),
+        })
       ])
     ],
     optimization: {
