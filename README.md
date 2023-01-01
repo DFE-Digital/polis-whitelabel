@@ -12,8 +12,6 @@ The following things are different:
 * Maxmind integration removed
 * Stripe integration removed
 * Intercom integration removed
-* NGinx config removed
-* Caddy used in place of NGinx (note this may be changed soon)
 * Project runs Node 18 (with the exception of `server` on Ubuntu)
 * Lots of vulnerable dependencies updated
 * Database setup has moved into its own directory
@@ -43,8 +41,6 @@ We have three different scenarios for deployment
     * `client-admin/` is for conversation administrators
     * `client-participation/` is for end-users
     * `client-report/` is for detailed analytics reports
-* `caddy/` is configs for Caddy server, used as reverse proxy
-    * connects to: server
 
 ## License
 
