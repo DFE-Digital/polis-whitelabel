@@ -5,7 +5,6 @@
 import Promise from "bluebird";
 import express from "express";
 import cookieParser from "cookie-parser";
-import compression from "compression";
 
 import server from "./src/server";
 
@@ -224,9 +223,6 @@ helpersInitialized.then(
     app.use(writeDefaultHead);
     app.use(redirectIfWrongDomain);
     app.use(redirectIfApiDomain);
-    // Cloudflare would apply gzip if we didn't
-    // but it's about 2x faster if we do the gzip (for the inbox query on mike's account)
-    app.use(compression());
     app.use(middleware_log_request_body);
     app.use(middleware_log_middleware_errors);
 
