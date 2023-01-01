@@ -13,6 +13,7 @@ import querystring from "querystring";
 import request from "request-promise"; // includes Request, but adds promise methods
 import _ from "underscore";
 import pg from "pg";
+import { Request, Response } from 'express'
 
 import { METRICS_IN_RAM } from "./utils/metered";
 import CreateUser from "./auth/create-user";
@@ -7159,7 +7160,7 @@ let handle_GET_conditionalIndexFetcher = (function () {
 })();
 
 function handle_GET_localFile_dev_only(
-  req: { path: any },
+  req: Request,
   res: {
     writeHead: (
       arg0: number,
