@@ -32,20 +32,17 @@ function writeHeadersJsonForOutputFiles(isDev) {
 
   function writeHeadersJsonHtml() {
     const headersData = {
-      'x-amz-acl': 'public-read',
       'Content-Type': 'text/html; charset=UTF-8',
-      'Cache-Control': 'no-cache'
+      'Cache-Control':isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
     }
     writeHeadersJson('*.html', headersData)
   }
 
   function writeHeadersJsonJs() {
     const headersData = {
-      'x-amz-acl': 'public-read',
       ...(!isDev && { 'Content-Encoding': 'gzip' }),
       'Content-Type': 'application/javascript',
-      'Cache-Control':
-        'no-transform,public,max-age=31536000,s-maxage=31536000'
+      'Cache-Control':isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
     }
     writeHeadersJson('js/*.js', headersData)
     writeHeadersJson('*.js', headersData)
@@ -53,18 +50,17 @@ function writeHeadersJsonForOutputFiles(isDev) {
 
   function writeHeadersJsonCss() {
     const headersData = {
-      'x-amz-acl': 'public-read',
       ...(!isDev && { 'Content-Encoding': 'gzip' }),
       'Content-Type': 'text/css',
-      'Cache-Control':
-        'no-transform,public,max-age=31536000,s-maxage=31536000'
+      'Cache-Control': isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
     }
     writeHeadersJson('css/*.css', headersData)
   }
 
   function writeHeadersJsonMisc() {
     const headersData = {
-      'Content-Type': 'image/vnd.microsoft.icon'
+      'Content-Type': 'image/vnd.microsoft.icon',
+      'Cache-Control':isDev ? 'no-cache' : 'public,max-age=3600,s-maxage=3600'
     }
     writeHeadersJson('favicon.ico', headersData)
   }

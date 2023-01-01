@@ -25,4 +25,6 @@ Ports can be opened through prompts in VSCode and you can connect using the foll
 
 The Dockerfiles are based off of the [Ubuntu Devcontainer scripts](https://github.com/microsoft/vscode-dev-containers/tree/main/containers/ubuntu/.devcontainer) from Microsoft. They have been tweaked to add a different username to match the database
 
+Note that you will need to delete the devcontainer images and rebuild if making changes to the Devcontainer environment.
+
 

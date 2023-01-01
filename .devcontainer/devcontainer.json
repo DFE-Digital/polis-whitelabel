@@ -17,6 +17,8 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// Here we hook the direnv configuration to the polis user's .bashrc
-	"postCreateCommand": "echo \"eval \\\"\\$(direnv hook bash)\\\"\" >> /home/polis/.bashrc"
+	"postCreateCommand": "echo \"eval \\\"\\$(direnv hook bash)\\\"\" >> /home/polis/.bashrc",
+
+	"forwardPorts": [3000, 8000]
 
 }
