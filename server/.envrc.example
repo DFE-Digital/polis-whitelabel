@@ -40,8 +40,11 @@ export TERMS_OF_SERVICE_URL="/tos"
 # export AWS_REGION=us-east-1
 # Options: maildev, aws-ses, mailgun
 # Example: `aws-ses,mailgun` would try sending via AWS SES first, and fallback to Mailgun on error.
-# export EMAIL_TRANSPORT_TYPES=maildev
-# export POLIS_FROM_ADDRESS="Example <team@example.com>"
+export EMAIL_TRANSPORT_TYPES=maildev
+export POLIS_FROM_ADDRESS="Example <team@example.com>"
+export MAILDEV_HOST=maildev
+#export MAILDEV_HOST=localhost
+export MAILDEV_SMTP_PORT=1025
 
 # export AKISMET_ANTISPAM_API_KEY=
 # export BACKFILL_COMMENT_LANG_DETECTION=
@@ -61,8 +64,6 @@ export TERMS_OF_SERVICE_URL="/tos"
 # export GOOGLE_APPLICATION_CREDENTIALS=
 # export MAILGUN_API_KEY=
 # export MAILGUN_DOMAIN=
-# export MAXMIND_LICENSEKEY=
-# export MAXMIND_USERID=
 # export POLIS_SLACK_APP_CLIENT_ID=
 # export POLIS_SLACK_APP_CLIENT_SECRET=
 # export POSTMARK_API_KEY=

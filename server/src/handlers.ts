@@ -5152,8 +5152,7 @@ function handle_POST_sendCreatedLinkToEmail(
               email,
               "Link: " + createdLink,
               body
-            )
-            .then(function () {
+            ).then(function () {
               res.status(200).json({});
             })
             .catch(function (err: any) {

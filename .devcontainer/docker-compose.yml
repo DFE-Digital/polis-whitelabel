@@ -22,5 +22,11 @@ services:
     ports:
       - 5432:5432
 
+  maildev:
+    image: maildev/maildev:latest
+    ports:
+      - 1080:1080
+      - 1025:1025
+
 volumes:
   postgres-data:

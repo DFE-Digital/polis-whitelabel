@@ -1,7 +1,9 @@
-import fs from "fs";
 import AWS from "aws-sdk";
 import nodemailer from "nodemailer";
 import mg from "nodemailer-mailgun-transport";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+import SESTransport from "nodemailer/lib/ses-transport";
+import { parseIntOrFallback } from "../utils/env";
 
 // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html
 // v2 docs, since we use v2 in our package.json: "aws:sdk": "2.78.0"
@@ -23,22 +25,16 @@ function sendTextEmailWithBackup(
   sendTextEmail(sender, recipient, subject, text, backupTransport);
 }
 
-function isDocker() {
-  // See: https://stackoverflow.com/a/25518345/504018
-  return fs.existsSync("/.dockerenv");
-}
-
-function getMailOptions(transportType: any) {
+function getMailOptions(transportType: string | undefined): SMTPTransport.Options | SESTransport.Options | SMTPTransport {
   switch (transportType) {
     case "maildev":
       return {
-        // Allows running outside docker, connecting to exposed port of maildev container.
-        host: isDocker() ? "maildev" : "localhost",
-        port: 25,
+        host: process.env.MAILDEV_HOST,
+        port: parseIntOrFallback(process.env.MAILDEV_SMTP_PORT, undefined),
         ignoreTLS: true,
       };
     case "mailgun":
-      const mailgunAuth = {
+      return mg({
         auth: {
           // This forces fake credentials if envvars unset, so error is caught
           // in auth and failover works without crashing server process.
@@ -46,8 +42,7 @@ function getMailOptions(transportType: any) {
           api_key: process.env.MAILGUN_API_KEY || "unset-value",
           domain: process.env.MAILGUN_DOMAIN || "unset-value",
         },
-      };
-      return mg(mailgunAuth);
+      });
     case "aws-ses":
       return {
         // reads AWS_REGION, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from process.env
@@ -60,16 +55,16 @@ function getMailOptions(transportType: any) {
 }
 
 function sendTextEmail(
-  sender: any,
-  recipient: any,
-  subject: any,
-  text: any,
+  sender: string | undefined,
+  recipient: string | undefined,
+  subject: string | undefined,
+  text: string | undefined,
   transportTypes = process.env.EMAIL_TRANSPORT_TYPES,
   priority = 1
-) {
+): Promise<SMTPTransport.SentMessageInfo>  {
   // Exit if empty string passed.
   if (!transportTypes) {
-    return;
+    return Promise.reject('no_email_transport_defined');
   }
 
   const transportTypesArray = transportTypes.split(",");
@@ -79,7 +74,7 @@ function sendTextEmail(
   const mailOptions = getMailOptions(thisTransportType);
   const transporter = nodemailer.createTransport(mailOptions);
 
-  let promise: any = transporter
+  return transporter
     .sendMail({ from: sender, to: recipient, subject: subject, text: text })
     .catch(function (err: any) {
       console.error(
@@ -87,7 +82,7 @@ function sendTextEmail(
           priority.toString()
       );
       console.error(
-        `Unable to send email via priority ${priority.toString()} transport '${thisTransportType}' to: ${recipient}`
+        `Unable to send email via priority ${priority.toString()} transport '${thisTransportType || '<NOT SPECIFIED>'}' to: ${recipient || '<NOT SPECIFIED>'}`
       );
       console.error(err);
       return sendTextEmail(
@@ -99,7 +94,6 @@ function sendTextEmail(
         priority + 1
       );
     });
-  return promise;
 }
 
 export {

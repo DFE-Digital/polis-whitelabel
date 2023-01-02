@@ -1,14 +1,11 @@
 describe('Emails', () => {
-  const MAILDEV_HTTP_PORT = '1080'
   // See: https://github.com/maildev/maildev/blob/master/docs/rest.md
   // Maildev only available over HTTP, even if using SSL for app.
-  const MAILDEV_API_BASE = `${
-    Cypress.config().baseUrl
-  }:${MAILDEV_HTTP_PORT}`.replace('https://', 'http://')
+  const MAILDEV_API_BASE = `${Cypress.config().maildevApiBaseUrl}`.replace('https://', 'http://')
 
   beforeEach(() => {
     cy.intercept('POST', Cypress.config().apiPath + '/auth/pwresettoken').as('resetPassword')
-
+    console.log('MAILDEV_API_BASE:' + MAILDEV_API_BASE)
     cy.request('DELETE', MAILDEV_API_BASE + '/email/all')
   })
 
@@ -91,9 +88,7 @@ describe('Emails', () => {
         cy.get('button').click()
       })
 
-      cy.wait('@newPassword').then((xhr) => {
-        expect(xhr.status).to.equal(200)
-      })
+      cy.wait('@newPassword').its('response.statusCode').should('eq', 200)
     })
 
     cy.logout()

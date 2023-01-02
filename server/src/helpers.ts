@@ -609,7 +609,7 @@ function sendPasswordResetEmail(
       if (!userInfo) {
         return callback?.("missing user info");
       }
-      let body = `Hi ${userInfo.hname},
+      const body = `Hi ${userInfo.hname},
 
 We have just received a password reset request for ${userInfo.email}
 
@@ -624,8 +624,7 @@ ${serverName}/pwreset/${pwresettoken}
           userInfo.email,
           "Polis Password Reset",
           body
-        )
-        .then(function () {
+        ).then(function () {
           callback?.();
         })
         .catch(function (err: any) {
@@ -680,9 +679,9 @@ function sendMultipleTextEmails(
   recipientArray = recipientArray || [];
   return Promise.all(
     recipientArray.map(function (email: string) {
-      let promise = emailSenders.sendTextEmail(sender, email, subject, text);
-      promise.catch(function (err: any) {
-        Log.yell("polis_err_failed_to_email_for_user " + email);
+      const promise = emailSenders.sendTextEmail(sender, email, subject, text);
+      promise.catch(function (err: string | Error) {
+        Log.yell(`polis_err_failed_to_email_for_user ${email} because : ${err.toString()}`);
       });
       return promise;
     })
@@ -3778,7 +3777,7 @@ function sendEmailByUid(uid?: any, subject?: string, body?: string | number) {
       POLIS_FROM_ADDRESS,
       userInfo.hname ? `${userInfo.hname} <${userInfo.email}>` : userInfo.email,
       subject,
-      body
+      _.isUndefined(body) ? body : body.toString()
     );
   });
 }
@@ -5819,7 +5818,6 @@ function makeFileFetcher(
       .on("response", fsRes => {
         // Pass through the file server headers and inject in the passed
         // headers
-        console.table(fsRes.headers)
         res.set({
           ...fsRes.headers,
           ...headers,
