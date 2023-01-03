@@ -47,16 +47,18 @@
 
       data-width="320px"
 
-      data-ucsf="0"
       data-ui_lang="fr"
 
       class='polis'
-      data-page_id='EMBEDTESTPAGE'
-      data-site_id='polis_site_id_wghhkXulTG7ViJzypb'>
+
+      <% for (const { attribute, value } of dataAttributes) { %>
+        <%= attribute %>="<%= value %>"
+      <% } %>
+    >
   </div>
 
 </div>
-<script async src='{{ basePolisUrl }}/embed.js'>
+<script async src='<%= polisDomain %>/embed.js'>
 </script>
 </body>
 </html>

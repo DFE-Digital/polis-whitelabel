@@ -19,6 +19,8 @@ npm test
 ## Notes
 
 * Email tests require `maildev` to be running - this is automatically setup in devcontainer
+* Run `npm run embed-test-server` before running the `integration` and `embed` tests since they need a locally served site to embed the iframe contents in.
+* The `comment-translation.secrets` tests requires that you have Google Translate API configured in `server` - see `server/.envrc.example` for details
 * We use [`cypress-terminal-report`](https://github.com/archfz/cypress-terminal-report) display logs in the console in case a test has failed.
 * The default base url for running tests against, is http://localhost:8000
   * You may override any cypress-related command this like so: `CYPRESS_BASE_URL=http://123.45.67.89.sslip.io npm test`
