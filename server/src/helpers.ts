@@ -5816,10 +5816,11 @@ function makeFileFetcher(
         Log.fail(res, 500, "polis_err_finding_file " + path, err);
       })
       .on("response", fsRes => {
-        // Pass through the file server headers and inject in the passed
+        // Pass through the file server headers from headersJson and combine with the passed
         // headers
+        const whitelistedHeaders = _.pick(fsRes.headers, ['content-encoding', 'cache-control', 'content-type'])
         res.set({
-          ...fsRes.headers,
+          ...whitelistedHeaders,
           ...headers,
         })
       })
