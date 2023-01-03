@@ -18,8 +18,9 @@ npm test
 
 ## Notes
 
+* Email tests require `maildev` to be running - this is automatically setup in devcontainer
 * We use [`cypress-terminal-report`](https://github.com/archfz/cypress-terminal-report) display logs in the console in case a test has failed.
-* The default base url for running tests against, is http://localhost
+* The default base url for running tests against, is http://localhost:8000
   * You may override any cypress-related command this like so: `CYPRESS_BASE_URL=http://123.45.67.89.sslip.io npm test`
 * `cypress/integration/polis/`: where we store our tests
 * `cypress/support/commands.js`: where we keep oft-used commands, e.g., for logging in, creating conversations, etc.
