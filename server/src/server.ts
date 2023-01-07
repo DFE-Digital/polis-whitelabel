@@ -103,7 +103,6 @@ import {
   handle_GET_ptptois,
   handle_GET_reports,
   handle_GET_setup_assignment_xml,
-  handle_GET_slack_login,
   handle_GET_snapshot,
   hangle_GET_testConnection,
   hangle_GET_testDatabase,
@@ -125,9 +124,7 @@ import {
   handle_POST_auth_new,
   handle_POST_auth_password,
   handle_POST_auth_pwresettoken,
-  handle_POST_auth_slack_redirect_uri,
   handle_POST_comments,
-  handle_POST_comments_slack,
   handle_POST_contexts,
   handle_POST_contributors,
   handle_POST_conversation_close,
@@ -152,8 +149,6 @@ import {
   handle_POST_reserve_conversation_id,
   handle_POST_sendCreatedLinkToEmail,
   handle_POST_sendEmailExportReady,
-  handle_POST_slack_interactive_messages,
-  handle_POST_slack_user_invites,
   handle_POST_stars,
   handle_POST_trashes,
   handle_POST_tutorial,
@@ -437,27 +432,6 @@ function doPolisLtiTokenHeaderAuth(
     });
 }
 
-function doPolisSlackTeamUserTokenHeaderAuth(
-  assigner: (arg0: any, arg1: string, arg2: number) => void,
-  isOptional: any,
-  req: { headers?: { [x: string]: any } },
-  res: { status: (arg0: number) => void },
-  next: { (err: any): void; (arg0?: string): void }
-) {
-  let token = req?.headers?.["x-polis"];
-
-  Session.getUserInfoForPolisLtiToken(token)
-    .then(function (uid?: any) {
-      assigner(req, "uid", Number(uid));
-      next();
-    })
-    .catch(function (err: any) {
-      res.status(403);
-      next("polis_err_auth_no_such_token");
-      return;
-    });
-}
-
 // @ts-ignore
 String.prototype.hashCode = function () {
   let hash = 0;
@@ -694,18 +668,6 @@ function initializePolisHelpers() {
         if (xPolisToken && Session.isPolisLtiToken(xPolisToken)) {
           console.log("authtype", "doPolisLtiTokenHeaderAuth");
           doPolisLtiTokenHeaderAuth(assigner, isOptional, req, res, onDone);
-        } else if (
-          xPolisToken &&
-          Session.isPolisSlackTeamUserToken(xPolisToken)
-        ) {
-          console.log("authtype", "doPolisSlackTeamUserTokenHeaderAuth");
-          doPolisSlackTeamUserTokenHeaderAuth(
-            assigner,
-            isOptional,
-            req,
-            res,
-            onDone
-          );
         } else if (xPolisToken) {
           console.log("authtype", "doHeaderAuth");
           doHeaderAuth(assigner, isOptional, req, res, onDone);
@@ -2209,7 +2171,6 @@ function initializePolisHelpers() {
     handle_GET_ptptois,
     handle_GET_reports,
     handle_GET_setup_assignment_xml,
-    handle_GET_slack_login,
     handle_GET_snapshot,
     hangle_GET_testConnection,
     hangle_GET_testDatabase,
@@ -2231,9 +2192,7 @@ function initializePolisHelpers() {
     handle_POST_auth_new,
     handle_POST_auth_password,
     handle_POST_auth_pwresettoken,
-    handle_POST_auth_slack_redirect_uri,
     handle_POST_comments,
-    handle_POST_comments_slack,
     handle_POST_contexts,
     handle_POST_contributors,
     handle_POST_conversation_close,
@@ -2258,8 +2217,6 @@ function initializePolisHelpers() {
     handle_POST_reserve_conversation_id,
     handle_POST_sendCreatedLinkToEmail,
     handle_POST_sendEmailExportReady,
-    handle_POST_slack_interactive_messages,
-    handle_POST_slack_user_invites,
     handle_POST_stars,
     handle_POST_trashes,
     handle_POST_tutorial,

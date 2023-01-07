@@ -1,4 +1,3 @@
-get "/api/v3/auth/slack/redirect_uri",
 get "/api/v3/bid",
 get "/api/v3/bidToPid",
 get "/api/v3/changePlanWithCoupon",
@@ -61,7 +60,6 @@ post "/api/v3/auth/password",
 post "/api/v3/auth/pwresettoken",
 post "/api/v3/charge",
 post "/api/v3/comments",
-post "/api/v3/comments/slack",
 post "/api/v3/contexts",
 post "/api/v3/contributors",
 post "/api/v3/conversation/close",
@@ -86,8 +84,6 @@ post "/api/v3/reports",
 post "/api/v3/reserve_conversation_id",
 post "/api/v3/sendCreatedLinkToEmail",
 post "/api/v3/sendEmailExportReady",
-post "/api/v3/slack/interactive_messages",
-post "/api/v3/slack/user/invites",
 post "/api/v3/stars",
 post "/api/v3/trashes",
 post "/api/v3/tutorial",
@@ -162,7 +158,6 @@ get /^\/settings\/enterprise}.*$/, makeFetchIndexWithoutPreloadData());
 get /^\/share\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // share view
 get /^\/signin(\/.*)?/, fetchIndexForAdminPage);
 get /^\/signout(\/.*)?/, fetchIndexForAdminPage);
-get /^\/slack_login_code.*/,
 get /^\/summary\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // summary view
 get /^\/thirdPartyCookieTestPt1\.html$/, fetchThirdPartyCookieTestPt1);
 get /^\/thirdPartyCookieTestPt2\.html$/, fetchThirdPartyCookieTestPt2);

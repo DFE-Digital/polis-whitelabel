@@ -179,7 +179,6 @@ import {
   CommentType,
   TwitterParameters,
   DemographicEntry,
-  SlackUser,
   Vote,
 } from "./d";
 
@@ -775,59 +774,6 @@ function handle_POST_auth_password(
   );
 }
 
-function handle_POST_auth_slack_redirect_uri(
-  req: { p: { code: any } },
-  res: {
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      send: { (arg0: string): void; new (): any };
-    };
-  }
-) {
-  const code = req.p.code;
-  console.log("handle_POST_auth_slack_redirect_uri 1");
-
-  console.log(process.env.POLIS_SLACK_APP_CLIENT_ID);
-
-  request
-    .get(
-      "https://slack.com/api/oauth.access?" +
-        querystring.stringify({
-          client_id: process.env.POLIS_SLACK_APP_CLIENT_ID,
-          client_secret: process.env.POLIS_SLACK_APP_CLIENT_SECRET,
-          code: code,
-          redirect_uri:
-            Config.getServerNameWithProtocol(req) +
-            "/api/v3/auth/slack/redirect_uri",
-        })
-    )
-    .then((slackResponse: string) => {
-      const parsedSlackResponse = JSON.parse(slackResponse);
-      if (parsedSlackResponse && parsedSlackResponse.ok === false) {
-        Log.fail(res, 500, "polis_err_slack_oauth 3", parsedSlackResponse);
-        return;
-      }
-      console.log("handle_POST_auth_slack_redirect_uri 2");
-      console.log(parsedSlackResponse);
-      return dbPgQuery
-        .queryP(
-          "insert into slack_oauth_access_tokens (slack_access_token, slack_scope, slack_auth_response) values ($1, $2, $3);",
-          [
-            parsedSlackResponse.access_token,
-            parsedSlackResponse.scope,
-            parsedSlackResponse,
-            // state,
-          ]
-        )
-        .then(() => {
-          res.status(200).send("");
-        });
-    })
-    .catch((err: any) => {
-      Log.fail(res, 500, "polis_err_slack_oauth", err);
-    });
-}
 function handle_POST_auth_pwresettoken(
   req: { p: { email: any } },
   res: {
@@ -2410,60 +2356,6 @@ function handle_GET_comments(
     });
 } // end GET /api/v3/comments
 
-function handle_POST_comments_slack(
-  req: {
-    p: SlackUser;
-  },
-  res: any
-) {
-  const slack_team = req.p.slack_team;
-  const slack_user_id = req.p.slack_user_id;
-  dbPgQuery
-    .queryP(
-      "select * from slack_users where slack_team = ($1) and slack_user_id = ($2);",
-      [slack_team, slack_user_id]
-    )
-    //     Argument of type '(rows: string | any[]) => any' is not assignable to parameter of type '(value: unknown) => any'.
-    // Types of parameters 'rows' and 'value' are incompatible.
-    //   Type 'unknown' is not assignable to type 'string | any[]'.
-    //     Type 'unknown' is not assignable to type 'any[]'.ts(2345)
-    // @ts-ignore
-    .then((rows: string | any[]) => {
-      if (!rows || !rows.length) {
-        const uidPromise = User.createDummyUser();
-        return uidPromise.then((uid?: any) => {
-          return dbPgQuery.queryP(
-            "insert into slack_users (uid, slack_team, slack_user_id) values ($1, $2, $3) returning *;",
-            [uid, slack_team, slack_user_id]
-          );
-        });
-      }
-      return rows;
-    })
-    .then((slack_user_rows: any) => {
-      return User.getPidPromise(req.p.zid, req.p.uid, true).then(
-        (pid: number) => {
-          if (pid >= 0) {
-            req.p.pid = pid;
-          }
-          return slack_user_rows;
-        }
-      );
-    })
-    .then((slack_user_rows: string | any[]) => {
-      if (!slack_user_rows || !slack_user_rows.length) {
-        Log.fail(res, 500, "polis_err_post_comments_slack_missing_slack_user");
-      }
-      const uid = slack_user_rows[0].uid;
-      req.p.uid = uid;
-
-      handle_POST_comments(req, res);
-    })
-    .catch((err: any) => {
-      Log.fail(res, 500, "polis_err_post_comments_slack_misc", err);
-    });
-}
-
 function handle_POST_comments(
   req: {
     p: {
@@ -3760,13 +3652,6 @@ function handle_POST_conversation_close(
           [conv.zid]
         )
         .then(function () {
-          if (conv.is_slack) {
-            Session.sendSlackEvent({
-              type: "closed",
-              data: conv,
-            });
-          }
-
           // might need to send some grades
           let ownerUid = req.p.uid;
           sendCanvasGradesIfNeeded(conv.zid, ownerUid)
@@ -3832,12 +3717,6 @@ function handle_POST_conversation_reopen(
           conv.zid,
         ])
         .then(function () {
-          if (conv.is_slack) {
-            Session.sendSlackEvent({
-              type: "reopened",
-              data: conv,
-            });
-          }
           res.status(200).json({});
         })
         .catch(function (err: any) {
@@ -4926,7 +4805,6 @@ function handle_POST_conversations(
       is_data_open: any;
       is_draft: any;
       is_anon: any;
-      is_slack: any;
       profanity_filter: any;
       spam_filter: any;
       strict_moderation: any;
@@ -4980,7 +4858,6 @@ function handle_POST_conversations(
               is_draft: req.p.is_draft,
               is_public: true, // req.p.short_url,
               is_anon: req.p.is_anon,
-              is_slack: req.p.is_slack,
               profanity_filter: req.p.profanity_filter,
               spam_filter: req.p.spam_filter,
               strict_moderation: req.p.strict_moderation,
@@ -5881,213 +5758,6 @@ function handle_GET_twitter_users(
   }).catch(function (err: any) {
     Log.fail(res, 500, "polis_err_twitter_user_info_get", err);
   });
-}
-
-function handle_GET_slack_login(
-  req: { p: { uid?: any }; path: string },
-  res: {
-    set: (arg0: { "Content-Type": string }) => void;
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      send: { (arg0: string): void; new (): any };
-    };
-  }
-) {
-  function finish(uid?: any) {
-    startSessionAndAddCookies(req, res, uid)
-      .then(function () {
-        res.set({
-          "Content-Type": "text/html",
-        });
-        let html =
-          "" +
-          "<!DOCTYPE html><html lang='en'>" +
-          "<head>" +
-          '<meta name="viewport" content="width=device-width, initial-scale=1;">' +
-          "</head>" +
-          "<body style='max-width:320px; font-family: Futura, Helvetica, sans-serif;'>" +
-          "logged in!" +
-          "</body></html>";
-        res.status(200).send(html);
-      })
-      .catch((err: any) => {
-        Log.fail(res, 500, "polis_err_slack_login_session_start", err);
-      });
-  }
-
-  const existing_uid_for_client = req.p.uid;
-  const token = /\/slack_login_code\/([^\/]*)/.exec(req.path)?.[1];
-
-  dbPgQuery
-    .queryP("select * from slack_user_invites where token = ($1);", [token])
-    .then(
-      //     Argument of type '(rows: string | any[]) => void' is not assignable to parameter of type '(value: unknown) => void | PromiseLike<void>'.
-      // Types of parameters 'rows' and 'value' are incompatible.
-      //   Type 'unknown' is not assignable to type 'string | any[]'.
-      //     Type 'unknown' is not assignable to type 'any[]'.ts(2345)
-      // @ts-ignore
-      (rows: string | any[]) => {
-        if (!rows || !rows.length) {
-          Log.fail(res, 500, "polis_err_slack_login_unknown_token " + token);
-          return;
-        }
-        const row = rows[0];
-        // if (row.created > foo) {
-        //   Log.fail(res, 500, "polis_err_slack_login_token_expired");
-        //   return;
-        // }
-        const slack_team = row.slack_team;
-        const slack_user_id = row.slack_user_id;
-        dbPgQuery
-          .queryP(
-            "select * from slack_users where slack_team = ($1) and slack_user_id = ($2);",
-            [slack_team, slack_user_id]
-          )
-          .then(
-            //         Argument of type '(rows: string | any[]) => void' is not assignable to parameter of type '(value: unknown) => void | PromiseLike<void>'.
-            // Types of parameters 'rows' and 'value' are incompatible.
-            //   Type 'unknown' is not assignable to type 'string | any[]'.
-            //         Type 'unknown' is not assignable to type 'any[]'.ts(2345)
-            // @ts-ignore
-            (rows: string | any[]) => {
-              if (!rows || !rows.length) {
-                // create new user (or use existing user) and associate a new slack_user entry
-                const uidPromise = existing_uid_for_client
-                  ? Promise.resolve(existing_uid_for_client)
-                  : User.createDummyUser();
-                uidPromise
-                  .then((uid?: any) => {
-                    return dbPgQuery
-                      .queryP(
-                        "insert into slack_users (uid, slack_team, slack_user_id) values ($1, $2, $3);",
-                        [uid, slack_team, slack_user_id]
-                      )
-                      .then(
-                        (rows: any) => {
-                          finish(uid);
-                        },
-                        function (err: any) {
-                          Log.fail(res, 500, "polis_err_slack_login_03", err);
-                        }
-                      );
-                  })
-                  .catch((err: any) => {
-                    Log.fail(res, 500, "polis_err_slack_login_02", err);
-                  });
-              } else {
-                // slack_users entry exists, so log in as that user
-                finish(rows[0].uid);
-              }
-            },
-            (err: any) => {
-              Log.fail(res, 500, "polis_err_slack_login_01", err);
-            }
-          );
-      },
-      (err: any) => {
-        Log.fail(res, 500, "polis_err_slack_login_misc", err);
-      }
-    );
-}
-
-function handle_POST_slack_interactive_messages(
-  req: { p: { payload: string } },
-  res: {
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      send: { (arg0: string): void; new (): any };
-    };
-  }
-) {
-  const payload = JSON.parse(req.p.payload);
-
-  const channel = payload.channel;
-  const response_url = payload.response_url;
-  const team = payload.team;
-  const actions = payload.actions;
-
-  postMessageUsingHttp({
-    channel: channel.id,
-    team: team.id,
-    text: "woo! you voted: " + actions[0].name,
-    attachments: [
-      {
-        text: Math.random(),
-        fallback: "You are unable to choose a game",
-        callback_id: "wopr_game",
-        color: "#3AA3E3",
-        attachment_type: "default",
-        actions: [
-          {
-            name: "chess",
-            text: "Chess",
-            type: "button",
-            value: "chess",
-          },
-          {
-            name: "maze",
-            text: "Falken's Maze",
-            type: "button",
-            value: "maze",
-          },
-          {
-            name: "war",
-            text: "Thermonuclear War",
-            style: "danger",
-            type: "button",
-            value: "war",
-            confirm: {
-              title: "Are you sure?",
-              text: "Wouldn't you prefer a good game of chess?",
-              ok_text: "Yes",
-              dismiss_text: "No",
-            },
-          },
-        ],
-      },
-    ],
-  })
-    .then((result: any) => {
-      res.status(200).send("");
-    })
-    .catch((err: any) => {
-      Log.fail(res, 500, "polis_err_slack_interactive_messages_000", err);
-    });
-}
-
-function handle_POST_slack_user_invites(
-  req: { p: { slack_team: any; slack_user_id: any } },
-  res: { json: (arg0: { url: string }) => void }
-) {
-  const slack_team = req.p.slack_team;
-  const slack_user_id = req.p.slack_user_id;
-  Password.generateTokenP(99, false)
-    //     Argument of type '(token: string) => void' is not assignable to parameter of type '(value: unknown) => void | PromiseLike<void>'.
-    // Types of parameters 'token' and 'value' are incompatible.
-    //     Type 'unknown' is not assignable to type 'string'.ts(2345)
-    // @ts-ignore
-    .then(function (token: string) {
-      dbPgQuery
-        .queryP(
-          "insert into slack_user_invites (slack_team, slack_user_id, token) values ($1, $2, $3);",
-          [slack_team, slack_user_id, token]
-        )
-        .then(
-          (rows: any) => {
-            res.json({
-              url:
-                Config.getServerNameWithProtocol(req) +
-                "/slack_login_code/" +
-                token,
-            });
-          },
-          (err: any) => {
-            Log.fail(res, 500, "polis_err_creating_slack_user_invite", err);
-          }
-        );
-    });
 }
 
 function handle_POST_einvites(
@@ -7239,7 +6909,6 @@ export {
   handle_GET_ptptois,
   handle_GET_reports,
   handle_GET_setup_assignment_xml,
-  handle_GET_slack_login,
   handle_GET_snapshot,
   hangle_GET_testConnection,
   hangle_GET_testDatabase,
@@ -7261,9 +6930,7 @@ export {
   handle_POST_auth_new,
   handle_POST_auth_password,
   handle_POST_auth_pwresettoken,
-  handle_POST_auth_slack_redirect_uri,
   handle_POST_comments,
-  handle_POST_comments_slack,
   handle_POST_contexts,
   handle_POST_contributors,
   handle_POST_conversation_close,
@@ -7288,8 +6955,6 @@ export {
   handle_POST_reserve_conversation_id,
   handle_POST_sendCreatedLinkToEmail,
   handle_POST_sendEmailExportReady,
-  handle_POST_slack_interactive_messages,
-  handle_POST_slack_user_invites,
   handle_POST_stars,
   handle_POST_trashes,
   handle_POST_tutorial,
