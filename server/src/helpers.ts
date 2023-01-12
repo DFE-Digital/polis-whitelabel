@@ -16,6 +16,7 @@ import LruCache from "lru-cache";
 import _ from "underscore";
 import zlib from "zlib";
 import { WebClient } from "@slack/client";
+import { Request, Response } from 'express'
 
 import { addInRamMetric, MPromise } from "./utils/metered";
 import CreateUser from "./auth/create-user";
@@ -5760,7 +5761,7 @@ function hasWhitelistMatches(host: string) {
   return false;
 }
 
-function buildStaticHostname(req: { headers?: { host: string } }, res: any) {
+function buildStaticHostname(req: Request, res: Response) {
   if (devMode || Config.domainOverride) {
     return process.env.STATIC_FILES_HOST;
   } else {
@@ -5798,10 +5799,8 @@ function makeFileFetcher(
   headers?: { "Content-Type": string },
   preloadData?: { conversation?: ConversationType }
 ) {
-  return function (
-    req: { headers?: { host: any }; path: any; pipe: (arg0: any) => void },
-    res: { set: (arg0: any) => void }
-  ) {
+  return function (req: Request, res: Response) {
+
     let hostname = buildStaticHostname(req, res);
     if (!hostname) {
       Log.fail(res, 500, "polis_err_file_fetcher_serving_to_domain");
@@ -5809,17 +5808,27 @@ function makeFileFetcher(
       console.error(req.path);
       return;
     }
-    // pol.is.s3-website-us-east-1.amazonaws.com
-    // preprod.pol.is.s3-website-us-east-1.amazonaws.com
-
-    // TODO https - buckets would need to be renamed to have dashes instead of dots.
-    // http://stackoverflow.com/questions/3048236/amazon-s3-https-ssl-is-it-possible
     let url = "http://" + hostname + ":" + port + path;
     console.log("info", "fetch file from " + url);
-    let x = request(url);
-    req.pipe(x);
+    let fsReq = request.get(url)
+
+    fsReq
+      .on("error", function (err: any) {
+        Log.fail(res, 500, "polis_err_finding_file " + path, err);
+      })
+      .on("response", fsRes => {
+        // Pass through the file server headers and inject in the passed
+        // headers
+        console.table(fsRes.headers)
+        res.set({
+          ...fsRes.headers,
+          ...headers,
+        })
+      })
+
+    // Substitute the preload data into the file
     if (!_.isUndefined(preloadData)) {
-      x = x.pipe(
+      fsReq = fsReq.pipe(
         replaceStream(
           '"REPLACE_THIS_WITH_PRELOAD_DATA"',
           JSON.stringify(preloadData)
@@ -5827,6 +5836,7 @@ function makeFileFetcher(
       );
     }
 
+    // Substitute in the Facebook tags into the file
     let fbMetaTagsString =
       '<meta property="og:image" content="https://s3.amazonaws.com/pol.is/polis_logo.png" />\n';
     if (preloadData && preloadData.conversation) {
@@ -5840,19 +5850,12 @@ function makeFileFetcher(
         '" />\n';
       // fbMetaTagsString += "    <meta property=\"og:site_name\" content=\"" + site_name + "\" />\n";
     }
-    x = x.pipe(
+    fsReq = fsReq.pipe(
       replaceStream("<!-- REPLACE_THIS_WITH_FB_META_TAGS -->", fbMetaTagsString)
     );
 
-    res.set(headers);
-
-    // Argument of type '{ set: (arg0: any) => void; }' is not assignable to parameter of type 'WritableStream'.
-    //   Type '{ set: (arg0: any) => void; }' is missing the following properties from type 'WritableStream': writable, write, end, addListener, and 14 more.ts(2345)
-    // @ts-ignore
-    x.pipe(res);
-    x.on("error", function (err: any) {
-      Log.fail(res, 500, "polis_err_finding_file " + path, err);
-    });
+    // Finally output to the result object
+    fsReq.pipe(res)
   };
 }
 
@@ -6178,15 +6181,7 @@ function browserSupportsPushState(req: { headers?: { [x: string]: string } }) {
 // @ts-ignore
 let routingProxy = new httpProxy.createProxyServer();
 
-function addStaticFileHeaders(res: {
-  setHeader: (arg0: string, arg1: string | number) => void;
-}) {
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  res.setHeader("Pragma", "no-cache");
-  res.setHeader("Expires", 0);
-}
-
-function proxy(req: { headers?: { host: string }; path: any }, res: any) {
+function proxy(req: Request, res: any) {
   let hostname = buildStaticHostname(req, res);
   if (!hostname) {
     let host = req?.headers?.host || "";
@@ -6208,9 +6203,6 @@ function proxy(req: { headers?: { host: string }; path: any }, res: any) {
     return;
   }
 
-  if (devMode) {
-    addStaticFileHeaders(res);
-  }
   let port = process.env.STATIC_FILES_PORT;
   // set the host header too, since S3 will look at that (or the routing proxy will patch up the request.. not sure which)
   if (req && req.headers && req.headers.host) req.headers.host = hostname;
@@ -6346,7 +6338,6 @@ export {
   sendImplicitConversationCreatedEmails,
   hasAuthToken,
   browserSupportsPushState,
-  addStaticFileHeaders,
   proxy,
   HMAC_SIGNATURE_PARAM_NAME,
   fetchIndexForReportPage,

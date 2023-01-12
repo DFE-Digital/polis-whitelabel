@@ -1,23 +1,9 @@
-# Developer setup for Docker
-
-> **Warning**
-> The Docker development environment is a work in progress, although it provides a quick way to get the code running locally, the development loop is much quicker and more flexible using the Virtual Machine setup detailed below.
-
-Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-
-```sh
-cd deploy/docker
-npm run build:compose
-npm run run:compose
-```
-
-Visit [http://localhost:8000](http://localhost:8000)
 
 # Developer setup for Ubuntu 20.04.5 LTS Virtual Machine
 
-This is a server playbook on how to setup a production environment for polis.
+This is a guide on how to setup a running Pol.is instance. This is meant primarily for easy development but could be adapted for production use by adding a suitable reverse-proxy and some further hardening such as running services as a user with limited privileges.
 
-## Development Virtual Machine setup
+## Setup
 
 You can use [Ubuntu Multipass](https://multipass.run/) to easily setup a virtual machine on your local laptop. You will need at least 8GB RAM and 16GB of disk
 
@@ -39,7 +25,7 @@ You can then shell in using `ssh ubuntu@<MACHINE_IP_ADDRESS>` and use remote dev
 
 ## Configuring the Virtual Machine
 
-For a production setup you will want to setup a `polis` user, for development you may want to simplify things by running everything as the `ubuntu` user. Note that you will need to change the `.envrc` database connection strings to reflect this
+For a production setup you will want to setup a limited privilege `polis` user, for development you may want to simplify things by running everything as the `ubuntu` user. Note that you will need to change the `.envrc` database connection strings to reflect this
 
 ## General server
 
@@ -51,7 +37,7 @@ apt update
 useradd -m -s /bin/bash polis
 passwd polis
 
-apt install -y postgresql g++ git make python python-dev libpq-dev direnv
+apt install -y postgresql g++ git make python python-dev libpq-dev direnv nginx
 
 # configure direnv
 echo "eval \"\$(direnv hook bash)\"" >> ~/.bashrc
@@ -186,26 +172,19 @@ clojure -A:dev -P
 clojure -M:run full
 ```
 
-## polis/caddy
+## polis/reverse-proxy
 
 ```sh
+cp .devcontainer/nginx.conf /etc/nginx/conf.d/default.conf
+
 # user:root
-cd polis/caddy
+nginx -t # Check the config
+systemctl restart nginx # restart the server
 
-# install caddy - from https://caddyserver.com/docs/install#debian-ubuntu-raspbian
-sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-sudo apt update
-sudo apt install caddy
-
-# update acording to your setup
-nano Caddyfile
-
-cp Caddyfile /etc/caddy/Caddyfile
-systemctl restart caddy
-
-systemctl status caddy --full --no-pager  # check logs
+# To empty the Nginx cache
+systemctl stop nginx
+rm -rf /var/cache/nginx
+systemctl start nginx
 ```
 
 ## After reboot
@@ -236,7 +215,4 @@ clojure -X:dev-poller
 
 cd ../server/
 npm run dev
-
-cd ../caddy/
-make devserver
 ```

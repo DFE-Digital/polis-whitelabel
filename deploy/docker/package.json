@@ -3,7 +3,7 @@
         "build:file-server": "docker build -f ./file-server.Dockerfile -t polis-file-server:latest ../../",
         "build:math": "docker build -f ./math.Dockerfile -t polis-math:latest ../../math",
         "build:server": "docker build -f ./server.Dockerfile -t polis-server:latest ../../server",
-        "build:caddy": "docker build -f ./caddy.Dockerfile -t polis-caddy:latest ../../caddy",
+        "build:reverse-proxy": "docker build -f ./reverse-proxy.Dockerfile -t polis-reverse-proxy:latest .",
         "build:postgres": "docker build -f ./postgres.Dockerfile -t polis-postgres:latest ../../database",
         "build:compose": "docker-compose -f docker-compose.dev.yml build --parallel",
         "run:compose": "docker-compose -f docker-compose.dev.yml up"

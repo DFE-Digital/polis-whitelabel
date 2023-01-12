@@ -919,7 +919,7 @@ CREATE RULE on_vote_insert_update_unique_table AS
     DO ALSO
         INSERT INTO votes_latest_unique (zid, pid, tid, vote, weight_x_32767, modified)
         values (NEW.zid, NEW.pid, NEW.tid, NEW.vote, NEW.weight_x_32767, NEW.created)
-            ON CONFLICT (zid, pid, tid) DO UPDATE SET vote = excluded.vote, modified = NEW.created;
+            ON CONFLICT (zid, pid, tid) DO UPDATE SET vote = EXCLUDED.vote, modified = EXCLUDED.modified;
 
 
 CREATE TABLE crowd_mod (

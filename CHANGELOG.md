@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
+- [#52](https://github.com/DFE-Digital/polis-whitelabel/issues/52) Example reverse-proxy for production
+- [#11](https://github.com/DFE-Digital/polis-whitelabel/issues/11) Added Devcontainer based development environment
 - [#29](https://github.com/DFE-Digital/polis-whitelabel/issues/29) Basic performance test scripts in JMeter
 - [#13](https://github.com/DFE-Digital/polis-whitelabel/issues/13) Include configurable cookie notice and accessibility statement
 - [#7](https://github.com/DFE-Digital/polis-whitelabel/issues/7) Developer workflow established and documented - based on the [suburb fork of pol.is](https://github.com/sirodoht/suburb/commit/6638e3078165c62c96a82f098737607bbb8848ee)
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Bugs
 
 - [#48](https://github.com/DFE-Digital/polis-whitelabel/issues/48) Fix a XSS bug where HTML & Javascript can be dropped into description field
+- [#53](https://github.com/DFE-Digital/polis-whitelabel/issues/53) Fix missing `libpq-dev` dependency when building `server` in Devcontainer
 - [#45](https://github.com/DFE-Digital/polis-whitelabel/issues/45) Update `file-server` to update dependencies in Dockerfile
 - [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update `server` to run a new version of Node and update dependencies
 - [#42](https://github.com/DFE-Digital/polis-whitelabel/issues/42) Fix to crash when voting anonymously and remove legacy IP logging
