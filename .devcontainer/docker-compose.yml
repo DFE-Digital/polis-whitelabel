@@ -1,13 +1,13 @@
 version: '3.8'
 services:
   devcontainer:
-    container_name: polis-devcontainer
-    image: polis-devcontainer:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ../..:/workspaces:cached
+    # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
-    ports:
-      - 8000:8000
 
   db:
     image: postgres:latest
@@ -16,11 +16,9 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ../database/migrations:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_PASSWORD: polis
-      POSTGRES_USER: polis
-      POSTGRES_DB: polis
-    ports:
-      - 5432:5432
+      POSTGRES_PASSWORD: node
+      POSTGRES_USER: node
+      POSTGRES_DB: node
 
 volumes:
   postgres-data:
