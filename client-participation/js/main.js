@@ -389,7 +389,6 @@ window.twitterStatus = function(status) {
   eb.trigger(eb.twitterStatus, status);
 };
 
-
 preloadHelper.firstConvPromise.then(function() {
   PostMessageUtils.postInitEvent("ok");
 }, function() {

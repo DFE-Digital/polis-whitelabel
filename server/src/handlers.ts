@@ -5855,31 +5855,6 @@ function handle_POST_contributors(
     );
 }
 
-function handle_POST_waitinglist(
-  req: {
-    p: { campaign: any; affiliation: any; role: any; email: any; name: any };
-  },
-  res: { json: (arg0: {}) => void }
-) {
-  return dbPgQuery
-    .queryP(
-      "insert into waitinglist (email, campaign, affiliation, role, name) values ($1, $2, $3, $4, $5);",
-      [
-        req.p.email,
-        req.p.campaign,
-        req.p.affiliation || null,
-        req.p.role || null,
-        req.p.name,
-      ]
-    )
-    .then(() => {
-      res.json({});
-    })
-    .catch((err: any) => {
-      Log.fail(res, 500, "polis_err_POST_waitinglist", err);
-    });
-}
-
 // TODO rename to LTI/launch
 // TODO save launch contexts in mongo. For now, to err on the side of collecting extra data, let them be duplicated. Attach a timestamp too.
 // TODO return HTML from the auth functions. the html should contain the token? so that ajax calls can be made.
@@ -6961,7 +6936,6 @@ export {
   handle_POST_upvotes,
   handle_POST_users_invite,
   handle_POST_votes,
-  handle_POST_waitinglist,
   handle_POST_xidWhitelist,
   handle_POST_zinvites,
   handle_PUT_comments,

@@ -90,7 +90,6 @@ post "/api/v3/tutorial",
 post "/api/v3/upvotes",
 post "/api/v3/users/invite",
 post "/api/v3/votes",
-post "/api/v3/waitinglist",
 post "/api/v3/xidWhitelist",
 post "/api/v3/zinvites/:zid",
 

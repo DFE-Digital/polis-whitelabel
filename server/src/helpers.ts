@@ -5332,48 +5332,6 @@ function doFamousQuery(
   });
 } // end doFamousQuery
 
-function postMessageUsingHttp(o: {
-  channel: any;
-  team?: any;
-  text: any;
-  attachments?: {
-    text: number;
-    fallback: string;
-    callback_id: string;
-    color: string;
-    attachment_type: string;
-    actions: (
-      | { name: string; text: string; type: string; value: string }
-      | {
-          name: string;
-          text: string;
-          style: string;
-          type: string;
-          value: string;
-          confirm: {
-            title: string;
-            text: string;
-            ok_text: string;
-            dismiss_text: string;
-          };
-        }
-    )[];
-  }[];
-}) {
-  return new Promise(function (
-    resolve: (arg0: any) => void,
-    reject: (arg0: any) => void
-  ) {
-    web.chat.postMessage(o.channel, o.text, o, (err: any, info: any) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(info);
-      }
-    });
-  });
-}
-
 function sendEinviteEmail(req: any, email: any, einvite: any) {
   let serverName = Config.getServerNameWithProtocol(req);
   const body = `Welcome to pol.is!
@@ -6303,7 +6261,6 @@ export {
   removeNullOrUndefinedProperties,
   pullFbTwIntoSubObjects,
   doFamousQuery,
-  postMessageUsingHttp,
   doSendEinvite,
   renderLtiLinkagePage,
   addCanvasAssignmentConversationCallbackParamsIfNeeded,
