@@ -8,6 +8,7 @@ The Dockerfiles are primarily meant to be for production use since changes will 
 * Build `polis-math` by using `npm run build:math`
 * Build `polis-server` by using `npm run build:server`
 * Build `polis-file-server` by using `npm run build:file-server`
+* Build `polis-reverse-proxy` by using `npm run build:reverse-proxy`
 * Run images using `npm run run:compose` 
 
 Navigate to [http://localhost:8000](http://localhost:8000) to view the Pol.is front-end.
