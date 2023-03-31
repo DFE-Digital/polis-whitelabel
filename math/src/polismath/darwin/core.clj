@@ -55,7 +55,6 @@
   (update-export-status darwin params {:status status :params params}))
 
 
-
 ;; We use AWS to store conversation exports whcih took a long time to compute.
 ;; These exports are set to expire automatically.
 ;; The number of days before expiry should be stored in env variable :export-expiry-days.
@@ -227,14 +226,14 @@
 ;; NOOP right now for compatibility
 (defrecord Darwin [config postgres conversation-manager s3-client]
   component/Lifecycle
-  (start [component]
-         (if-let [aws-config (get config :aws)]
-           (let [creds (aws-creds/basic-credentials-provider aws-config)]
-             (assoc component
-                    :s3-client (aws/client {:api :s3
-                                            :credentials-provider creds})))
-           (do (log/info "Skipping AWS connection")
-               component)))
+  (start [component] 
+    (if-let [aws-config (get config :aws)]
+      (let [creds (aws-creds/basic-credentials-provider aws-config)]
+        (assoc component
+               :s3-client (aws/client {:api :s3
+                                       :credentials-provider creds})))
+      (do (log/info "Skipping AWS connection")
+          component)))
   (stop [component]
     component))
 
