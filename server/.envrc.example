@@ -25,7 +25,7 @@ export DOMAIN_OVERRIDE=localhost:8000
 # export ADMIN_EMAIL_EMAIL_TEST=""
 # export ADMIN_UIDS=[]
 
-# These are the shared credentials for the math worker to use when polling
+# FIXME: These are the deprecated settings for submitting web requests to the math worker - they should be removed
 export WEBSERVER_USERNAME=ws-user
 export WEBSERVER_PASS=ws-pass
 
