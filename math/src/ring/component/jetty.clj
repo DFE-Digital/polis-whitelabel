@@ -1,3 +1,6 @@
+;; FIXME: This is library code imported from https://github.com/weavejester/ring-jetty-component which has conflicting
+;; sub-dependencies (ring-jetty-adapter). Use this imported version until upstream is updated.
+
 (ns ring.component.jetty
   (:import org.eclipse.jetty.server.Server)
   (:require [com.stuartsierra.component :as component]
