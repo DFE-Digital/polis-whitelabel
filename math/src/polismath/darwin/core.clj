@@ -20,7 +20,6 @@
     [com.stuartsierra.component :as component]
     [cognitect.aws.client.api :as aws]
     [cognitect.aws.credentials :as aws-creds]
-    ;[amazonica.aws.s3 :as s3]
     [clj-time.core :as time]
     [clj-http.client :as client]
     [polismath.utils :as utils]
@@ -227,7 +226,7 @@
 ;; NOOP right now for compatibility
 (defrecord Darwin [config postgres conversation-manager s3-client]
   component/Lifecycle
-  (start [component]
+  (start [component] 
     (if-let [aws-config (get config :aws)]
       (let [creds (aws-creds/basic-credentials-provider aws-config)]
         (assoc component

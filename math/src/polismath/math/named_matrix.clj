@@ -5,8 +5,7 @@
             ;[clojure.core.matrix.select :as matrix]
             [taoensso.timbre.profiling :as profiling :refer (pspy pspy* profile defnp p p*)]
             [clojure.spec.alpha :as s]
-            [clojure.spec.gen.alpha :as gen]
-            [clojure.test.check.generators :as generators])
+            [clojure.spec.gen.alpha :as gen])
   ;; Again, move to 
   (:use polismath.utils))
 

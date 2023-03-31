@@ -16,6 +16,14 @@ server {
     # ssl_stapling on;
     # ssl_stapling_verify on;
 
+    # Some security headers
+    server_tokens off; # Turns of version reporting in error messages and headers
+    more_clear_headers "Server"; # Clears the Server header containing server info
+    more_clear_headers "X-Powered-By"; # Clears the X-Powered-By header containing server info
+    more_set_headers "Referrer-Policy: strict-origin-when-cross-origin"; # Make the default explicit
+    more_set_headers "X-Content-Type-Options: nosniff"; # Blocks requests from script tags if not Javascript and styles tags if not CSS
+    # more_set_headers "X-Frame-Options: SAMEORIGIN"; # Only set this if you will not be embedding pol.is in other webpages
+
     # Enable compression
     gzip on;
     gzip_min_length 20; # Small files offer little benefit from compression
@@ -39,15 +47,15 @@ server {
         access_log "off"; # Don't log
     }
 
+    location / {
+        proxy_cache polis_cache;
+        proxy_pass ${POLIS_SERVER_HOST};
+    }
+
     # Want to make the conversation page cachable but it has a 'test' cookie set which breaks the cache
     # This is safe to cache as it is the same for everyone.
     location ~ ^/[0-9][0-9A-Za-z]+(/.*)?$ {
         proxy_ignore_headers Set-Cookie;
-        proxy_cache polis_cache;
-        proxy_pass http://localhost:8000;
-    }
-
-    location / {
         proxy_cache polis_cache;
         proxy_pass ${POLIS_SERVER_HOST};
     }

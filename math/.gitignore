@@ -1,12 +1,5 @@
 .cpcache/
 .gorilla-port
-.lein-deps-sum
-.lein-env
-.lein-failures
-.lein-git-deps/debug-repl
-.lein-git-deps/hiphip
-.lein-plugins
-.lein-repl-history
 .nrepl-port
 *.class
 *.jar

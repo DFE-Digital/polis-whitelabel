@@ -1,19 +1,3 @@
-(ns density-plotting
-  "# Density plotting test
-
-  This doesn't currently work yet, but its an attempt at visualizing a point clouds as a contour map of its density distribution.
-  The example I'm working from for vega is: https://vega.github.io/vega/examples/contour-plot/.
-  Unfortunately, this is vega, not vega-lite, and the vizard lib at the moment only plots vega-lite.
-  I've added a couple of issues for this (see https://github.com/yieldbot/vizard/issues/12 and #13).
-  It seems like it should be possible to add this, and maybe if we end up caring enough I can do so.
-  For now, not super vital."
-  (:require
-    [oz.core :as oz]))
-
-
-;(defonce start-viz
-  ;(viz/start-plot-server!))
-
 
 (def data-values
   [{:x 3.4 :y 5.3}
@@ -51,4 +35,3 @@
 
 ;(viz/to-json plot-spec-2)
 ;(oz/view! plot-spec-2)
-

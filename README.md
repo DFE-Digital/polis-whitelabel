@@ -28,6 +28,20 @@ We have three different scenarios for deployment
 * [Docker](./deploy/docker/README.md) (production/testing)
 * [Virtual Machine](./deploy/vm/README.md) (production/testing/development)
 
+## Testing
+
+See [e2e/README.md](./e2e/README.md) for instructions on running the end-to-end tests
+
+## Vulnerability scanning
+
+Using Docker you can scan a built image using,
+
+ ```docker scout cves <image-name>:latest```
+ 
+ For the `math` module, the root dependencies in `deps.edn` can be found by out by running
+
+ ```clojure -Stree```
+
 ## Architecture
 
 * `database/` is migrations and config for the PostgreSQL database

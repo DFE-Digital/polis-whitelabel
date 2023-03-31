@@ -18,7 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#59](https://github.com/DFE-Digital/polis-whitelabel/issues/59) Remove server headers from example production configuration/Update devcontainer
 - [#53](https://github.com/DFE-Digital/polis-whitelabel/issues/53) Fix missing `libpq-dev` dependency when building `server` in Devcontainer
+- [#49](https://github.com/DFE-Digital/polis-whitelabel/issues/49) Updated/removed vulnerable math dependencies including AWS housekeeping functions
+- [#48](https://github.com/DFE-Digital/polis-whitelabel/issues/48) Fix a XSS bug where HTML & Javascript can be dropped into description field
 - [#45](https://github.com/DFE-Digital/polis-whitelabel/issues/45) Update `file-server` to update dependencies in Dockerfile
 - [#41](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Update `server` to run a new version of Node and update dependencies
 - [#42](https://github.com/DFE-Digital/polis-whitelabel/issues/42) Fix to crash when voting anonymously and remove legacy IP logging

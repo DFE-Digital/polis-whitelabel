@@ -13,6 +13,7 @@ import querystring from "querystring";
 import request from "request-promise"; // includes Request, but adds promise methods
 import _ from "underscore";
 import pg from "pg";
+import sanitizeHtml from 'sanitize-html';
 import { Request, Response } from 'express'
 
 import { METRICS_IN_RAM } from "./utils/metered";
@@ -3956,7 +3957,8 @@ function handle_PUT_conversations(
         fields.topic = req.p.topic;
       }
       if (!_.isUndefined(req.p.description)) {
-        fields.description = req.p.description;
+        // Remove dangerous HTML (e.g. script tags) but leave Markdown to avoid XSS
+        fields.description = sanitizeHtml(req.p.description);
       }
       if (!_.isUndefined(req.p.vis_type)) {
         fields.vis_type = req.p.vis_type;
