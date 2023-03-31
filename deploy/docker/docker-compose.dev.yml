@@ -68,6 +68,20 @@ services:
     networks:
       - "polis-net"
 
+  reverse-proxy:
+    image: polis-reverse-proxy:latest
+    build:
+      context: .
+      dockerfile: ./reverse-proxy.Dockerfile
+    ports:
+      - 3000:80
+    environment:
+      - POLIS_SERVER_HOST=http://server:8000
+    depends_on:
+      - "server"
+    networks:
+      - "polis-net"
+
 networks:
   polis-net:
 
