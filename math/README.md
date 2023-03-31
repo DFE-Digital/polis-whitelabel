@@ -45,10 +45,8 @@ There are also a number of commands which can be run from the root of the
 monorepo:
 
 * `clojure -M:run --help` - print run command help
-* ~~`clojure -M:run export <conversation-id> -f <export-filename>.zip`~~ - export the conversation at `<conversation-id>` to the given filename
-  * Instead use `lein with-profile production run export -X -Z <conversation-id> -f <my-filename>.zip` to get the raw data
+* `clojure -M:run export -Z <conversation-id> -X -f <export-filename>.zip` - export the conversation at `<conversation-id>` to the given filename
   * Note this will not work unless `MATH_ENV` is set to `prod`
-  * The `production` profile prevent vulnerable dependencies from being installed and used
 * `clojure -M:run update -Z <conversation-id>` - update a particular conversation
 * `clojure -M:run full` - run a full system (poller plus auxiliary task processing)
 * et al.
