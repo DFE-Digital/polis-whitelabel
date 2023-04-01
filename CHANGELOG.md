@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#42](https://github.com/DFE-Digital/polis-whitelabel/issues/42) Fix to crash when voting anonymously and remove legacy IP logging
 - [#39](https://github.com/DFE-Digital/polis-whitelabel/issues/39) Fix to #37 so that `file-server.Dockerfile` now builds with latest versions
 - [#37](https://github.com/DFE-Digital/polis-whitelabel/issues/37) Migrated client-report from Gulp 3 to Webpack
+- [#33](https://github.com/DFE-Digital/polis-whitelabel/issues/33) Fix e2e tests and establish contribution workflow
 - [#30](https://github.com/DFE-Digital/polis-whitelabel/issues/30) Migrated client-admin from Gulp 3 to Webpack
 - [#5](https://github.com/DFE-Digital/polis-whitelabel/issues/5) Restored Docker build process
 - [#1](https://github.com/DFE-Digital/polis-whitelabel/issues/1) Fixed `authorUid is undefined` crash in `server`
