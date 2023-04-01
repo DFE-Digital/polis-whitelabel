@@ -45,7 +45,7 @@ describe('Integrated Conversations', () => {
     }`
     cy.visit(integrationUrl)
     cy.enter(`#polis_${this.siteId}_${pageId}`).then((cyframe) => {
-      cyframe().find('div[data-view-name="root"]').as('iframe')
+      cyframe().find('div[data-view-name="root"]', { timeout: 6000 }).as('iframe')
       cy.get('@iframe').should('be.visible')
     })
 
