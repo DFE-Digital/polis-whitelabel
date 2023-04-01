@@ -1,6 +1,4 @@
 describe('Embedded Conversations', () => {
-  // This test requires overriding client-admin/embed.html with
-  // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
   const EMBED_URL = Cypress.config().embedUrl
   const CONVO_DESCRIPTION = 'This is dummy description for embed tests.'
@@ -15,7 +13,6 @@ describe('Embedded Conversations', () => {
   })
 
   it('renders a default embed', function () {
-    cy.logout()
     cy.visit(
       `${EMBED_URL}?polisDomain=${POLIS_DOMAIN}&data-conversation_id=${
         this.convoId
