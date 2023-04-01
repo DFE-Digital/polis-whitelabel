@@ -57,7 +57,11 @@ describe('Integrated Conversations', () => {
     ).then((resp) => {
       const mostRecentConvo = resp.body.shift()
       for (const [field, val] of Object.entries(CONVO_DEFAULTS)) {
-        cy.wrap(mostRecentConvo).its(field).should('equal', val)
+        if (val === null) {
+          cy.wrap(mostRecentConvo).its(field).should('be.null')
+        } else {
+          cy.wrap(mostRecentConvo).its(field).should('equal', val)
+        }
       }
       cy.wrap(mostRecentConvo).its('parent_url').should('equal', integrationUrl)
 
