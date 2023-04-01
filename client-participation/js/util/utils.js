@@ -181,7 +181,7 @@ function parseQueryParams(s) {
   var pairArrays = _.map(pairStrings, function(pairString) {
     return pairString.split("=");
   });
-  return _.zipObject(pairArrays);
+  return _.fromPairs(pairArrays)
 }
 
 function toQueryParamString(o) {
