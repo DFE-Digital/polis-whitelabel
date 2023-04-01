@@ -337,9 +337,6 @@ function userCanSeeFooter() {
   var params = parseQueryParams(window.location.search);
   var ucsf = params.ucsf;
   ucsf = (ucsf === "true" || ucsf === "1" || _.isUndefined(ucsf));
-  if (!ucsf && !ownerCanDisableBranding()) {
-    ucsf = true;
-  }
   return ucsf;
 }
 
@@ -366,10 +363,6 @@ function userCanSeeSubscribePrompt() {
   // 1 is for email, there are no other options yet.
   x = (x === 1 || x === "1" || x === "true");
   return x;
-}
-
-function ownerCanDisableBranding() {
-  return window.preload.firstConv.plan >= 99;
 }
 
 function getXid() {

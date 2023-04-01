@@ -103,7 +103,6 @@ describe('Embedded Conversations', () => {
     cy.get('@headline').should('not.contain', CONVO_DESCRIPTION)
   })
 
-  // Seems convo owner needs special permission to disable branding.
   it('hides footer when user-can-see-footer (ucsf) is OFF', function () {
     cy.logout()
     cy.visit(
@@ -113,11 +112,10 @@ describe('Embedded Conversations', () => {
     )
     cy.enter(`#polis_${this.convoId}`).then((cyframe) => {
       cyframe().find('div[data-view-name="root"]').as('iframe')
-      cyframe().find('svg.svgCenter').as('footer-logo')
+      cyframe().find('svg.svgCenter').should('not.exist')
     })
 
     cy.get('@iframe').should('be.visible')
-    cy.get('@footer-logo').should('not.be.visible')
   })
 
   it('hides vis when user-can-see-vis (ucsv) is OFF', function () {
