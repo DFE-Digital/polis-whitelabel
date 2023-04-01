@@ -54,14 +54,14 @@ describe('Kitchen Sink Participation', () => {
     cy.visit(`/${this.convoId}`)
 
     // Confirm visualization won't show at 6 participants.
-    cy.wait(2000)
+    cy.wait(8000) // Give it some time in case it disappears
     cy.get('#vis_not_yet_label').should('be.visible')
     cy.get('#vis2_root > div').should('not.exist')
 
     // Confirm visualization does show after 7 participants.
     submitVotes(['DDD'], this.convoId)
-    cy.wait(4000)
-    cy.get('#vis_not_yet_label').should('not.be.visible')
+    // Set a long timeout since the math worker has to generate results 
+    cy.get('#vis_not_yet_label', { timeout: 8000 }).should('not.be.visible')
     cy.get('#vis2_root > div').should('exist')
     cy.get('[data-testid="hull-0"]').should('exist')
   })
