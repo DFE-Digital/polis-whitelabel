@@ -900,7 +900,7 @@
 (defn conv-update-dump
   "Write out conversation state, votes, computational opts and error for debugging purposes."
   [conv votes & [opts error]]
-  (spit (str "errorconv." (. System (nanoTime)) ".edn")
+  (spit (str "errorconv.LATEST.edn")
     (prn-str
       {:conv  (into {}
                 (assoc-in conv [:pca :center] (matrix/matrix (into [] (:center (:pca conv))))))
