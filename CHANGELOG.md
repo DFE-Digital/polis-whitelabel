@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
+- [#66](https://github.com/DFE-Digital/polis-whitelabel/issues/66) Improve language support including left-to-right, Farsi translation and improvements to German (Upstream Alignment)
 - [#52](https://github.com/DFE-Digital/polis-whitelabel/issues/52) Example reverse-proxy for production
 - [#11](https://github.com/DFE-Digital/polis-whitelabel/issues/11) Added Devcontainer based development environment
 - [#29](https://github.com/DFE-Digital/polis-whitelabel/issues/29) Basic performance test scripts in JMeter
