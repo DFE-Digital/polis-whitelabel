@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#76](https://github.com/DFE-Digital/polis-whitelabel/issues/76) Fix pull request template
 - [#59](https://github.com/DFE-Digital/polis-whitelabel/issues/59) Remove server headers from example production configuration/Update devcontainer
 - [#58](https://github.com/DFE-Digital/polis-whitelabel/issues/58) `polis-math` filling container with `errorconv.*.edn` files
 - [#53](https://github.com/DFE-Digital/polis-whitelabel/issues/53) Fix missing `libpq-dev` dependency when building `server` in Devcontainer
