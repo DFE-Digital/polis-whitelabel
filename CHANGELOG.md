@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
-- [#67](https://github.com/DFE-Digital/polis-whitelabel/issues/67) Decouple Facebook Twitter, remove Slack (Upstream alignment)
+- [#67](https://github.com/DFE-Digital/polis-whitelabel/issues/67) Remove Slack and more Intercom (Upstream alignment)
 - [#66](https://github.com/DFE-Digital/polis-whitelabel/issues/66) Improve language support including left-to-right, Farsi translation and improvements to German (Upstream Alignment)
 - [#52](https://github.com/DFE-Digital/polis-whitelabel/issues/52) Example reverse-proxy for production
 - [#11](https://github.com/DFE-Digital/polis-whitelabel/issues/11) Added Devcontainer based development environment
