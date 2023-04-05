@@ -151,7 +151,6 @@ import {
   makeFileFetcher,
   moderateComment,
   portForParticipationFiles,
-  postMessageUsingHttp,
   proxy,
   pullFbTwIntoSubObjects,
   pullXInfoIntoSubObjects,
