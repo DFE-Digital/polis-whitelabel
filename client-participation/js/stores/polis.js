@@ -9,7 +9,7 @@ var preloadHelper = require("../util/preloadHelper");
 var Utils = require("../util/utils");
 var Net = require("../util/net");
 var $ = require("jquery");
-var d3 = require("../3rdparty/d3.v4.min");
+var d3 = require("d3-dsv");
 
 var PTPOI_BID_OFFSET = 1e10;
 
