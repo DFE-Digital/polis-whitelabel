@@ -4,12 +4,13 @@ version: "3.4"
 services:
   maildev:
     image: docker.io/maildev/maildev
-      - "polis-net"
     ports:
       # User interface
       - "1080:1080"
       # SMTP port
       - "25:25"
+    networks:
+      - "polis-net"
   server:
     container_name: polis-server
     env_file: ../../server/.envrc
