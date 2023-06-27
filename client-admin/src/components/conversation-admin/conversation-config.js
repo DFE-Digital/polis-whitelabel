@@ -11,7 +11,7 @@ import {
 import ComponentHelpers from '../../util/component-helpers'
 import NoPermission from './no-permission'
 import { Heading, Box, Text, jsx } from 'theme-ui'
-import emoji from 'react-easy-emoji'
+import emoji from '../framework/custom-emoji'
 
 import { CheckboxField } from './CheckboxField'
 import ModerateCommentsSeed from './seed-comment'
