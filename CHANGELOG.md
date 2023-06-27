@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#85](https://github.com/DFE-Digital/polis-whitelabel/issues/85) Fix local Docker Compose script
 - [#83](https://github.com/DFE-Digital/polis-whitelabel/issues/83) Fix broken Twemoji image URLs
 - [#76](https://github.com/DFE-Digital/polis-whitelabel/issues/76) Fix pull request template
 - [#59](https://github.com/DFE-Digital/polis-whitelabel/issues/59) Remove server headers from example production configuration/Update devcontainer
