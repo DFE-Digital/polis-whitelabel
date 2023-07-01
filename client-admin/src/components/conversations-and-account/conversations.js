@@ -35,7 +35,7 @@ class Conversations extends React.Component {
   goToConversation = (conversation_id) => {
     return () => {
       if (this.props.history.pathname === 'other-conversations') {
-        window.open(`${Url.urlPrefix}${conversation_id}`, '_blank')
+        window.open(`/${conversation_id}`, '_blank')
         return
       }
       this.props.history.push(`/m/${conversation_id}`)

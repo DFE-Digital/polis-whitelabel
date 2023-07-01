@@ -79,8 +79,8 @@ class ReportsList extends React.Component {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href={Url.urlPrefix + 'report/' + report.report_id}>
-                {Url.urlPrefix}report/{report.report_id}
+                href={'/report/' + report.report_id}>
+                {new URL(window.location.href).host}/report/{report.report_id}
               </a>
             </Box>
           )
