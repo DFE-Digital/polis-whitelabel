@@ -1,8 +1,12 @@
 // Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var eb = require("../eventBus");
+var URLs = require("../util/url");
 var Utils = require("../util/utils");
 var $ = require("jquery");
+
+var urlPrefix = URLs.urlPrefix;
+var basePath = "";
 
 var pid = "unknownpid";
 
@@ -10,6 +14,8 @@ function polisAjax(api, data, type, headers) {
   if (!_.isString(api)) {
     throw "api param should be a string";
   }
+
+  var url = urlPrefix + basePath + api;
 
   // Add the auth token if needed.
   // if (_.includes(authenticatedCalls, api)) {
@@ -40,7 +46,7 @@ function polisAjax(api, data, type, headers) {
 
   var promise;
   var config = {
-    url: api,
+    url: url,
     contentType: "application/json; charset=utf-8",
     headers: h,
     xhrFields: {
@@ -104,6 +110,7 @@ function polisGet(api, data, headers) {
 
 
 module.exports = {
+  polisAjax: polisAjax,
   polisPost: polisPost,
   polisPut: polisPut,
   polisGet: polisGet,

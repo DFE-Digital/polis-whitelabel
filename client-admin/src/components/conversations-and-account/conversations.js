@@ -8,6 +8,7 @@ import {
   handleCreateConversationSubmit
 } from '../../actions'
 
+import Url from '../../util/url'
 import { Box, Heading, Button, Text } from 'theme-ui'
 import Conversation from './conversation'
 
@@ -34,7 +35,7 @@ class Conversations extends React.Component {
   goToConversation = (conversation_id) => {
     return () => {
       if (this.props.history.pathname === 'other-conversations') {
-        window.open(`/${conversation_id}`, '_blank')
+        window.open(`${Url.urlPrefix}${conversation_id}`, '_blank')
         return
       }
       this.props.history.push(`/m/${conversation_id}`)

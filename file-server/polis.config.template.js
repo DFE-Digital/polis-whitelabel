@@ -5,7 +5,7 @@ module.exports = {
     SERVICE_HOSTNAME: "example.com",
   
     domainWhitelist: [
-      "^example\\.com$",
+      "^example.com$",
       // local ports
       "^localhost$",
       "^127\\.0\\.0\\.1$",

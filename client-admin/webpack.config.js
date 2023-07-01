@@ -110,6 +110,7 @@ module.exports = (env, options) => {
         filename: (isDevBuild || isDevServer) ? 'index.html' : 'index_admin.html',
         inject: "body",
         templateParameters: {
+          domainWhitelist: `["${polisConfig.domainWhitelist.join('","')}"]`,
           fbAppId: polisConfig.FB_APP_ID
         },
       }),
