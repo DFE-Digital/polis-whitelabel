@@ -37,28 +37,28 @@ module.exports = function(params) {
 
   var commentsToVoteOn = {}; // tid -> comment
 
-  var votesPath = "api/v3/votes";
-  var starsPath = "api/v3/stars";
-  var trashesPath = "api/v3/trashes";
-  var commentsPath = "api/v3/comments";
-  var nextCommentPath = "api/v3/nextComment";
-  var finishedTutorialPath = "api/v3/tutorial";
+  var votesPath = "/api/v3/votes";
+  var starsPath = "/api/v3/stars";
+  var trashesPath = "/api/v3/trashes";
+  var commentsPath = "/api/v3/comments";
+  var nextCommentPath = "/api/v3/nextComment";
+  var finishedTutorialPath = "/api/v3/tutorial";
 
-  var pcaPath = "api/v3/math/pca2";
-  var votesFamousPath = "api/v3/votes/famous";
-  var bidiToPidsPath = "api/v3/bidToPid";
+  var pcaPath = "/api/v3/math/pca2";
+  var votesFamousPath = "/api/v3/votes/famous";
+  var bidiToPidsPath = "/api/v3/bidToPid";
 
-  var conversationsPath = "api/v3/conversations";
-  var convSubPath = "api/v3/convSubscriptions";
+  var conversationsPath = "/api/v3/conversations";
+  var convSubPath = "/api/v3/convSubscriptions";
 
-  var particpantGeoLocationsPath = "api/v3/locations";
+  var particpantGeoLocationsPath = "/api/v3/locations";
 
-  var queryParticipantsByMetadataPath = "api/v3/query_participants_by_metadata";
+  var queryParticipantsByMetadataPath = "/api/v3/query_participants_by_metadata";
 
-  var ptptCommentModPath = "api/v3/ptptCommentMod";
-  var participants_extended_path = "api/v3/participants_extended";
+  var ptptCommentModPath = "/api/v3/ptptCommentMod";
+  var participantsExtendedPath = "/api/v3/participants_extended";
 
-  var xidsPath = "api/v3/xids";
+  var xidsPath = "/api/v3/xids";
 
   var logger = params.logger;
 
@@ -503,7 +503,7 @@ module.exports = function(params) {
 
 
   function invite(xids) {
-    return polisPost("api/v3/users/invite", {
+    return polisPost("/api/v3/users/invite", {
       single_use_tokens: true,
       conversation_id: conversation_id,
       xids: xids
@@ -2646,7 +2646,7 @@ module.exports = function(params) {
       conversation_id: conversation_id,
     });
 
-    return polisPut(participants_extended_path, params);
+    return polisPut(participantsExtendedPath, params);
   }
 
   return {

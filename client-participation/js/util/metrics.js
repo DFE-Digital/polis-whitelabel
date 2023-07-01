@@ -16,7 +16,7 @@ function upload() {
   if (!metrics.length) {
     return;
   }
-  polisPost("api/v3/metrics", {
+  polisPost("/api/v3/metrics", {
     types: _.map(metrics, "type"),
     times: _.map(metrics, "time"),
     durs: _.map(metrics, "dur"),
