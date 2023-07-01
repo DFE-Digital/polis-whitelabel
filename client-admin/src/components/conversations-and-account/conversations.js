@@ -8,7 +8,6 @@ import {
   handleCreateConversationSubmit
 } from '../../actions'
 
-import Url from '../../util/url'
 import { Box, Heading, Button, Text } from 'theme-ui'
 import Conversation from './conversation'
 

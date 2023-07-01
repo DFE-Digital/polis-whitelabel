@@ -3,7 +3,6 @@
 import PolisNet from '../../../util/net'
 import React from 'react'
 import PropTypes from 'prop-types'
-import Url from '../../../util/url'
 import { connect } from 'react-redux'
 import { Heading, Box, Button } from 'theme-ui'
 import ComponentHelpers from '../../../util/component-helpers'
