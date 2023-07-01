@@ -52,7 +52,7 @@ class ShareAndEmbed extends React.Component {
             <a
               target="blank"
               href={'/' + match.params.conversation_id}>
-              {new URL(window.location.href).host + '/' + match.params.conversation_id}
+              {new URL(window.location.href).origin + '/' + match.params.conversation_id}
             </a>
           </p>
         </div>
