@@ -15,6 +15,9 @@ function sendTextEmailWithBackup(
   subject: any,
   text: any
 ) {
+  if (!process.env.EMAIL_TRANSPORT_TYPES) {
+    return
+  }
   const transportTypes = process.env.EMAIL_TRANSPORT_TYPES
     ? process.env.EMAIL_TRANSPORT_TYPES.split(",")
     : ["aws-ses", "mailgun"];
@@ -61,10 +64,10 @@ function sendTextEmail(
   text: string | undefined,
   transportTypes = process.env.EMAIL_TRANSPORT_TYPES,
   priority = 1
-): Promise<SMTPTransport.SentMessageInfo>  {
+): Promise<SMTPTransport.SentMessageInfo | undefined>  {
   // Exit if empty string passed.
   if (!transportTypes) {
-    return Promise.reject('no_email_transport_defined');
+    return Promise.resolve(undefined)
   }
 
   const transportTypesArray = transportTypes.split(",");
