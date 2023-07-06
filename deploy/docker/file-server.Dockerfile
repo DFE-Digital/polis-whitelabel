@@ -8,10 +8,14 @@ FROM client-base AS client-admin
 
 WORKDIR /client-admin/app
 
-COPY client-admin/. .
-COPY file-server/polis.config.js polis.config.js
+# This is an optimisation so that the npm install can be cached as a Docker layer when
+# updating the UI code
+COPY client-admin/package*.json .
 
 RUN npm install
+
+COPY client-admin/. .
+COPY file-server/polis.config.js polis.config.js
 
 RUN npm run build:prod
 
@@ -21,10 +25,12 @@ FROM client-base AS client-participation
 
 WORKDIR /client-participation/app
 
-COPY client-participation/. .
-COPY file-server/polis.config.js polis.config.js
+COPY client-participation/package*.json .
 
 RUN npm install
+
+COPY client-participation/. .
+COPY file-server/polis.config.js polis.config.js
 
 RUN npm run build:prod
 
@@ -34,10 +40,12 @@ FROM client-base AS client-report
 
 WORKDIR /client-report/app
 
-COPY client-report/. .
+COPY client-report/package*.json .
 
 # This should be working with `npm ci`, but isn't; Need to debug
 RUN npm install
+
+COPY client-report/. .
 
 RUN npm run build:prod
 
