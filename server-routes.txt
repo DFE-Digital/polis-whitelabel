@@ -113,7 +113,6 @@ get /.*\//, // ends in slash? redirect to non-slash version
 get /^\/__webpack_hmr$/,
 get /^\/.*embed.*js\/.*/, proxy);
 get /^\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // conversation view
-get /^\/about$/, makeRedirectorTo("/home"));
 get /^\/account(\/.*)?/, fetchIndexForAdminPage);
 get /^\/bot(\/.*)?/, fetchIndexForAdminPage);
 get /^\/bot\/install(\/.*)?/, fetchIndexForAdminPage);

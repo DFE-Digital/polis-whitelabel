@@ -513,75 +513,6 @@ function initializePolisHelpers() {
     next();
   }
 
-  function redirectIfNotHttps(
-    req: { headers?: { [x: string]: string; host: string }; url: string },
-    res: {
-      writeHead: (arg0: number, arg1: { Location: string }) => void;
-      end: () => any;
-    },
-    next: () => any
-  ) {
-    let exempt = devMode;
-
-    // IE is picky, so use HTTP.
-    // TODO figure out IE situation, (proxy static files in worst-case)
-    // exempt = exempt || /MSIE/.test(req?.headers?.['user-agent']); // TODO test IE11
-
-    if (exempt) {
-      return next();
-    }
-
-    if (!/https/.test(req?.headers?.["x-forwarded-proto"] || "")) {
-      // assuming we're running on Heroku, where we're behind a proxy.
-      res.writeHead(302, {
-        Location: "https://" + req?.headers?.host + req.url,
-      });
-      return res.end();
-    }
-    return next();
-  }
-
-  function redirectIfWrongDomain(
-    req: { headers?: { host: string }; url: string },
-    res: {
-      writeHead: (arg0: number, arg1: { Location: string }) => void;
-      end: () => any;
-    },
-    next: () => any
-  ) {
-    if (/www.pol.is/.test(req?.headers?.host || "")) {
-      res.writeHead(302, {
-        Location: "https://pol.is" + req.url,
-      });
-      return res.end();
-    }
-    return next();
-  }
-
-  function redirectIfApiDomain(
-    req: { headers?: { host: string }; url: string },
-    res: {
-      writeHead: (arg0: number, arg1: { Location: string }) => void;
-      end: () => any;
-    },
-    next: () => any
-  ) {
-    if (/api.pol.is/.test(req?.headers?.host || "")) {
-      if (req.url === "/" || req.url === "") {
-        res.writeHead(302, {
-          Location: "https://pol.is/docs/api",
-        });
-        return res.end();
-      } else if (!req.url.match(/^\/?api/)) {
-        res.writeHead(302, {
-          Location: "https://pol.is/" + req.url,
-        });
-        return res.end();
-      }
-    }
-    return next();
-  }
-
   function doXidConversationIdAuth(
     assigner: (arg0: any, arg1: string, arg2: number) => void,
     xid: any,
@@ -961,7 +892,7 @@ function initializePolisHelpers() {
     if (req.body.zid && !req.body.conversation_id) {
       console.log("info", "redirecting old zid user to about page");
       res.writeHead(302, {
-        Location: "https://pol.is/about",
+        Location: "https://pol.is",
       });
       return res.end();
     }
@@ -1781,23 +1712,6 @@ function initializePolisHelpers() {
     });
   }
 
-  function makeRedirectorTo(path: string) {
-    return function (
-      req: { headers?: { host: string } },
-      res: {
-        writeHead: (arg0: number, arg1: { Location: string }) => void;
-        end: () => void;
-      }
-    ) {
-      let protocol = devMode ? "http://" : "https://";
-      let url = protocol + req?.headers?.host + path;
-      res.writeHead(302, {
-        Location: url,
-      });
-      res.end();
-    };
-  }
-
   // https://github.com/mindmup/3rdpartycookiecheck/
   // https://stackoverflow.com/questions/32601424/render-raw-html-in-response-with-express
   function fetchThirdPartyCookieTestPt1(
@@ -2104,15 +2018,11 @@ function initializePolisHelpers() {
     HMAC_SIGNATURE_PARAM_NAME,
     hostname,
     makeFileFetcher,
-    makeRedirectorTo,
     pidCache,
     portForAdminFiles,
     portForParticipationFiles,
     proxy,
-    redirectIfApiDomain,
     redirectIfHasZidButNoConversationId,
-    redirectIfNotHttps,
-    redirectIfWrongDomain,
     sendTextEmail,
     timeout,
     winston,

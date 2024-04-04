@@ -40,15 +40,11 @@ helpersInitialized.then(
       HMAC_SIGNATURE_PARAM_NAME,
       hostname,
       makeFileFetcher,
-      makeRedirectorTo,
       pidCache,
       portForAdminFiles,
       portForParticipationFiles,
       proxy,
-      redirectIfApiDomain,
       redirectIfHasZidButNoConversationId,
-      redirectIfNotHttps,
-      redirectIfWrongDomain,
       timeout,
       winston,
       writeDefaultHead,
@@ -210,13 +206,10 @@ helpersInitialized.then(
 
     app.use(middleware_responseTime_start);
 
-    app.use(redirectIfNotHttps);
     app.use(cookieParser());
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
     app.use(writeDefaultHead);
-    app.use(redirectIfWrongDomain);
-    app.use(redirectIfApiDomain);
     app.use(middleware_log_request_body);
     app.use(middleware_log_middleware_errors);
 
@@ -1598,11 +1591,6 @@ helpersInitialized.then(
       };
     }
 
-    // Conversation aliases
-    app.get(/^\/football$/, makeRedirectorTo("/2arcefpshi"));
-    app.get(/^\/pdf$/, makeRedirectorTo("/23mymwyhkn")); // pdf 2017
-    app.get(/^\/nabi$/, makeRedirectorTo("/8ufpzc6fkm")); //
-
     app.get(/^\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // conversation view
     app.get(/^\/explore\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // power view
     app.get(/^\/share\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // share view
@@ -1706,7 +1694,7 @@ helpersInitialized.then(
       )
     );
     // Duplicate url for content at root. Needed so we have something for "About" to link to.
-    app.get(/^\/about$/, makeRedirectorTo("/home"));
+    app.get(/^\/about$/, fetchIndexForAdminPage);
     app.get(/^\/home(\/.*)?/, fetchIndexForAdminPage);
     app.get(
       /^\/s\/CTE\/?$/,
