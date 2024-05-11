@@ -1,6 +1,8 @@
 "use strict";
 
 import akismetLib from "akismet";
+import http from 'http';
+import https from 'https';
 import async from "async";
 import badwords from "badwords/object";
 import crypto from "crypto";
@@ -5752,7 +5754,7 @@ function makeFileFetcher(
     }
     let url = "http://" + hostname + ":" + port + path;
     console.log("info", "fetch file from " + url);
-    let fsReq = request.get(url)
+    let fsReq = request.get(url, { forever: true })
 
     fsReq
       .on("error", function (err: any) {
@@ -6119,11 +6121,10 @@ function browserSupportsPushState(req: { headers?: { [x: string]: string } }) {
   return !/MSIE [23456789]/.test(req?.headers?.["user-agent"] || "");
 }
 
-// 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
-// @ts-ignore
-let routingProxy = new httpProxy.createProxyServer();
 
-function proxy(req: Request, res: any) {
+let routingProxy = httpProxy.createProxyServer();
+
+function proxy(req: Request, res: Response) {
   let hostname = buildStaticHostname(req, res);
   if (!hostname) {
     let host = req?.headers?.host || "";
@@ -6148,7 +6149,13 @@ function proxy(req: Request, res: any) {
   let port = process.env.STATIC_FILES_PORT;
   // set the host header too, since S3 will look at that (or the routing proxy will patch up the request.. not sure which)
   if (req && req.headers && req.headers.host) req.headers.host = hostname;
+
+  const isHttps = port === '443'
+
   routingProxy.web(req, res, {
+    agent: isHttps 
+      ? new https.Agent({ keepAlive: true }) 
+      : new http.Agent({ keepAlive: true }),
     target: {
       host: hostname,
       port: port,
