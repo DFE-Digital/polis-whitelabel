@@ -50,6 +50,7 @@ FROM --platform=linux/amd64 nginx:1.23.3-alpine
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
 
 COPY ./reverse-proxy-config/nginx.conf /etc/nginx/nginx.conf
+COPY ./reverse-proxy-config/proxy_params /etc/nginx/proxy_params
 # The base Docker image copies files in the template directory to the config directory
 # after running through 'envsubst' which switchs environment variables into the template.
 # Name it default to overwrite the existing config file.
