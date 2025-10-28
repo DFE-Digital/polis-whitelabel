@@ -19,7 +19,7 @@ services:
       STATIC_FILES_HOST: file-server
       STATIC_FILES_PORT: 8080
       DATABASE_URL: postgres://postgres:mypassword@postgres:5432/postgres
-      DOMAIN_OVERRIDE: server:8000
+      DOMAIN_OVERRIDE: http://server:8000
     image: polis-server:latest
     build:
       context: ../../server
