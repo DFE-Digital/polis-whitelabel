@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bugs
 
+- [#97](https://github.com/DFE-Digital/polis-whitelabel/issues/97) Only partial responses returned when deployed to Azure Container App
 - [#91](https://github.com/DFE-Digital/polis-whitelabel/issues/91) Allow no email transport to be configured without crash
 - [#87](https://github.com/DFE-Digital/polis-whitelabel/issues/85) Client report no longer hardcoded to pol.is domain
 - [#85](https://github.com/DFE-Digital/polis-whitelabel/issues/85) Fix local Docker Compose script

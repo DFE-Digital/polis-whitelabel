@@ -41,6 +41,12 @@ server {
     add_header X-Cache-Status $upstream_cache_status;
     proxy_buffering on;
 
+    # Envoy (used in Azure Container Apps) requires HTTP 1.1 and also does chunked transfer
+    # so we need to make sure that the connection header isn't set to default of 'close'
+    proxy_http_version 1.1;
+    proxy_set_header   "Connection" "";
+
+
     # A health check endpoint
     location = /health {
         return 204;

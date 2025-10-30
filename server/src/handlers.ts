@@ -6806,13 +6806,7 @@ let handle_GET_conditionalIndexFetcher = (function () {
 
 function handle_GET_localFile_dev_only(
   req: Request,
-  res: {
-    writeHead: (
-      arg0: number,
-      arg1?: { "Content-Type": string } | undefined
-    ) => void;
-    end: (arg0?: undefined, arg1?: string) => void;
-  }
+  res: Response
 ) {
   const filenameParts = String(req.path).split("/");
   filenameParts.shift();
