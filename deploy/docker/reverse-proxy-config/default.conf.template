@@ -46,6 +46,10 @@ server {
     proxy_http_version 1.1;
     proxy_set_header   "Connection" "";
 
+    # Pol.is is aware of basic authorisation (even though this is handled by NGINX) and takes 
+    # a different code path which makes anonymous participation not possible - remove before 
+    # sending onto pol.is
+    proxy_set_header   "Authorization" "";
 
     # A health check endpoint
     location = /health {
