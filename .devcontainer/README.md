@@ -9,16 +9,26 @@ This integrates really well with the [VS Code Devcontainer extension](https://co
 
 ## Setup
 
-  1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-  2. Build the container using `docker build -t polis-devcontainer:latest .`
+  1. Install [Podman Desktop](https://podman-desktop.io/)
+  2. Build the container using `podman build -t polis-devcontainer:latest .`
   3. Install the [VSCode Devcontainer Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
   4. VSCode should prompt for you to open the current directory in the Dev container
 
 Ports can be opened through prompts in VSCode and you can connect using the following details ...
 
-  * Postgres Username: `node`
-  * Postgres Password: `node`
-  * Postgres Database: `node`
+  * Postgres Username: `polis`
+  * Postgres Password: `polis`
+  * Postgres Database: `polis`
+
+Once in the container you can start each of the services as follows. Buil notes are in the READMEs for each service.
+
+
+| Service | Directory | command |
+| --- | --- | --- |
+| Pol.is server | `./server` | `npm run dev` (after building) |
+| Pol.is file-server | `./file-server` | `npm run start` (after building) |
+| Pol.is math | `./math` | `clojure -M:run full` |
+| NGINX reverse-proxy | anywhere | `sudo service nginx start` |
 
 ## Development
 
