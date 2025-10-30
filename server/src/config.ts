@@ -7,7 +7,7 @@ function getServerNameWithProtocol(req: any) {
   let server = "https://pol.is";
 
   if (domainOverride) {
-    server = req.protocol + "://" + domainOverride;
+    server = domainOverride;
   }
   if (devMode) {
     // usually localhost:8000

@@ -17,7 +17,7 @@ export ENCRYPTION_PASSWORD_00001=somesecret
 export MATH_ENV=prod
 
 # Set the domain name; make sure this matches what's running on math node
-export DOMAIN_OVERRIDE=localhost:8000
+export DOMAIN_OVERRIDE=http://localhost:8000
 
 # export ADMIN_EMAILS=[]
 # export ADMIN_EMAIL_DATA_EXPORT=""

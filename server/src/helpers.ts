@@ -4124,7 +4124,7 @@ function createModerationUrl(
 ) {
   let server = devMode ? "http://localhost:5000" : "https://pol.is";
   if (Config.domainOverride) {
-    server = req?.protocol + "://" + Config.domainOverride;
+    server = Config.domainOverride;
   }
 
   if (req?.headers?.host?.includes("preprod.pol.is")) {
@@ -5752,7 +5752,11 @@ function makeFileFetcher(
       console.error(req.path);
       return;
     }
-    let url = "http://" + hostname + ":" + port + path;
+
+    const isHttps = port === '443'
+    const protocol = isHttps ? 'https' : 'http'
+    
+    let url = protocol + '://' + hostname + ":" + port + path;
     console.log("info", "fetch file from " + url);
     let fsReq = request.get(url, { forever: true })
 
@@ -6156,10 +6160,7 @@ function proxy(req: Request, res: Response) {
     agent: isHttps 
       ? new https.Agent({ keepAlive: true }) 
       : new http.Agent({ keepAlive: true }),
-    target: {
-      host: hostname,
-      port: port,
-    },
+    target: (isHttps ? 'https' : 'http') + '://' + hostname + ':' + port,
   });
   // }
 }

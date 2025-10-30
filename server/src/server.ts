@@ -833,7 +833,7 @@ function initializePolisHelpers() {
   ) {
     let host = "";
     if (Config.domainOverride) {
-      host = req.protocol + "://" + Config.domainOverride;
+      host = Config.domainOverride;
     } else {
       // TODO does it make sense for this middleware to look
       // at origin || referer? is Origin for CORS preflight?
