@@ -4,7 +4,7 @@ The Dockerfiles are primarily meant to be for production use since changes will 
 
 ## Setup
 
-* Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* Install [Podman Desktop](https://podman-desktop.io/)
 * Build `polis-math` by using `npm run build:math`
 * Build `polis-server` by using `npm run build:server`
 * Build `polis-file-server` by using `npm run build:file-server`

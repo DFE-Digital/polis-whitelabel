@@ -23,7 +23,7 @@ services:
     image: polis-server:latest
     build:
       context: ../../server
-      dockerfile: ../deploy/docker/server.Dockerfile
+      dockerfile: ../deploy/container/server.Containerfile
     depends_on:
       - "postgres"
       - "file-server"
@@ -45,7 +45,7 @@ services:
       - "postgres"
     build:
       context: ../../math
-      dockerfile: ../deploy/docker/math.Dockerfile
+      dockerfile: ../deploy/container/math.Containerfile
     networks:
       - "polis-net"
 
@@ -56,7 +56,7 @@ services:
     restart: always
     build:
       context: ../../database
-      dockerfile: ../deploy/docker/postgres.Dockerfile
+      dockerfile: ../deploy/container/postgres.Containerfile
     ports:
       - 5432:5432
     networks:
@@ -71,7 +71,7 @@ services:
     image: polis-file-server:latest
     build:
       context: ../../
-      dockerfile: ./deploy/docker/file-server.Dockerfile
+      dockerfile: ./deploy/container/file-server.Containerfile
     ports:
       - 8080:8080
     networks:
@@ -81,7 +81,7 @@ services:
     image: polis-reverse-proxy:latest
     build:
       context: .
-      dockerfile: ./reverse-proxy.Dockerfile
+      dockerfile: ./reverse-proxy.Containerfile
     ports:
       - 3000:80
     environment:
