@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "build:file-server": "podman build -f ./file-server.Dockerfile -t polis-file-server:latest ../../",
+        "build:math": "podman build -f ./math.Dockerfile -t polis-math:latest ../../math",
+        "build:server": "podman build -f ./server.Dockerfile -t polis-server:latest ../../server",
+        "build:reverse-proxy": "podman build -f ./reverse-proxy.Dockerfile -t polis-reverse-proxy:latest .",
+        "build:postgres": "podman build -f ./postgres.Dockerfile -t polis-postgres:latest ../../database",
+        "build:compose": "podman compose -f docker-compose.dev.yml build --parallel",
+        "run:compose": "podman compose -f docker-compose.dev.yml up"
+    }
+}
