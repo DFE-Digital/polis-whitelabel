@@ -10,7 +10,6 @@ import fs from "fs";
 import bcrypt from "bcryptjs";
 import isTrue from "boolean";
 import querystring from "querystring";
-import request from "request-promise"; // includes Request, but adds promise methods
 import _ from "underscore";
 import pg from "pg";
 import sanitizeHtml from 'sanitize-html';

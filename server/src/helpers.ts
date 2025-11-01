@@ -13,11 +13,12 @@ import FB from "fb";
 import isTrue from "boolean";
 import OAuth from "oauth";
 import replaceStream from "replacestream";
-import request from "request-promise"; // includes Request, but adds promise methods
 import LruCache from "lru-cache";
 import _ from "underscore";
 import zlib from "zlib";
 import { Request, Response } from 'express'
+import { Readable } from "node:stream";
+import type { ReadableStream } from "node:stream/web";
 
 import { addInRamMetric, MPromise } from "./utils/metered";
 import CreateUser from "./auth/create-user";
@@ -1051,15 +1052,14 @@ function geoCodeWithGoogleApi(locationString: string) {
     resolve: (arg0: any) => void,
     reject: (arg0: string) => void
   ) {
-    request
-      .get(
+    fetch(
         "https://maps.googleapis.com/maps/api/geocode/json?address=" +
           address +
           "&key=" +
           googleApiKey
       )
-      .then(function (response: any) {
-        response = JSON.parse(response);
+      .then(res => res.json() as Promise<{ status: string, results: string[] }>)
+      .then(function (response) {
         if (response.status !== "OK") {
           reject("polis_err_geocoding_failed");
           return;
@@ -1812,7 +1812,9 @@ function getFriends(fb_access_token: any) {
   // @ts-ignore
   function getMoreFriends(friendsSoFar: any[], urlForNextCall: any) {
     // urlForNextCall includes access token
-    return request.get(urlForNextCall).then(
+    return fetch(urlForNextCall as string)
+    .then(res => res.json())
+    .then(
       function (response: { data: string | any[]; paging: { next: any } }) {
         let len = response.data.length;
         if (len) {
@@ -5758,52 +5760,59 @@ function makeFileFetcher(
     
     let url = protocol + '://' + hostname + ":" + port + path;
     console.log("info", "fetch file from " + url);
-    let fsReq = request.get(url, { forever: true })
 
-    fsReq
-      .on("error", function (err: any) {
-        Log.fail(res, 500, "polis_err_finding_file " + path, err);
-      })
-      .on("response", fsRes => {
-        // Pass through the file server headers from headersJson and combine with the passed
-        // headers
-        const whitelistedHeaders = _.pick(fsRes.headers, ['content-encoding', 'cache-control', 'content-type'])
-        res.set({
-          ...whitelistedHeaders,
-          ...headers,
+    fetch(url, { keepalive: true })
+      .then(fsRes => {
+        // Convert Web ReadableStream -> Node stream so we can .pipe()
+        let fsReq = Readable.fromWeb(fsRes.body! as unknown as ReadableStream)
+
+        fsReq.on("error", function (err: any) {
+          Log.fail(res, 500, "polis_err_finding_file " + path, err);
         })
+        .on("response", fsRes => {
+          // Pass through the file server headers from headersJson and combine with the passed
+          // headers
+          const whitelistedHeaders = _.pick(fsRes.headers, ['content-encoding', 'cache-control', 'content-type'])
+          res.set({
+            ...whitelistedHeaders,
+            ...headers,
+          })
+        })
+
+        // Substitute the preload data into the file
+        if (!_.isUndefined(preloadData)) {
+          fsReq = fsReq.pipe(
+            replaceStream(
+              '"REPLACE_THIS_WITH_PRELOAD_DATA"',
+              JSON.stringify(preloadData)
+            )
+          );
+        }
+
+
+        // Substitute in the Facebook tags into the file
+        let fbMetaTagsString =
+          '<meta property="og:image" content="https://s3.amazonaws.com/pol.is/polis_logo.png" />\n';
+        if (preloadData && preloadData.conversation) {
+          fbMetaTagsString +=
+            '    <meta property="og:title" content="' +
+            preloadData.conversation.topic +
+            '" />\n';
+          fbMetaTagsString +=
+            '    <meta property="og:description" content="' +
+            preloadData.conversation.description +
+            '" />\n';
+          // fbMetaTagsString += "    <meta property=\"og:site_name\" content=\"" + site_name + "\" />\n";
+        }
+        fsReq = fsReq.pipe(
+          replaceStream("<!-- REPLACE_THIS_WITH_FB_META_TAGS -->", fbMetaTagsString)
+        );
+
+        // Finally output to the result object
+        fsReq.pipe(res)
+
       })
 
-    // Substitute the preload data into the file
-    if (!_.isUndefined(preloadData)) {
-      fsReq = fsReq.pipe(
-        replaceStream(
-          '"REPLACE_THIS_WITH_PRELOAD_DATA"',
-          JSON.stringify(preloadData)
-        )
-      );
-    }
-
-    // Substitute in the Facebook tags into the file
-    let fbMetaTagsString =
-      '<meta property="og:image" content="https://s3.amazonaws.com/pol.is/polis_logo.png" />\n';
-    if (preloadData && preloadData.conversation) {
-      fbMetaTagsString +=
-        '    <meta property="og:title" content="' +
-        preloadData.conversation.topic +
-        '" />\n';
-      fbMetaTagsString +=
-        '    <meta property="og:description" content="' +
-        preloadData.conversation.description +
-        '" />\n';
-      // fbMetaTagsString += "    <meta property=\"og:site_name\" content=\"" + site_name + "\" />\n";
-    }
-    fsReq = fsReq.pipe(
-      replaceStream("<!-- REPLACE_THIS_WITH_FB_META_TAGS -->", fbMetaTagsString)
-    );
-
-    // Finally output to the result object
-    fsReq.pipe(res)
   };
 }
 
