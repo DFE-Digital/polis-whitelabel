@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+### Features
+
+- [#106](https://github.com/DFE-Digital/polis-whitelabel/issues/106) Add export script to container
 
 ## Version 1.0.0
 
