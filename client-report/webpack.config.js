@@ -107,9 +107,9 @@ module.exports = (env, options) => {
                 // The following flags (legacy, loose etc.) are workarounds for an evolving decorators specification
                 // see https://stackoverflow.com/a/53249478 for details.
                 ['@babel/plugin-proposal-decorators', { legacy: true }],
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                ['@babel/plugin-proposal-private-methods', { loose: true }],
-                ['@babel/plugin-proposal-private-property-in-object', { loose: true }]
+                ['@babel/plugin-transform-class-properties', { loose: true }],
+                ['@babel/plugin-transform-private-methods', { loose: true }],
+                ['@babel/plugin-transform-private-property-in-object', { loose: true }]
               ]
             },
           },

@@ -4,7 +4,6 @@ import React from "react";
 import Radium from "radium";
 import Flex from "./flex";
 // import ParticipantHeader from "./participant-header";
-import { connect } from "react-redux";
 import * as globals from "./globals";
 import BarChart from "./barChart";
 
