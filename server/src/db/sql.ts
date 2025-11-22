@@ -1,4 +1,6 @@
-import sql from "sql"; // see here for useful syntax: https://github.com/brianc/node-sql/blob/bbd6ed15a02d4ab8fbc5058ee2aff1ad67acd5dc/lib/node/valueExpression.js
+import { Sql } from "sql-ts";
+
+const sql = new Sql('postgres')
 
 const sql_conversations: any = sql.define({
   name: "conversations",
@@ -43,8 +45,6 @@ const sql_conversations: any = sql.define({
   ],
 });
 
-// 'sql_comments' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
-// @ts-ignore
 const sql_comments = sql.define({
   name: "comments",
   columns: [
@@ -131,8 +131,6 @@ export {
   sql_users,
 };
 
-// 'default' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
-// @ts-ignore
 export default {
   sql_conversations,
   sql_comments,
