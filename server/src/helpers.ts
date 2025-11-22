@@ -9,7 +9,6 @@ import crypto from "crypto";
 import Promise from "bluebird";
 import httpProxy from "http-proxy";
 // @ts-ignore
-import FB from "fb";
 import isTrue from "boolean";
 import OAuth from "oauth";
 import replaceStream from "replacestream";
@@ -1835,43 +1834,11 @@ function getFriends(fb_access_token: any) {
       }
     );
   }
-  return new Promise(function (
-    resolve: (arg0: any) => void,
-    reject: (arg0: any) => void
-  ) {
-    FB.setAccessToken(fb_access_token);
-    FB.api(
-      "/me/friends",
-      function (response: { error: any; data: any[]; paging: { next: any } }) {
-        if (response && !response.error) {
-          let friendsSoFar = response.data;
-          if (response.data.length && response.paging.next) {
-            getMoreFriends(friendsSoFar, response.paging.next).then(
-              resolve,
-              reject
-            );
-          } else {
-            resolve(friendsSoFar || []);
-          }
-        } else {
-          reject(response);
-        }
-      }
-    );
-  });
+  return Promise.reject('Facebook support removed')
 } // end getFriends
 
 function getLocationInfo(fb_access_token: any, location: { id: string }) {
-  return new Promise(function (resolve: (arg0: {}) => void, reject: any) {
-    if (location && location.id) {
-      FB.setAccessToken(fb_access_token);
-      FB.api("/" + location.id, function (locationResponse: any) {
-        resolve(locationResponse);
-      });
-    } else {
-      resolve({});
-    }
-  });
+  return Promise.resolve({}) // Facebook support removed
 }
 
 function updateFacebookUserRecord(
