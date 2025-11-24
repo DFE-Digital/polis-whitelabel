@@ -12,7 +12,6 @@ var DivisiveCommentsView = require('../views/DivisiveCommentsView');
 var display = require("../util/display");
 var eb = require("../eventBus");
 var GroupSelectionView = require("../views/groupSelectionView");
-var { markdown } = require('markdown');
 var ParticipantModel = require("../models/participant");
 var PolisFacebookUtils = require('../util/facebookButton');
 var polisLogoBase64 = require("../images/polis_logo");
