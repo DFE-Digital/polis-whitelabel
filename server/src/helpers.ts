@@ -5733,6 +5733,11 @@ function makeFileFetcher(
     fetch(url, { keepalive: true })
       .then(fsRes => {
 
+        if (!fsRes.ok) {
+          Log.fail(res, 500, "polis_err_finding_file " + path, fsRes.statusText);
+          return
+        }
+
         const whitelistedHeaders = _.pick(fsRes.headers, ['content-encoding', 'cache-control', 'content-type'])
         
         res.set({
@@ -5742,10 +5747,6 @@ function makeFileFetcher(
         
         // Convert Web ReadableStream -> Node stream so we can .pipe()
         let fsReq = Readable.fromWeb(fsRes.body! as unknown as ReadableStream)
-
-        fsReq.on("error", function (err: any) {
-          Log.fail(res, 500, "polis_err_finding_file " + path, err);
-        })
 
         // Substitute the preload data into the file
         if (!_.isUndefined(preloadData)) {
