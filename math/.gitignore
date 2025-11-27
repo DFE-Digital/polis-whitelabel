@@ -11,3 +11,4 @@
 pom.xml
 pom.xml.asc
 errorconv.LATEST.edn
+nvd-config.edn

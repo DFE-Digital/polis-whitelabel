@@ -96,6 +96,30 @@ your nREPL process. There is an example of this in the `dev/user.clj` file
 mentioned above. There are rough units tests for most of the basic math things,
 and one or two higher level integration tests (presently broken).
 
+## Checking for vulnerabilities
+
+Install `nvd-clojure` as a tool in the Clojure CLI
+
+```clojure -Ttools install nvd-clojure/nvd-clojure '{:mvn/version "RELEASE"}' :as nvd```
+
+[Get an API key](https://nvd.nist.gov/developers/request-an-api-key) for the National Vulnerability Database. Create a file called `nvd-config.edn` and put the following into it
+
+```
+{
+  :nvd-api {
+    :key "YOUR_KEY_HERE"
+  }
+}
+```
+
+Then run the following, long-running command (10-15mins)...
+
+```clojure -J-Dclojure.main.report=stderr -Tnvd nvd.task/check :classpath \""$(clojure -Spath -A:any:aliases)\"" :config-filename \""nvd-config.edn\""```
+
+Then to determine the dependency tree, use 
+
+```clojure -Stree``` 
+
 ## Architecture
 
 The system is designed around a polling mechanism which queries the database at
