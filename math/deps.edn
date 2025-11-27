@@ -21,20 +21,20 @@
         net.mikera/vectorz-clj {:mvn/version "0.48.0"}
         net.mikera/core.matrix.stats {:mvn/version "0.7.0"}
         criterium/criterium {:mvn/version "0.4.6"}
-        clj-http/clj-http {:mvn/version "3.12.3"}
+        clj-http/clj-http {:mvn/version "3.13.1"}
         ;; implicitly requires jetty, component and ring
-        ring/ring-core {:mvn/version "1.9.6" :exclusions [clj-time/clj-time]}
-        ring/ring-jetty-adapter {:mvn/version "1.9.6"}
+        ring/ring-core {:mvn/version "1.15.3" :exclusions [clj-time/clj-time]}
+        ring/ring-jetty-adapter {:mvn/version "1.15.3"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.2.0"}
         ring/ring-ssl {:mvn/version "0.3.0"}
         suspendable/suspendable {:mvn/version "0.1.1"}
         bidi/bidi {:mvn/version "2.1.6" :exclusions [prismatic/schema]}
         bigml/sampling {:mvn/version "3.2"}
-        com.cognitect.aws/api {:mvn/version "0.8.656"}
+        com.cognitect.aws/api {:mvn/version "0.8.774"}
         com.cognitect.aws/endpoints {:mvn/version "1.1.12.437"}
         com.cognitect.aws/s3 {:mvn/version "825.2.1250.0"}
         com.stuartsierra/component {:mvn/version "1.1.0"}
-        org.postgresql/postgresql {:mvn/version "42.5.1"}
+        org.postgresql/postgresql {:mvn/version "42.5.6"}
         korma/korma {:mvn/version "0.4.3"}
         clj-time/clj-time {:mvn/version "0.15.2"}
         semantic-csv/semantic-csv {:mvn/version "0.2.0"}
