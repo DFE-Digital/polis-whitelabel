@@ -356,9 +356,9 @@ function _getCommentsList(o: {
 
       if (!_.isUndefined(o.random)) {
         if (conv.prioritize_seed) {
-          q = q.order("is_seed desc, random()");
+          q = q.order(SQL.sql_comments.is_seed.descending()).order(SQL.functions.RANDOM());
         } else {
-          q = q.order("random()");
+          q = q.order(SQL.functions.RANDOM());
         }
       } else {
         q = q.order(SQL.sql_comments.created);

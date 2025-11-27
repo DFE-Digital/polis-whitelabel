@@ -1773,8 +1773,8 @@ function initializePolisHelpers() {
       return Promise.resolve(cached);
     }
     let url = "http://graph.facebook.com/?id=https://pol.is/" + conversation_id;
-    return request.get(url).then(function (result: string) {
-      let shares = JSON.parse(result).shares;
+    return fetch(url).then(res => res.json()).then(function (result: Record<string, string>) {
+      const { shares } = result;
       fbShareCountCache.set(conversation_id, shares);
       return shares;
     });

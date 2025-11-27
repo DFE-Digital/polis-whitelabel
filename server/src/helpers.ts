@@ -50,6 +50,7 @@ import {
   Demo,
   Assignment,
 } from "./d";
+import { Column } from "node_modules/sql-ts/dist/lib";
 
 const admin_emails = process.env.ADMIN_EMAILS
   ? JSON.parse(process.env.ADMIN_EMAILS)
@@ -1204,7 +1205,7 @@ function addExtendedParticipantInfo(zid: any, uid?: any, data?: {}) {
     modified: 9876543212345, // hacky string, will be replaced with the word "default".
   });
   let qUpdate = SQL.sql_participants_extended
-    .update(params)
+    .update(params as unknown as Record<string, string>)
     .where(SQL.sql_participants_extended.zid.equals(zid))
     .and(SQL.sql_participants_extended.uid.equals(uid));
   let qString = qUpdate.toString();
@@ -4211,7 +4212,7 @@ function getConversations(
       }
 
       //query = whereOptional(query, req.p, 'owner');
-      query = query.order(SQL.sql_conversations.created.descending);
+      query = query.order(SQL.sql_conversations.created.descending());
 
       if (!_.isUndefined(req.p.limit)) {
         query = query.limit(req.p.limit);
@@ -5975,7 +5976,7 @@ function initializeImplicitConversation(
               });
 
               let q = SQL.sql_conversations
-                .insert(params)
+                .insert(params as unknown as Column<unknown>)
                 .returning("*")
                 .toString();
 

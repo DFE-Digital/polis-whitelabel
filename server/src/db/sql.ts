@@ -2,7 +2,7 @@ import { Sql } from "sql-ts";
 
 const sql = new Sql('postgres')
 
-const sql_conversations: any = sql.define({
+const sql_conversations = sql.define<Record<string, unknown>>({
   name: "conversations",
   columns: [
     "zid",
@@ -45,7 +45,7 @@ const sql_conversations: any = sql.define({
   ],
 });
 
-const sql_comments = sql.define({
+const sql_comments = sql.define<Record<string, unknown>>({
   name: "comments",
   columns: [
     "tid",
@@ -62,17 +62,17 @@ const sql_comments = sql.define({
   ],
 });
 
-const sql_votes_latest_unique = sql.define({
+const sql_votes_latest_unique = sql.define<Record<string, unknown>>({
   name: "votes_latest_unique",
   columns: ["zid", "tid", "pid", "modified", "vote"],
 });
 
-const sql_participant_metadata_answers = sql.define({
+const sql_participant_metadata_answers = sql.define<Record<string, unknown>>({
   name: "participant_metadata_answers",
   columns: ["pmaid", "pmqid", "zid", "value", "alive"],
 });
 
-const sql_participants_extended = sql.define({
+const sql_participants_extended = sql.define<Record<string, unknown>>({
   name: "participants_extended",
   columns: [
     "uid",
@@ -90,12 +90,12 @@ const sql_participants_extended = sql.define({
 });
 
 //first we define our tables
-const sql_users = sql.define({
+const sql_users = sql.define<Record<string, unknown>>({
   name: "users",
   columns: ["uid", "hname", "email", "created"],
 });
 
-const sql_reports = sql.define({
+const sql_reports = sql.define<Record<string, unknown>>({
   name: "reports",
   columns: [
     "rid",
@@ -121,6 +121,8 @@ const sql_reports = sql.define({
   ],
 });
 
+const { functions } = sql
+
 export {
   sql_conversations,
   sql_comments,
@@ -129,6 +131,7 @@ export {
   sql_participants_extended,
   sql_reports,
   sql_users,
+  functions
 };
 
 export default {
@@ -139,4 +142,5 @@ export default {
   sql_participants_extended,
   sql_reports,
   sql_users,
+  functions
 };
