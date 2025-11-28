@@ -176,7 +176,12 @@ class Beeswarm extends React.Component {
         this.heightMinusMargins + this.margin.top
       ]);
 
-      const polygons = commentsWithExtremity.map((d, i) => voronoi.cellPolygon(i));
+      const polygons = commentsWithExtremity.map((d, i) => {
+        const poly = voronoi.cellPolygon(i)
+        if (!poly) return null;
+        poly.data = d;
+        return poly
+      }).filter(Boolean);
 
       // const voronoi = d3.voronoi()
       //   .extent([[-this.margin.left, -this.margin.top], [this.widthMinusMargins + this.margin.right, this.heightMinusMargins + this.margin.top]])
