@@ -35,15 +35,17 @@ describe('Interface internationalization', () => {
       gr: 'gr',
       uk: 'uk'
     }
+    const stringsContext = require.context(
+      '../../../../client-participation/js/strings',
+      false,
+      /\.js$/
+    )
     for (const [lang, filename] of Object.entries(locales)) {
-      cy.readFile(`../client-participation/js/strings/${filename}.js`).then(
-        (contents) => {
-          // The string key we're using to validate working.
-          const targetStringKey = 'writePrompt'
-          const string = eval(contents)[targetStringKey] || ''
-          translations[lang] = string
-        }
-      )
+      const contents = stringsContext(`./${filename}.js`)
+      // The string key we're using to validate working.
+      const targetStringKey = 'writePrompt'
+      const string = eval(contents)[targetStringKey] || ''
+      translations[lang] = string
     }
     cy.wrap(translations).as('strings')
   })
