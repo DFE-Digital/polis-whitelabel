@@ -101,14 +101,19 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 */
 
-
+// We cache since React does like calling createRoot on the same element twice
+const rootsCache = new Map();
 
 window.renderVis = function(rootEl, props) {
-  const root = createRoot(rootEl)
-  root.render(React.createElement(Root, props, null))
+  if (!rootsCache.get(rootEl)) {
+    rootsCache.set(rootEl, createRoot(rootEl))
+  }
+  rootsCache.get(rootEl).render(React.createElement(Root, props, null))
 }
 
 window.renderHeader = function(rootEl, props) {
-  const root = createRoot(rootEl)
-  root.render(React.createElement(Header, props, null));
+  if (!rootsCache.get(rootEl)) {
+    rootsCache.set(rootEl, createRoot(rootEl))
+  }
+  rootsCache.get(rootEl).render(React.createElement(Header, props, null));
 }
