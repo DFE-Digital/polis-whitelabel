@@ -4,7 +4,7 @@ import _ from "lodash";
 import Graph from "./components/graph";
 import Header from "./components/header";
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // React Router
 // import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
@@ -104,15 +104,11 @@ injectTapEventPlugin();
 
 
 window.renderVis = function(rootEl, props) {
-  ReactDOM.render(
-    React.createElement(Root, props, null),
-    rootEl
-  );
+  const root = createRoot(rootEl)
+  root.render(React.createElement(Root, props, null))
 }
 
 window.renderHeader = function(rootEl, props) {
-  ReactDOM.render(
-    React.createElement(Header, props, null),
-    rootEl
-  );
+  const root = createRoot(rootEl)
+  root.render(React.createElement(Header, props, null));
 }
