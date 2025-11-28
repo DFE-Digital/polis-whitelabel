@@ -1,5 +1,7 @@
 
-FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine3.17 AS client-base
+# 18.12.1-alpine3.17
+
+FROM docker.io/node:24.11.1-alpine3.22 AS client-base
 
 RUN apk add git --no-cache
 
@@ -12,7 +14,7 @@ WORKDIR /client-admin/app
 # updating the UI code
 COPY client-admin/package*.json .
 
-RUN npm install
+RUN npm ci
 
 COPY client-admin/. .
 COPY file-server/polis.config.js polis.config.js
@@ -27,7 +29,7 @@ WORKDIR /client-participation/app
 
 COPY client-participation/package*.json .
 
-RUN npm install
+RUN npm ci
 
 COPY client-participation/. .
 COPY file-server/polis.config.js polis.config.js
@@ -42,8 +44,8 @@ WORKDIR /client-report/app
 
 COPY client-report/package*.json .
 
-# This should be working with `npm ci`, but isn't; Need to debug
-RUN npm install
+# Legacy version of radium requires this flag
+RUN npm ci --legacy-peer-deps
 
 COPY client-report/. .
 
@@ -58,7 +60,7 @@ WORKDIR /app
 
 COPY file-server/package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY file-server/fs_config.template.json fs_config.json
 # If fs_config.json exists, will override the template here.

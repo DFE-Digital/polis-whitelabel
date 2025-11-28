@@ -3,7 +3,7 @@
 # (openresty/headers-more-nginx-module). It then copies the built module into the base NGinx Docker 
 # image and copies over some custom configuration.
 
-FROM --platform=linux/amd64 nginx:1.23.3-alpine AS builder
+FROM nginx:1.23.3-alpine AS builder
 
 # nginx:alpine contains NGINX_VERSION environment variable, like so:
 ENV NGINX_VERSION 1.23.3

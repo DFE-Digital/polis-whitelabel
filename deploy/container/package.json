@@ -1,11 +1,11 @@
 {
     "scripts": {
-        "build:file-server": "podman build -f ./file-server.Containerfile -t polis-file-server:latest ../../",
-        "build:math": "podman build -f ./math.Containerfile -t polis-math:latest ../../math",
-        "build:server": "podman build -f ./server.Containerfile -t polis-server:latest ../../server",
-        "build:reverse-proxy": "podman build -f ./reverse-proxy.Containerfile -t polis-reverse-proxy:latest .",
-        "build:postgres": "podman build -f ./postgres.Containerfile -t polis-postgres:latest ../../database",
-        "build:compose": "podman compose -f docker-compose.dev.yml build --parallel",
+        "build:file-server": "podman build -f ./file-server.Containerfile  --platform linux/amd64 -t polis-file-server:latest ../../",
+        "build:math": "podman build -f ./math.Containerfile --platform linux/amd64 -t polis-math:latest ../../math",
+        "build:server": "podman build -f ./server.Containerfile --platform linux/amd64 -t polis-server:latest ../../server",
+        "build:reverse-proxy": "podman build -f ./reverse-proxy.Containerfile --platform linux/amd64 -t polis-reverse-proxy:latest .",
+        "build:postgres": "podman build -f ./postgres.Containerfile --platform linux/amd64 -t polis-postgres:latest ../../database",
+        "build:compose": "podman compose -f docker-compose.dev.yml build  --platform linux/amd64 --parallel",
         "run:compose": "podman compose -f docker-compose.dev.yml up"
     }
 }

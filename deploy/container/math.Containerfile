@@ -1,4 +1,6 @@
-FROM --platform=linux/amd64 docker.io/clojure:tools-deps-1.11.1.1208-alpine
+
+
+FROM docker.io/clojure:temurin-25-tools-deps-1.12.3.1577-alpine
 
 WORKDIR /app
 COPY . .
