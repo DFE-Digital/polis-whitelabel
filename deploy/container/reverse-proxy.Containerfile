@@ -3,13 +3,13 @@
 # (openresty/headers-more-nginx-module). It then copies the built module into the base NGinx Docker 
 # image and copies over some custom configuration.
 
-FROM nginx:1.23.3-alpine AS builder
+FROM nginx:1.29.3-alpine3.22 AS builder
 
 # nginx:alpine contains NGINX_VERSION environment variable, like so:
-ENV NGINX_VERSION 1.23.3
+ENV NGINX_VERSION=1.29.3
 
 # Our HEADERS_MORE module version - see https://github.com/openresty/headers-more-nginx-module
-ENV HEADERS_MORE_VERSION 0.34
+ENV HEADERS_MORE_VERSION=0.34
 
 # Download sources
 
@@ -44,7 +44,7 @@ RUN mkdir /usr/src && CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p'
   ./configure --with-compat $CONFARGS --add-dynamic-module=$HEADERS_MORE_DIR && \
   make && make install
 
-FROM --platform=linux/amd64 nginx:1.23.3-alpine
+FROM nginx:1.29.3-alpine3.22
 
 # Extract the dynamic module from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
