@@ -27,7 +27,6 @@ class Controls extends React.Component {
       <Checkbox
         label= {"auto-refresh"}
         disabled={false}
-        ref={"autoRefreshEnabled"}
         checked={ this.props.autoRefreshEnabled}
         clickHandler={ this.checkboxGroupChanged.bind(this) }
         labelPosition={"left"}
@@ -36,7 +35,6 @@ class Controls extends React.Component {
       <Checkbox
         label= {"color blind mode"}
         disabled={false}
-        ref={"colorBlindMode"}
         checked={ this.props.colorBlindMode}
         clickHandler={ this.props.handleColorblindModeClick }
         labelPosition={"left"}
