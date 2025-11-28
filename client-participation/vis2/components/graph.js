@@ -27,7 +27,7 @@ class Graph extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
     window.addEventListener("resize", () => {
       this.setState({browserDimensions: window.innerWidth})
@@ -39,7 +39,7 @@ class Graph extends React.Component {
     // document.getElementById("groupSelectionViewContainer").style.display = "none";
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
 
     if (!nextProps.math) {
       return;
