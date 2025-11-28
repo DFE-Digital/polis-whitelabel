@@ -2895,20 +2895,23 @@ function isSpam(o: {
   user_agent: any;
   referrer: any;
 }) {
+  // We don't use an external service to check for spam
+  return Promise.resolve(false)
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise("isSpam", function (
-    resolve: (arg0: any) => void,
-    reject: (arg0: any) => void
-  ) {
-    akismet.checkSpam(o, function (err: any, spam: any) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(spam);
-      }
-    });
-  });
+  // return new MPromise("isSpam", function (
+  //   resolve: (arg0: any) => void,
+  //   reject: (arg0: any) => void
+  // ) {
+
+  //   akismet.checkSpam(o, function (err: any, spam: any) {
+  //     if (err) {
+  //       reject(err);
+  //     } else {
+  //       resolve(spam);
+  //     }
+  //   });
+  // });
 }
 
 function commentExists(zid: any, txt: any) {
