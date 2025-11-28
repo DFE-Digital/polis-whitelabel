@@ -32,7 +32,7 @@
     "p3p": "0.0.2",
     "pg": "8.8.0",
     "pg-connection-string": "2.5.0",
-    "pg-native": "3.0.1",
+    "pg-native": "^3.5.2",
     "pushover-notifications": "0.1.9",
     "replacestream": "4.0.0",
     "response-time": "^2.3.4",
