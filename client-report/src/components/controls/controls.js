@@ -21,9 +21,6 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillMount() {
-  }
-
   render() {
     return (
       <div>

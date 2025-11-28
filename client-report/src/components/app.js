@@ -372,7 +372,9 @@ class App extends React.Component {
   }
 
 
-  componentWillMount() {
+
+
+  componentDidMount() {
     this.getData();
 
     setInterval(() => {
