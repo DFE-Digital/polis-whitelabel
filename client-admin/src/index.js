@@ -3,8 +3,8 @@
 import $ from 'jquery'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { createRoot } from 'react-dom/core';
 
 import configureStore from './store'
 import { ThemeProvider } from 'theme-ui'
@@ -31,4 +31,5 @@ class Root extends React.Component {
 
 window.$ = $
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root'))
+root.render(<Root />)

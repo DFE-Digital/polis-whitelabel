@@ -2,7 +2,7 @@
 
 // React Core
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 // React Router
 import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
 // React Redux
@@ -26,4 +26,5 @@ class Root extends React.Component {
   }
 }
 
-ReactDOM.render(<Root/>, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"))
+root.render(<Root />);

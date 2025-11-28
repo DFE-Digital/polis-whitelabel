@@ -41,7 +41,7 @@
     "moment-range": "^2.2.0",
     "prop-types": "^15.5.10",
     "query-string": "^4.2.3",
-    "radium": "0.18.1",
+    "radium": "^0.26.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-fontawesome": "^0.3.3",
