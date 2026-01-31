@@ -71,7 +71,9 @@ function writeHeadersJsonForOutputFiles(isDev) {
   writeHeadersJsonMisc()
 }
 
-module.exports = (env, options) => {
+module.exports = async (env, options) => {
+  const { default: remarkGfm } = await import('remark-gfm');
+
   var isDevBuild = options.mode === 'development';
   var isDevServer = process.env.WEBPACK_SERVE;
   var chunkHashFragment = (isDevBuild || isDevServer) ? '' : '.[chunkhash:8]';
@@ -159,7 +161,12 @@ module.exports = (env, options) => {
         },
         {
           test: /\.mdx?$/,
-          use: ['babel-loader', '@mdx-js/loader']
+          use: ['babel-loader', 
+            { 
+              loader: '@mdx-js/loader',
+              options: { remarkPlugins: [remarkGfm] } 
+            }
+          ]
         }
       ],
     },
