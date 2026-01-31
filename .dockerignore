@@ -1,0 +1,8 @@
+**
+!client-admin/
+!client-report/
+!client-participation/
+!file-server/
+node_modules
+dist
+build
