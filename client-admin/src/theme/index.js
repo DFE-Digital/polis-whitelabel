@@ -19,7 +19,7 @@ export default {
     }
   },
   lineHeights: {
-    body: 1.5,
+    body: '1.5',
     heading: 1.125
   },
   colors: {

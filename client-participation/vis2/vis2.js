@@ -4,7 +4,7 @@ import _ from "lodash";
 import Graph from "./components/graph";
 import Header from "./components/header";
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // React Router
 // import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
@@ -101,18 +101,19 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 */
 
-
+// We cache since React does like calling createRoot on the same element twice
+const rootsCache = new Map();
 
 window.renderVis = function(rootEl, props) {
-  ReactDOM.render(
-    React.createElement(Root, props, null),
-    rootEl
-  );
+  if (!rootsCache.get(rootEl)) {
+    rootsCache.set(rootEl, createRoot(rootEl))
+  }
+  rootsCache.get(rootEl).render(React.createElement(Root, props, null))
 }
 
 window.renderHeader = function(rootEl, props) {
-  ReactDOM.render(
-    React.createElement(Header, props, null),
-    rootEl
-  );
+  if (!rootsCache.get(rootEl)) {
+    rootsCache.set(rootEl, createRoot(rootEl))
+  }
+  rootsCache.get(rootEl).render(React.createElement(Header, props, null));
 }

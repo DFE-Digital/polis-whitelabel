@@ -20,7 +20,7 @@ services:
       STATIC_FILES_PORT: 8080
       DATABASE_URL: postgres://postgres:mypassword@postgres:5432/postgres
       DOMAIN_OVERRIDE: http://server:8000
-    image: polis-server:latest
+    image: polis-server:${TAG:-latest}
     build:
       context: ../../server
       dockerfile: ../deploy/container/server.Containerfile
@@ -40,7 +40,7 @@ services:
     # The following overrides the env_file ...
     environment:
       DATABASE_URL: postgres://postgres:mypassword@postgres:5432/postgres
-    image: polis-math:latest
+    image: polis-math:${TAG:-latest}
     depends_on:
       - "postgres"
     build:
@@ -68,7 +68,7 @@ services:
 
   file-server:
     container_name: polis-file-server
-    image: polis-file-server:latest
+    image: polis-file-server:${TAG:-latest}
     build:
       context: ../../
       dockerfile: ./deploy/container/file-server.Containerfile
@@ -78,7 +78,7 @@ services:
       - "polis-net"
 
   reverse-proxy:
-    image: polis-reverse-proxy:latest
+    image: polis-reverse-proxy:${TAG:-latest}
     build:
       context: .
       dockerfile: ./reverse-proxy.Containerfile

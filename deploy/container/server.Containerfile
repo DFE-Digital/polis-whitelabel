@@ -1,4 +1,5 @@
-FROM --platform=linux/amd64 docker.io/node:18.12.1-alpine3.17
+
+FROM docker.io/node:24.11.1-alpine3.22
 
 WORKDIR /app
 
@@ -9,8 +10,7 @@ RUN apk add --no-cache --virtual .build \
 
 COPY package*.json .
 
-# TODO get `npm ci` to work
-RUN npm install
+RUN npm ci
 
 COPY . .
 

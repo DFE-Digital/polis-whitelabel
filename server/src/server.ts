@@ -5,7 +5,6 @@ import Promise from "bluebird";
 import isTrue from "boolean";
 import OAuth from "oauth";
 import responseTime from "response-time";
-import request from "request-promise"; // includes Request, but adds promise methods
 import LruCache from "lru-cache";
 import timeout from "connect-timeout";
 import _ from "underscore";
@@ -1743,7 +1742,7 @@ function initializePolisHelpers() {
     let httpsUrl =
       "https://cdn.api.twitter.com/1/urls/count.json?url=https://pol.is/" +
       conversation_id;
-    return Promise.all([request.get(httpUrl), request.get(httpsUrl)]).then(
+    return Promise.all([fetch(httpUrl).then(res => res.json()), fetch(httpsUrl).then(res => res.json())]).then(
       function (a: any[]) {
         let httpResult = a[0];
         let httpsResult = a[1];
@@ -1774,8 +1773,8 @@ function initializePolisHelpers() {
       return Promise.resolve(cached);
     }
     let url = "http://graph.facebook.com/?id=https://pol.is/" + conversation_id;
-    return request.get(url).then(function (result: string) {
-      let shares = JSON.parse(result).shares;
+    return fetch(url).then(res => res.json()).then(function (result: Record<string, string>) {
+      const { shares } = result;
       fbShareCountCache.set(conversation_id, shares);
       return shares;
     });

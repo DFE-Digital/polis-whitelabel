@@ -3,8 +3,8 @@
 import $ from 'jquery'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import ReactDOM from 'react-dom';
 
 import configureStore from './store'
 import { ThemeProvider } from 'theme-ui'

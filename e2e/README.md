@@ -8,9 +8,11 @@ End-To-End Tests written with cypress.io
 
 ## Setup
 
+On you host machine, make sure you have an X11 server installed. E.g. for Mac this could be the [XQuartz package](https://www.xquartz.org/).
+
 ```sh
 # System dependencies for Cypress
-apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+apt-get install libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libcups2 libxtst6 xauth xvfb
 
 npm install
 npm test

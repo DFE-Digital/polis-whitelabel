@@ -9,15 +9,15 @@ import crypto from "crypto";
 import Promise from "bluebird";
 import httpProxy from "http-proxy";
 // @ts-ignore
-import FB from "fb";
 import isTrue from "boolean";
 import OAuth from "oauth";
 import replaceStream from "replacestream";
-import request from "request-promise"; // includes Request, but adds promise methods
 import LruCache from "lru-cache";
 import _ from "underscore";
 import zlib from "zlib";
 import { Request, Response } from 'express'
+import { Readable } from "node:stream";
+import type { ReadableStream } from "node:stream/web";
 
 import { addInRamMetric, MPromise } from "./utils/metered";
 import CreateUser from "./auth/create-user";
@@ -50,6 +50,7 @@ import {
   Demo,
   Assignment,
 } from "./d";
+import { Column } from "node_modules/sql-ts/dist/lib";
 
 const admin_emails = process.env.ADMIN_EMAILS
   ? JSON.parse(process.env.ADMIN_EMAILS)
@@ -1051,15 +1052,14 @@ function geoCodeWithGoogleApi(locationString: string) {
     resolve: (arg0: any) => void,
     reject: (arg0: string) => void
   ) {
-    request
-      .get(
+    fetch(
         "https://maps.googleapis.com/maps/api/geocode/json?address=" +
           address +
           "&key=" +
           googleApiKey
       )
-      .then(function (response: any) {
-        response = JSON.parse(response);
+      .then(res => res.json() as Promise<{ status: string, results: string[] }>)
+      .then(function (response) {
         if (response.status !== "OK") {
           reject("polis_err_geocoding_failed");
           return;
@@ -1205,7 +1205,7 @@ function addExtendedParticipantInfo(zid: any, uid?: any, data?: {}) {
     modified: 9876543212345, // hacky string, will be replaced with the word "default".
   });
   let qUpdate = SQL.sql_participants_extended
-    .update(params)
+    .update(params as unknown as Record<string, string>)
     .where(SQL.sql_participants_extended.zid.equals(zid))
     .and(SQL.sql_participants_extended.uid.equals(uid));
   let qString = qUpdate.toString();
@@ -1812,7 +1812,9 @@ function getFriends(fb_access_token: any) {
   // @ts-ignore
   function getMoreFriends(friendsSoFar: any[], urlForNextCall: any) {
     // urlForNextCall includes access token
-    return request.get(urlForNextCall).then(
+    return fetch(urlForNextCall as string)
+    .then(res => res.json())
+    .then(
       function (response: { data: string | any[]; paging: { next: any } }) {
         let len = response.data.length;
         if (len) {
@@ -1833,43 +1835,11 @@ function getFriends(fb_access_token: any) {
       }
     );
   }
-  return new Promise(function (
-    resolve: (arg0: any) => void,
-    reject: (arg0: any) => void
-  ) {
-    FB.setAccessToken(fb_access_token);
-    FB.api(
-      "/me/friends",
-      function (response: { error: any; data: any[]; paging: { next: any } }) {
-        if (response && !response.error) {
-          let friendsSoFar = response.data;
-          if (response.data.length && response.paging.next) {
-            getMoreFriends(friendsSoFar, response.paging.next).then(
-              resolve,
-              reject
-            );
-          } else {
-            resolve(friendsSoFar || []);
-          }
-        } else {
-          reject(response);
-        }
-      }
-    );
-  });
+  return Promise.reject('Facebook support removed')
 } // end getFriends
 
 function getLocationInfo(fb_access_token: any, location: { id: string }) {
-  return new Promise(function (resolve: (arg0: {}) => void, reject: any) {
-    if (location && location.id) {
-      FB.setAccessToken(fb_access_token);
-      FB.api("/" + location.id, function (locationResponse: any) {
-        resolve(locationResponse);
-      });
-    } else {
-      resolve({});
-    }
-  });
+  return Promise.resolve({}) // Facebook support removed
 }
 
 function updateFacebookUserRecord(
@@ -2925,20 +2895,23 @@ function isSpam(o: {
   user_agent: any;
   referrer: any;
 }) {
+  // We don't use an external service to check for spam
+  return Promise.resolve(false)
   // 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.ts(7009)
   // @ts-ignore
-  return new MPromise("isSpam", function (
-    resolve: (arg0: any) => void,
-    reject: (arg0: any) => void
-  ) {
-    akismet.checkSpam(o, function (err: any, spam: any) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(spam);
-      }
-    });
-  });
+  // return new MPromise("isSpam", function (
+  //   resolve: (arg0: any) => void,
+  //   reject: (arg0: any) => void
+  // ) {
+
+  //   akismet.checkSpam(o, function (err: any, spam: any) {
+  //     if (err) {
+  //       reject(err);
+  //     } else {
+  //       resolve(spam);
+  //     }
+  //   });
+  // });
 }
 
 function commentExists(zid: any, txt: any) {
@@ -4242,7 +4215,7 @@ function getConversations(
       }
 
       //query = whereOptional(query, req.p, 'owner');
-      query = query.order(SQL.sql_conversations.created.descending);
+      query = query.order(SQL.sql_conversations.created.descending());
 
       if (!_.isUndefined(req.p.limit)) {
         query = query.limit(req.p.limit);
@@ -5758,52 +5731,60 @@ function makeFileFetcher(
     
     let url = protocol + '://' + hostname + ":" + port + path;
     console.log("info", "fetch file from " + url);
-    let fsReq = request.get(url, { forever: true })
+    console.log("headers: " + JSON.stringify(headers))
 
-    fsReq
-      .on("error", function (err: any) {
-        Log.fail(res, 500, "polis_err_finding_file " + path, err);
-      })
-      .on("response", fsRes => {
-        // Pass through the file server headers from headersJson and combine with the passed
-        // headers
+    fetch(url, { keepalive: true })
+      .then(fsRes => {
+
+        if (!fsRes.ok) {
+          Log.fail(res, 500, "polis_err_finding_file " + path, fsRes.statusText);
+          return
+        }
+
         const whitelistedHeaders = _.pick(fsRes.headers, ['content-encoding', 'cache-control', 'content-type'])
+        
         res.set({
           ...whitelistedHeaders,
           ...headers,
         })
+        
+        // Convert Web ReadableStream -> Node stream so we can .pipe()
+        let fsReq = Readable.fromWeb(fsRes.body! as unknown as ReadableStream)
+
+        // Substitute the preload data into the file
+        if (!_.isUndefined(preloadData)) {
+          fsReq = fsReq.pipe(
+            replaceStream(
+              '"REPLACE_THIS_WITH_PRELOAD_DATA"',
+              JSON.stringify(preloadData)
+            )
+          );
+        }
+
+
+        // Substitute in the Facebook tags into the file
+        let fbMetaTagsString =
+          '<meta property="og:image" content="https://s3.amazonaws.com/pol.is/polis_logo.png" />\n';
+        if (preloadData && preloadData.conversation) {
+          fbMetaTagsString +=
+            '    <meta property="og:title" content="' +
+            preloadData.conversation.topic +
+            '" />\n';
+          fbMetaTagsString +=
+            '    <meta property="og:description" content="' +
+            preloadData.conversation.description +
+            '" />\n';
+          // fbMetaTagsString += "    <meta property=\"og:site_name\" content=\"" + site_name + "\" />\n";
+        }
+        fsReq = fsReq.pipe(
+          replaceStream("<!-- REPLACE_THIS_WITH_FB_META_TAGS -->", fbMetaTagsString)
+        );
+
+        // Finally output to the result object
+        fsReq.pipe(res)
+
       })
 
-    // Substitute the preload data into the file
-    if (!_.isUndefined(preloadData)) {
-      fsReq = fsReq.pipe(
-        replaceStream(
-          '"REPLACE_THIS_WITH_PRELOAD_DATA"',
-          JSON.stringify(preloadData)
-        )
-      );
-    }
-
-    // Substitute in the Facebook tags into the file
-    let fbMetaTagsString =
-      '<meta property="og:image" content="https://s3.amazonaws.com/pol.is/polis_logo.png" />\n';
-    if (preloadData && preloadData.conversation) {
-      fbMetaTagsString +=
-        '    <meta property="og:title" content="' +
-        preloadData.conversation.topic +
-        '" />\n';
-      fbMetaTagsString +=
-        '    <meta property="og:description" content="' +
-        preloadData.conversation.description +
-        '" />\n';
-      // fbMetaTagsString += "    <meta property=\"og:site_name\" content=\"" + site_name + "\" />\n";
-    }
-    fsReq = fsReq.pipe(
-      replaceStream("<!-- REPLACE_THIS_WITH_FB_META_TAGS -->", fbMetaTagsString)
-    );
-
-    // Finally output to the result object
-    fsReq.pipe(res)
   };
 }
 
@@ -5999,7 +5980,7 @@ function initializeImplicitConversation(
               });
 
               let q = SQL.sql_conversations
-                .insert(params)
+                .insert(params as unknown as Column<unknown>)
                 .returning("*")
                 .toString();
 

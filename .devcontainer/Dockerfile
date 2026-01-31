@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:0-18-bullseye
+FROM mcr.microsoft.com/devcontainers/javascript-node:0-22-bookworm
 
 # In this instance we add the psql command so we can access the database from the command line, NGinx and modules
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

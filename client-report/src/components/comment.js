@@ -4,19 +4,19 @@ import React from "react";
 import Radium from "radium";
 import Flex from "./flex";
 // import ParticipantHeader from "./participant-header";
-import { connect } from "react-redux";
 import * as globals from "./globals";
 import BarChart from "./barChart";
+import PropTypes from "prop-types";
 
 @Radium
 class Comment extends React.Component {
   static propTypes = {
-    dispatch: React.PropTypes.func,
-    params: React.PropTypes.object,
-    acceptButton: React.PropTypes.bool,
-    rejectButton: React.PropTypes.bool,
-    acceptClickHandler: React.PropTypes.func,
-    rejectClickHandler: React.PropTypes.func,
+    dispatch: PropTypes.func,
+    params: PropTypes.object,
+    acceptButton: PropTypes.bool,
+    rejectButton: PropTypes.bool,
+    acceptClickHandler: PropTypes.func,
+    rejectClickHandler: PropTypes.func,
   }
   getDate() {
     const date = new Date(+this.props.comment.created);

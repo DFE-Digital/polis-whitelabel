@@ -1,11 +1,12 @@
 {
     "scripts": {
-        "build:file-server": "podman build -f ./file-server.Containerfile -t polis-file-server:latest ../../",
-        "build:math": "podman build -f ./math.Containerfile -t polis-math:latest ../../math",
-        "build:server": "podman build -f ./server.Containerfile -t polis-server:latest ../../server",
-        "build:reverse-proxy": "podman build -f ./reverse-proxy.Containerfile -t polis-reverse-proxy:latest .",
-        "build:postgres": "podman build -f ./postgres.Containerfile -t polis-postgres:latest ../../database",
-        "build:compose": "podman compose -f docker-compose.dev.yml build --parallel",
-        "run:compose": "podman compose -f docker-compose.dev.yml up"
+        "_prompt": "echo 'Set the \"$TAG\" environment variable to e.g. v1.0.1 - default is latest' && TAG=${TAG:-latest} && echo TAG set to ${TAG}",
+        "build:file-server": "npm run _prompt && TAG=${TAG:-latest} && podman build -f ./file-server.Containerfile --platform linux/amd64 -t polis-file-server:${TAG} ../../",
+        "build:math": "npm run _prompt && TAG=${TAG:-latest} && podman build -f ./math.Containerfile --platform linux/amd64 -t polis-math:${TAG} ../../math",
+        "build:server": "npm run _prompt && TAG=${TAG:-latest} && podman build -f ./server.Containerfile --platform linux/amd64 -t polis-server:${TAG} ../../server",
+        "build:reverse-proxy": "npm run _prompt && TAG=${TAG:-latest} && podman build -f ./reverse-proxy.Containerfile --platform linux/amd64 -t polis-reverse-proxy:${TAG} .",
+        "build:postgres": "npm run _prompt && TAG=${TAG:-latest} && podman build -f ./postgres.Containerfile --platform linux/amd64 -t polis-postgres:${TAG} ../../database",
+        "build:compose": "npm run _prompt && TAG=${TAG:-latest} && podman compose -f docker-compose.dev.yml build  --platform linux/amd64 --parallel",
+        "run:compose": "npm run _prompt && TAG=${TAG:-latest} && podman compose -f docker-compose.dev.yml up"
     }
 }

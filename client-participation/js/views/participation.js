@@ -12,7 +12,6 @@ var DivisiveCommentsView = require('../views/DivisiveCommentsView');
 var display = require("../util/display");
 var eb = require("../eventBus");
 var GroupSelectionView = require("../views/groupSelectionView");
-var { markdown } = require('markdown');
 var ParticipantModel = require("../models/participant");
 var PolisFacebookUtils = require('../util/facebookButton');
 var polisLogoBase64 = require("../images/polis_logo");
@@ -27,6 +26,8 @@ var VoteMoreView = require("../views/voteMoreView");
 var WritingTipsView = require("../views/writingTips");
 var config = require("../../polis.config");
 var $ = require("jquery");
+const DOMPurify = require("dompurify");
+const { marked } = require("marked");
 
 var VIS_SELECTOR = "#visualization_div";
 
@@ -182,7 +183,7 @@ module.exports = ConversationView.extend({
     var html = markdown.renderJsonML( markdown.toHTMLTree( tree ) );
   */
 
-    var html = markdown.toHTML(md_content);
+    var html = DOMPurify.sanitize(marked.parse(md_content))
     ctx.description = html;
     if (/^ *$/.test(ctx.description) || _.isNull(ctx.description) || ctx.description === "") {
       ctx.description = void 0;

@@ -5,12 +5,10 @@ import Promise from "bluebird";
 import http from "http";
 import async from "async";
 // @ts-ignore
-import FB from "fb";
 import fs from "fs";
 import bcrypt from "bcryptjs";
 import isTrue from "boolean";
 import querystring from "querystring";
-import request from "request-promise"; // includes Request, but adds promise methods
 import _ from "underscore";
 import pg from "pg";
 import sanitizeHtml from 'sanitize-html';
@@ -1964,77 +1962,15 @@ function handle_POST_auth_facebook(
   },
   res: any
 ) {
-  let response = JSON.parse(req?.p?.response || "");
-  let fb_access_token =
-    response && response.authResponse && response.authResponse.accessToken;
-  if (!fb_access_token) {
-    emailBadProblemTime(
+  emailBadProblemTime(
       "polis_err_missing_fb_access_token " +
         req?.headers?.referer +
         "\n\n" +
         req.p.response
     );
-    console.log(req.p.response);
-    console.log(JSON.stringify(req.headers));
-    Log.fail(res, 500, "polis_err_missing_fb_access_token");
-    return;
-  }
-  let fields = [
-    "email",
-    "first_name",
-    "friends",
-    "gender",
-    "id",
-    "is_verified",
-    "last_name",
-    "link",
-    "locale",
-    "location",
-    "name",
-    "timezone",
-    "updated_time",
-    "verified",
-  ];
-
-  FB.setAccessToken(fb_access_token);
-  FB.api(
-    "me",
-    {
-      fields: fields,
-    },
-    function (fbRes: { error: any; friends: string | any[]; location: any }) {
-      if (!fbRes || fbRes.error) {
-        Log.fail(res, 500, "polis_err_fb_auth_check", fbRes && fbRes.error);
-        return;
-      }
-
-      const friendsPromise =
-        fbRes && fbRes.friends && fbRes.friends.length
-          ? getFriends(fb_access_token)
-          : Promise.resolve([]);
-
-      Promise.all([
-        getLocationInfo(fb_access_token, fbRes.location),
-        friendsPromise,
-      ]).then(function (a: any[]) {
-        let locationResponse = a[0];
-        let friends = a[1];
-
-        if (locationResponse) {
-          req.p.locationInfo = locationResponse;
-        }
-        if (friends) {
-          req.p.fb_friends_response = JSON.stringify(friends);
-        }
-        response.locationInfo = locationResponse;
-        do_handle_POST_auth_facebook(req, res, {
-          locationInfo: locationResponse,
-          friends: friends,
-          info: _.pick(fbRes, fields),
-        });
-      });
-    }
-  );
+  console.log('Facebook support removed');
+  Log.fail(res, 500, "polis_err_missing_fb_access_token");
+  return;
 }
 
 function handle_POST_auth_new(req: any, res: any) {

@@ -3,7 +3,6 @@
 import * as d3 from "d3";
 import React from "react";
 import _ from "lodash";
-import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import * as globals from "../globals";
 import graphUtil from "../../util/graphUtil";
 import Axes from "../graphAxes";
